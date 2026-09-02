@@ -1,0 +1,68 @@
+{
+    "Naive Baseline (Persistence)": {
+        "RMSE": 208.0523075848191,
+        "MAE": 151.13925022754853,
+        "MAPE (%)": 0.6655054354996781,
+        "Directional Accuracy (%)": 0.0,
+        "Directional Hits": "0/206",
+        "Binomial p-value (1-sided)": 1.0,
+        "Binomial p-value (2-sided)": 0.0,
+        "95% Wilson CI (%)": "[0.0%, 1.83%]",
+        "Statistically Significant (p < 0.05)": false
+    },
+    "Moving Average (5-day SMA)": {
+        "RMSE": 288.3567709823974,
+        "MAE": 218.96799213693362,
+        "MAPE (%)": 0.9601633522470737,
+        "Directional Accuracy (%)": 50.97,
+        "Directional Hits": "105/206",
+        "Binomial p-value (1-sided)": 0.4172,
+        "Binomial p-value (2-sided)": 0.8345,
+        "95% Wilson CI (%)": "[44.19%, 57.72%]",
+        "Statistically Significant (p < 0.05)": false
+    },
+    "ARIMA(1,1,1)": {
+        "RMSE": 286.9786372828952,
+        "MAE": 215.44481189859764,
+        "MAPE (%)": 0.9457599848430661,
+        "Directional Accuracy (%)": 50.97,
+        "Directional Hits": "105/206",
+        "Binomial p-value (1-sided)": 0.4172,
+        "Binomial p-value (2-sided)": 0.8345,
+        "95% Wilson CI (%)": "[44.19%, 57.72%]",
+        "Statistically Significant (p < 0.05)": false
+    },
+    "Random Forest Regressor": {
+        "RMSE": 223.29360917759217,
+        "MAE": 167.4048687116725,
+        "MAPE (%)": 0.7347446670434776,
+        "Directional Accuracy (%)": 49.51,
+        "Directional Hits": "102/206",
+        "Binomial p-value (1-sided)": 0.5828,
+        "Binomial p-value (2-sided)": 0.9445,
+        "95% Wilson CI (%)": "[42.76%, 56.29%]",
+        "Statistically Significant (p < 0.05)": false
+    },
+    "XGBoost Regressor": {
+        "RMSE": 227.00255654758888,
+        "MAE": 165.57637097997574,
+        "MAPE (%)": 0.7277949017535996,
+        "Directional Accuracy (%)": 57.28,
+        "Directional Hits": "118/206",
+        "Binomial p-value (1-sided)": 0.0215,
+        "Binomial p-value (2-sided)": 0.0431,
+        "95% Wilson CI (%)": "[50.45%, 63.84%]",
+        "Statistically Significant (p < 0.05)": true
+    },
+    "LSTM Neural Network": {
+        "RMSE": 1177.580247572495,
+        "MAE": 1115.5025504399273,
+        "MAPE (%)": 4.8004153343677105,
+        "Directional Accuracy (%)": 54.37,
+        "Directional Hits": "112/206",
+        "Binomial p-value (1-sided)": 0.1181,
+        "Binomial p-value (2-sided)": 0.2362,
+        "95% Wilson CI (%)": "[47.55%, 61.03%]",
+        "Statistically Significant (p < 0.05)": false
+    }
+}
