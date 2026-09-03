@@ -23,7 +23,7 @@ from src.models.baseline import NaiveBaselineModel, MovingAverageBaselineModel
 from src.models.arima_model import ArimaForecaster, check_stationarity
 from src.models.ml_models import MLForecastingSuite
 from src.models.lstm_model import LSTMForecaster
-from src.evaluate import calculate_metrics, generate_comparison_table, save_metrics_summary
+from src.evaluate import calculate_metrics, generate_comparison_table, save_metrics_summary, perform_time_series_cv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
@@ -127,18 +127,43 @@ def run_complete_pipeline():
     lstm_forecaster.save_model(SAVED_MODELS_DIR)
 
     # Step 8: Evaluation & Comparison
-    print("\n>>> STEP 9: Computing Evaluation Metrics & Scorecard...")
+    print("\n>>> STEP 9: Computing Evaluation Metrics & 5-Fold Time-Series Cross-Validation...")
     y_true = test_df["target_close"].values
     y_current = test_df["close"].values
 
     results = {
-        "Naive Baseline (Persistence)": calculate_metrics(y_true, pred_naive, y_current),
-        "Moving Average (5-day SMA)": calculate_metrics(y_true, pred_ma5, y_current),
-        "ARIMA(1,1,1)": calculate_metrics(y_true, pred_arima, y_current),
+        "Naive Baseline (Persistence)": calculate_metrics(y_true, pred_naive, y_current, is_naive=True),
         "Random Forest Regressor": calculate_metrics(y_true, pred_rf, y_current),
         "XGBoost Regressor": calculate_metrics(y_true, pred_xgb, y_current),
+        "Moving Average (5-day SMA)": calculate_metrics(y_true, pred_ma5, y_current),
+        "ARIMA(1,1,1)": calculate_metrics(y_true, pred_arima, y_current),
         "LSTM Neural Network": calculate_metrics(y_true, pred_lstm, y_current),
     }
+
+    # 5-fold TimeSeriesSplit Cross-Validation
+    from sklearn.ensemble import RandomForestRegressor
+    from xgboost import XGBRegressor
+
+    cv_rf = perform_time_series_cv(
+        "Random Forest Regressor",
+        lambda: RandomForestRegressor(n_estimators=100, max_depth=8, random_state=42, n_jobs=-1),
+        X_train, y_train, n_splits=5
+    )
+    cv_xgb = perform_time_series_cv(
+        "XGBoost Regressor",
+        lambda: XGBRegressor(n_estimators=100, max_depth=5, learning_rate=0.05, random_state=42, n_jobs=-1),
+        X_train, y_train, n_splits=5
+    )
+    cv_dict = {
+        "Random Forest Regressor": cv_rf,
+        "XGBoost Regressor": cv_xgb
+    }
+
+    print("\n" + "-"*50)
+    print("5-FOLD TIME-SERIES CROSS-VALIDATION SUMMARY")
+    print(f"Random Forest CV RMSE: {cv_rf['cv_rmse_mean']:.2f} (+/- {cv_rf['cv_rmse_std']:.2f}) | MAE: {cv_rf['cv_mae_mean']:.2f}")
+    print(f"XGBoost       CV RMSE: {cv_xgb['cv_rmse_mean']:.2f} (+/- {cv_xgb['cv_rmse_std']:.2f}) | MAE: {cv_xgb['cv_mae_mean']:.2f}")
+    print("-"*50 + "\n")
 
     scorecard_df = generate_comparison_table(results, baseline_name="Naive Baseline (Persistence)")
     print("\n" + "="*70)
@@ -147,8 +172,8 @@ def run_complete_pipeline():
     print(scorecard_df.to_string(index=False))
     print("="*70 + "\n")
 
-    # Save metrics summary
-    save_metrics_summary(results, MODELS_DIR / "metrics_summary.json")
+    # Save metrics summary with cross-validation and PRD status
+    save_metrics_summary(results, cv_dict, MODELS_DIR / "metrics_summary.json")
 
     # Save test predictions for visualization in Streamlit and Notebook
     pred_df = pd.DataFrame({

@@ -55,30 +55,20 @@ class ArimaForecaster:
 
     def predict_test(self, test_series: pd.Series) -> np.ndarray:
         """
-        Generates 1-step ahead forecasts for the test set using rolling updates
-        (simulating real-world daily trading walk-forward evaluation).
+        Generates genuine 1-step ahead forecasts for the test set using a strict
+        walk-forward rolling process with ZERO future information leakage:
+          1. Start with model parameters fitted strictly on training data.
+          2. At each test day t, forecast 1-step ahead (T+1) based only on data up to t.
+          3. Append the newly observed actual test value via .extend([val]).
+          4. Advance to the next day without re-smoothing future observations.
         """
-        history = list(self.train_history.values)
         predictions = []
+        curr_res = self.model_fit
 
-        # Fast 1-step rolling forecast using statsmodels append/apply or rolling refit
-        # To make it fast and stable, we use the fitted model parameters and filter new observations
-        try:
-            full_series = pd.concat([self.train_history, test_series])
-            refit_model = ARIMA(full_series, order=self.order)
-            # Use same params to avoid slow optimization on every step
-            res = refit_model.smooth(self.model_fit.params)
-            # The 1-step forecasts for test dates
-            train_len = len(self.train_history)
-            pred_series = res.fittedvalues.iloc[train_len:]
-            predictions = pred_series.values
-        except Exception:
-            # Fallback: simple walk-forward persistence + drift
-            for t in range(len(test_series)):
-                pred = history[-1] + (history[-1] - history[-2]) * 0.1
-                predictions.append(pred)
-                history.append(test_series.iloc[t])
-            predictions = np.array(predictions)
+        for val in test_series.values:
+            p = float(curr_res.forecast(steps=1).iloc[0])
+            predictions.append(p)
+            curr_res = curr_res.extend([val])
 
         return np.array(predictions)
 

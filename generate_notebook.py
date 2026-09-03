@@ -2,7 +2,8 @@
 Notebook Generator for Nifty 500 Stock Market Prediction.
 Generates a comprehensive, publication-ready Jupyter Notebook (.ipynb)
 adhering strictly to PRD v1.1, ML Best Practices, complete scientific honesty,
-and authoritative official NSE data sourcing.
+authoritative official NSE data sourcing, verified outlier handling,
+leak-proof walk-forward ARIMA, and 5-fold TimeSeriesSplit cross-validation.
 """
 
 from pathlib import Path
@@ -31,7 +32,7 @@ def build_notebook():
     # 1. Header
     cells.append(nbf.v4.new_markdown_cell("""# Stock Market Prediction — Nifty 500
 ### Data Analytics Intern Project · End-to-End Predictive Analytics Pipeline
-**Author:** Data Analytics Intern | **Status:** PRD v1.1 Complete & Verified | **Date:** September 2026
+**Author:** Data Analytics Intern | **Status:** PRD Functionality Implemented; Naive-Baseline Target Not Achieved | **Date:** September 2026
 
 ---
 
@@ -39,16 +40,17 @@ def build_notebook():
 The objective of this project is to build an end-to-end predictive modeling system for the **Nifty 500 index**, using **five years of historical daily market data** (September 1, 2021 to August 31, 2026; 1,240 trading sessions) sourced from the **Authoritative Official NSE Historical Archive** (`data/NIFTY_500_Historical_PR_01-09-2021 to 31-08-2026.csv`) and cross-reconciled against the **BSE 500** (`BSE-500.BO`) as a cross-exchange broad-market proxy.
 
 ### Scope & Goals (PRD v1.1):
-1. **Authoritative Data Ingestion & Cleaning:** Ingest 5 years of daily OHLCV data strictly on the active exchange trading calendar (~250 sessions/year, zero manufactured weekend/holiday rows). Ensure complete minimum schema: Date, Open, High, Low, Close, Volume, Adjusted Close. Target: Missing / erroneous data after cleaning $< 2\%$.
-2. **Exploratory Data Analysis (EDA):** Analyze historical price trajectories, 50/200-day moving averages, returns distributions, and volatility clustering.
-3. **Feature Engineering:** Calculate over 15 technical indicators (SMA, EMA, RSI, MACD, Bollinger Bands, rolling volatility, lagged returns).
-4. **Predictive Modeling:** Benchmark four model families:
+1. **Authoritative Data Ingestion & Cleaning:** Ingest 5 years of daily OHLCV data strictly on the active exchange trading calendar (~250 sessions/year, zero manufactured weekend/holiday rows). Ensure complete minimum schema: Date, Open, High, Low, Close, Volume, Adjusted Close. Target: Missing / erroneous data after cleaning < 2%.
+2. **Outlier Investigation:** Detect statistical return outliers (|Z| > 5), verify them against official macroeconomic event archives, and document retention rationale.
+3. **Exploratory Data Analysis (EDA):** Analyze historical price trajectories, 50/200-day moving averages, returns distributions, and volatility clustering.
+4. **Feature Engineering:** Calculate over 15 technical indicators (SMA, EMA, RSI, MACD, Bollinger Bands, rolling volatility, lagged returns).
+5. **Predictive Modeling:** Benchmark four model families:
    - **Baseline:** Naive Persistence ($P_{t+1} = P_t$) & 5-day Moving Average
-   - **Statistical Model:** ARIMA(1,1,1) with Augmented Dickey-Fuller stationarity testing
+   - **Statistical Model:** ARIMA(1,1,1) with pure 1-step iterative rolling extend (`model.extend()`)
    - **Classical Machine Learning:** Random Forest & XGBoost Regressors with feature importances
    - **Deep Learning:** PyTorch Long Short-Term Memory (LSTM) Neural Network
-5. **Evaluation & Econometric Rigor:** Strict chronological train/test split. Compare all models on **RMSE**, **MAE**, **MAPE**, and **Directional Hit Rate (%)**, backed by formal **Binomial Hypothesis Testing**.
-6. **Future Forecasting Horizon:** Multi-day forward target price projections ($T+1$ to $T+30$ days) driven by **actual trained predictive models**.
+6. **Cross-Validation & Rigorous Evaluation:** Strict chronological train/test split plus 5-Fold `TimeSeriesSplit` cross-validation. Compare all models on **RMSE**, **MAE**, **MAPE**, and **Directional Hit Rate (%)**, backed by formal **Binomial Hypothesis Testing**.
+7. **Future Forecasting Horizon:** Multi-day forward target price projections ($T+1$ to $T+30$ days) driven by **actual trained predictive models**.
 """))
 
     # 2. Imports Code
@@ -97,12 +99,12 @@ display(df_nse_raw.head())"""))
 The authoritative dataset contains 1,240 active trading sessions for NSE Nifty 500 covering exactly five years (2021-09-01 to 2026-08-31). The dataset contains the complete required schema: `date`, `open`, `high`, `low`, `close`, `volume`, and `adj_close`."""))
 
     # 4. Data Cleaning Code
-    cells.append(nbf.v4.new_markdown_cell("""## 3. Data Cleaning & Trading Calendar Integrity
-Per PRD Requirement **FR2** and Goal Metric (Missing data $< 2\%$), we execute:
+    cells.append(nbf.v4.new_markdown_cell("""## 3. Data Cleaning, Trading Calendar & Outlier Event Validation
+Per PRD Requirement **FR2** and Goal Metric (Missing data < 2%), we execute:
 - Date deduplication
 - OHLC constraint verification ($High \ge Low, High \ge Open, High \ge Close$)
 - Anomaly treatment strictly within genuine trading sessions (zero synthetic rows created for non-trading weekends or holidays)
-- Outlier detection via daily return Z-scores"""))
+- Statistical return outlier investigation (|Z| > 5) with historical macroeconomic event validation"""))
 
     cells.append(nbf.v4.new_code_cell("""from src.data_preprocessing import clean_ohlcv_dataframe, reconcile_nse_bse
 
@@ -114,11 +116,19 @@ null_pct = df_nse_clean.isnull().sum().sum() / (len(df_nse_clean) * len(df_nse_c
 print(f"Post-Cleaning Missing Data Percentage: {null_pct:.4f}% (PRD Target: < 2.0%)")
 print(f"Active Trading Days Retained: {len(df_nse_clean)}")
 assert null_pct < 2.0, "Missing data threshold exceeded!"
+
+# Display verified outlier investigation log
+outlier_file = ROOT_DIR / "models" / "outlier_investigation.csv"
+if outlier_file.exists():
+    outlier_df = pd.read_csv(outlier_file)
+    print("\\n--- Verified Outlier Events (|Z| > 5) ---")
+    display(outlier_df)
 """))
 
-    cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: Trading Calendar Integrity & Quality Check
-1. **Zero Synthetic Dates:** In strict adherence to financial econometric standards, the dataset strictly preserves the official exchange trading calendar (~250 sessions/year). No artificial observations were manufactured for non-trading weekends or exchange holidays, preventing distortion of returns, volatility, and lag features.
-2. **Quality Benchmark Exceeded:** The post-cleaning missing data percentage is **0.00%**, easily satisfying the PRD success criterion of $< 2\%$. All OHLC price constraints are valid."""))
+    cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: Outlier Handling & Retention Rationale
+1. **Event Validation:** Two sessions exhibited extreme return movements (|Z| > 5): February 24, 2022 (-5.04%, Russia-Ukraine crisis outbreak) and June 4, 2024 (-6.76%, Indian General Election Results counting day). Both were verified against official exchange archives.
+2. **Econometric Retention Rationale:** Arbitrary deletion or winsorizing genuine market shocks creates severe survivorship and censorship bias, artificially depressing volatility estimates and understating downside fat-tail risk. Retaining verified shocks ensures models are exposed to real-world equity dynamics.
+3. **Quality Benchmark Exceeded:** Post-cleaning missing data percentage is **0.00%**, easily beating the PRD success criterion of < 2%."""))
 
     # 5. Cross-Exchange Reconciliation
     cells.append(nbf.v4.new_markdown_cell("""## 4. Cross-Exchange Reconciliation: NSE Nifty 500 vs. BSE 500 Proxy
@@ -191,7 +201,7 @@ print(f"Kurtosis (Fat Tails): {stats.kurtosis(returns):.3f}")
 
     cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: Market Volatility & Non-Normality
 1. **Trend Dynamics:** The index demonstrated persistent secular expansion from ₹14,551 to ₹23,450, with the 50-day SMA acting as dynamic support during cyclical pullbacks.
-2. **Heavy Tails:** The return distribution exhibits negative skewness and excess kurtosis ($> 3.0$), confirming that market sell-offs are sharper and more abrupt than modeled by Gaussian distributions.
+2. **Heavy Tails:** The return distribution exhibits negative skewness and excess kurtosis (> 3.0), confirming that market sell-offs are sharper and more abrupt than modeled by Gaussian distributions.
 3. **Volatility Clustering:** Shocks to volatility persist over extended horizons, confirming the importance of rolling volatility features for predictive modeling."""))
 
     # 7. Feature Engineering
@@ -238,7 +248,8 @@ The out-of-sample test window spans **208 trading sessions from October 28, 2025
     cells.append(nbf.v4.new_markdown_cell("""## 8. Baseline Models: Naive Persistence & Moving Average
 In financial economics, stock prices approximate a martingale random walk:
 $$\mathbb{E}[P_{t+1} \mid \mathcal{F}_t] \approx P_t$$
-We implement the Naive Persistence baseline ($P_{t+1} = P_t$) and 5-Day SMA baseline as required by PRD Section 2."""))
+We implement the Naive Persistence baseline ($P_{t+1} = P_t$) and 5-Day SMA baseline as required by PRD Section 2.
+Directional accuracy for the naive model is appropriately reported as **N/A** because it predicts zero price movement, not a directional call."""))
 
     cells.append(nbf.v4.new_code_cell("""from src.models.baseline import NaiveBaselineModel, MovingAverageBaselineModel
 from src.evaluate import calculate_metrics
@@ -249,7 +260,7 @@ pred_naive = naive_model.predict(test_df)
 ma_model = MovingAverageBaselineModel(window=5)
 pred_ma5 = ma_model.predict(test_df)
 
-metrics_naive = calculate_metrics(y_true, pred_naive, y_current)
+metrics_naive = calculate_metrics(y_true, pred_naive, y_current, is_naive=True)
 metrics_ma5 = calculate_metrics(y_true, pred_ma5, y_current)
 
 print("Naive Persistence Baseline:", metrics_naive)
@@ -259,11 +270,11 @@ print("5-Day Moving Average Baseline:", metrics_ma5)"""))
 The Naive Persistence model establishes the benchmark RMSE of **209.33** and a MAPE of **0.669%**. Notice that the 5-day moving average achieves a higher RMSE of **288.86** because moving averages lag price action by construction in trending markets."""))
 
     # 10. Statistical Model: ARIMA
-    cells.append(nbf.v4.new_markdown_cell("""## 9. Statistical Modeling: ARIMA with ADF Stationarity Check
-Per PRD Requirement **FR5**, we implement a statistical time-series model.
+    cells.append(nbf.v4.new_markdown_cell("""## 9. Statistical Modeling: ARIMA with Pure Walk-Forward Backtesting
+Per PRD Requirement **FR5**, we implement a statistical time-series model:
 1. **Augmented Dickey-Fuller (ADF) Test:** Test null hypothesis that the price series has a unit root.
 2. **First Differencing ($d=1$):** Establish stationarity on daily price increments.
-3. **ARIMA(1,1,1) Walk-Forward Backtesting:** Predict 1-step ahead target price on the test set."""))
+3. **Leak-Proof Walk-Forward Backtesting:** At each test day $t$, forecast $P_{t+1}$ using only data up to $t$, append the actual price via `model.extend()`, and repeat. Zero lookahead leakage."""))
 
     cells.append(nbf.v4.new_code_cell("""from src.models.arima_model import ArimaForecaster, check_stationarity
 
@@ -273,23 +284,25 @@ adf_diff = check_stationarity(train_df['close'].diff().dropna(), "1st Difference
 print(f"ADF Level: Stat = {adf_level['adf_statistic']:.3f}, p-value = {adf_level['p_value']:.4f} -> {adf_level['conclusion']}")
 print(f"ADF 1st Diff: Stat = {adf_diff['adf_statistic']:.3f}, p-value = {adf_diff['p_value']:.4e} -> {adf_diff['conclusion']}")
 
-# Fit ARIMA
+# Fit ARIMA and evaluate via pure iterative walk-forward extend
 arima_model = ArimaForecaster(order=(1, 1, 1))
 arima_model.fit(train_df['close'])
 pred_arima = arima_model.predict_test(test_df['close'])
 
 metrics_arima = calculate_metrics(y_true, pred_arima, y_current)
-print("ARIMA(1,1,1) Metrics:", metrics_arima)"""))
+print("ARIMA(1,1,1) Walk-Forward Metrics:", metrics_arima)"""))
 
     cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: Statistical Time-Series Findings
-The ADF test fails to reject the null hypothesis of non-stationarity for raw level prices ($p = 0.6906$), but strongly rejects it on first differences ($p = 1.21 \times 10^{-22}$). This confirms that the Nifty 500 index is an integrated process of order 1 ($I(1)$), validating $d=1$ in our ARIMA model."""))
+The ADF test fails to reject non-stationarity on raw prices ($p = 0.6906$), but strongly rejects it on first differences ($p = 1.21 \times 10^{-22}$), validating $d=1$. Pure iterative walk-forward evaluation yields an RMSE of **291.08** with zero lookahead leakage."""))
 
     # 11. Classical ML
-    cells.append(nbf.v4.new_markdown_cell("""## 10. Classical Machine Learning & Hypothesis Testing
-We train non-linear ensemble models (Random Forest and XGBoost) and conduct a **formal Binomial Hypothesis Test** ($H_0: p = 0.50$) to evaluate directional market accuracy."""))
+    cells.append(nbf.v4.new_markdown_cell("""## 10. Classical Machine Learning & 5-Fold Time-Series Cross-Validation
+We train Random Forest and XGBoost Regressors, execute **5-Fold Time-Series Cross-Validation** per PRD Section 12, and conduct a **formal Binomial Hypothesis Test** on directional hit rates."""))
 
     cells.append(nbf.v4.new_code_cell("""from src.models.ml_models import MLForecastingSuite
-from src.evaluate import perform_binomial_directional_test
+from src.evaluate import perform_binomial_directional_test, perform_time_series_cv
+from sklearn.ensemble import RandomForestRegressor
+from xgboost import XGBRegressor
 
 ml_suite = MLForecastingSuite(random_state=42)
 X_train, y_train = ml_suite.prepare_data(train_df, target_col='target_close')
@@ -305,14 +318,16 @@ metrics_xgb = calculate_metrics(y_true, pred_xgb, y_current)
 print("Random Forest Regressor:", metrics_rf)
 print("XGBoost Regressor:", metrics_xgb)
 
+# 5-Fold TimeSeriesSplit Cross-Validation
+cv_rf = perform_time_series_cv("Random Forest", lambda: RandomForestRegressor(n_estimators=100, max_depth=8, random_state=42, n_jobs=-1), X_train, y_train, n_splits=5)
+cv_xgb = perform_time_series_cv("XGBoost", lambda: XGBRegressor(n_estimators=100, max_depth=5, learning_rate=0.05, random_state=42, n_jobs=-1), X_train, y_train, n_splits=5)
+print(f"\\n--- 5-Fold Time-Series Cross-Validation ---")
+print(f"Random Forest CV RMSE: {cv_rf['cv_rmse_mean']:.2f} (+/- {cv_rf['cv_rmse_std']:.2f}) | MAE: {cv_rf['cv_mae_mean']:.2f}")
+print(f"XGBoost       CV RMSE: {cv_xgb['cv_rmse_mean']:.2f} (+/- {cv_xgb['cv_rmse_std']:.2f}) | MAE: {cv_xgb['cv_mae_mean']:.2f}")
+
 # Formal Binomial Hypothesis Test on XGBoost
 binom_xgb = perform_binomial_directional_test(y_true, pred_xgb, y_current)
-print("\\n--- Formal Binomial Hypothesis Test (XGBoost Directional Accuracy) ---")
-print(f"Correct Directional Predictions: {binom_xgb['hits']} / {binom_xgb['total_valid_days']} ({binom_xgb['hit_rate_pct']}%)")
-print(f"One-sided p-value (H1: p > 0.50): {binom_xgb['p_value_one_sided']:.4f}")
-print(f"Two-sided p-value (H1: p != 0.50): {binom_xgb['p_value_two_sided']:.4f}")
-print(f"95% Wilson Confidence Interval:   [{binom_xgb['ci_95_low_pct']}%, {binom_xgb['ci_95_high_pct']}%]")
-print(f"Statistically Significant at alpha=0.05? {binom_xgb['is_significant_5pct']}")
+print(f"\\nXGBoost Directional Accuracy: {binom_xgb['hit_rate_pct']}% (One-sided p-value: {binom_xgb['p_value_one_sided']:.4f})")
 
 # Feature Importances
 fi_df = ml_suite.get_feature_importances()
@@ -322,13 +337,12 @@ plt.title("Top 8 Most Important Features (Random Forest & XGBoost)", fontsize=13
 plt.xlabel("Mean Relative Importance (%)")
 plt.show()"""))
 
-    cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: Rigorous Statistical Assessment of Directional Edge
-1. **Hypothesis Testing Results:** Over the 208 out-of-sample trading days, XGBoost predicted market direction correctly on 108 days (51.92%). The one-sided binomial test yields $p = 0.3138$ (fail to reject $H_0$).
-2. **Econometric Reality:** Neither Random Forest nor XGBoost statistically beats a 50% random walk on directional accuracy. Furthermore, Naive persistence achieves the lowest level-price RMSE (209.33 vs. 228.48 for RF and 239.19 for XGBoost).
-3. **Predictive Drivers:** Multi-day lagged price (`lag_close_5`) and medium-term moving average (`sma_20`) lead feature importance, confirming that short-to-medium price momentum drives tree split decisions."""))
+    cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: Cross-Validation & Directional Edge
+1. **Cross-Validation Rigor:** Expanding-window cross-validation across 2022-2025 demonstrates how model error scales with structural market expansion, mitigating single-split overfitting risks.
+2. **Directional Testing:** XGBoost achieved 51.92% directional hit rate ($p = 0.3138$), failing to reject the 50% random coin-toss null hypothesis at $\alpha = 0.05$."""))
 
     # 12. Deep Learning
-    cells.append(nbf.v4.new_markdown_cell("""## 11. Deep Learning: PyTorch LSTM Sequence Model & Honest Performance Critique
+    cells.append(nbf.v4.new_markdown_cell("""## 11. Deep Learning: PyTorch LSTM Sequence Model & Honest Critique
 Per PRD Requirement **FR5**, we train a multi-layer Long Short-Term Memory (LSTM) network:
 - **Lookback Window:** 20 days of multi-feature historical sequences
 - **Architecture:** 2-layer LSTM (Hidden size = 64, Dropout = 0.2) + Dense linear prediction head
@@ -366,9 +380,9 @@ metrics_lstm = calculate_metrics(y_true, pred_lstm, y_current)
 print("PyTorch LSTM Metrics:", metrics_lstm)"""))
 
     cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: Honest Scientific Assessment of LSTM Performance
-1. **Level-Price Underperformance:** The PyTorch LSTM achieved an RMSE of **678.33** (MAPE 2.63%), which is **more than double the Naive persistence baseline** (RMSE 209.33) and substantially worse than Random Forest (228.48) and XGBoost (239.19).
-2. **Why Deep Learning Struggles on Price Levels:** Raw financial price series are non-stationary with stochastic drift. Neural networks trained on MinMax-scaled price levels lack explicit local mean-reversion anchors, causing predictions to lag turning points and amplify error variance.
-3. **Directional Momentum:** The LSTM achieved a **54.81% directional hit rate** ($p = 0.0938$), demonstrating that sequence memory captures cyclical momentum patterns.
+1. **Level-Price Underperformance:** The PyTorch LSTM achieved an RMSE of **563.46** (MAPE 1.88%)—substantially worse than the persistence baseline (209.33) and classical tree ensembles (~228–239).
+2. **Why Deep Learning Struggles on Price Levels:** Raw financial price series are non-stationary with stochastic drift. Neural networks trained on MinMax-scaled price levels suffer from error drift across sliding windows.
+3. **Directional Momentum:** The LSTM achieved a **56.73% directional hit rate** ($p = 0.0305$), capturing sequence trend momentum.
 4. **Key Takeaway:** In institutional quantitative finance, deep learning models are rarely trained on raw price levels; instead, they are formulated on stationary returns or volatility targets."""))
 
     # 13. Evaluation Scorecard
@@ -403,9 +417,8 @@ plt.legend(loc='upper left')
 plt.show()"""))
 
     cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: Scorecard Synthesis
-1. **RMSE Ranking:** Naive Persistence (209.33) > Random Forest (228.48) > XGBoost (239.19) > 5d SMA (288.86) > ARIMA (291.08) > LSTM (678.33).
-2. **Martingale Property:** Under the Efficient Market Hypothesis, today's price is the minimum-variance quadratic estimator of tomorrow's price, explaining why beating persistence on RMSE is structurally difficult.
-3. **Directional Accuracy:** LSTM (54.81%) > ARIMA (51.92%) = XGBoost (51.92%) > 5d SMA (51.44%) > Random Forest (48.56%). None statistically exceed 50% at $\alpha = 0.05$."""))
+1. **RMSE Ranking:** Naive Persistence (209.33) > Random Forest (228.48) > XGBoost (239.19) > 5d SMA (288.86) > ARIMA (291.08) > LSTM (563.46).
+2. **Transparent PRD Status:** **PRD functionality implemented; naive-baseline performance target not achieved.** Under the Martingale property of asset prices, today's price is the minimum-variance quadratic estimator of tomorrow's price level."""))
 
     # 14. Future Forecasting with REAL MODELS
     cells.append(nbf.v4.new_markdown_cell("""## 13. Future Target Price Forecasting Horizon (Trained Models)
@@ -459,14 +472,14 @@ Unlike static mathematical drift, this projection is generated by **iteratively 
     # 15. Conclusion & PRD Compliance
     cells.append(nbf.v4.new_markdown_cell("""## 14. Project Summary, Findings & Limitations
 ### Summary of Deliverables Achieved (PRD v1.1):
-- **Authoritative Dataset:** Sourced 5 years of daily OHLCV from official NSE download with **0.00% missing data** (PRD Target: $< 2\%$) strictly adhering to the exchange trading calendar.
-- **Cross-Exchange Proxy:** Verified broad-market dynamics against BSE-500 proxy (Price r = 0.9999).
-- **EDA & Stylized Facts:** Documented volatility clustering, return kurtosis, and 50/200 MA trends.
-- **15+ Engineered Features:** Trend, momentum, volatility, and lagged features.
+- **Authoritative Dataset:** Sourced 5 years of daily OHLCV from official NSE download with **0.00% missing data** (PRD Target: < 2%) strictly adhering to the exchange trading calendar.
+- **Cross-Exchange Proxy:** Verified broad-market dynamics against BSE-500 proxy (Price r = 0.9999, Return r = 0.9969).
+- **Outlier Investigation:** Verified extreme return outliers (|Z| > 5) as legitimate historical macroeconomic events and retained them to preserve fat-tail distributions.
+- **15+ Engineered Features:** Trend, momentum, volatility, and lagged features with zero lookahead bias.
 - **Model Suite:** Benchmarked Naive Persistence, ARIMA(1,1,1), Random Forest, XGBoost, and PyTorch LSTM.
-- **Econometric Honesty:** Acknowledged that Naive Persistence achieves the best level-price RMSE (209.33) per Martingale law.
-- **Hypothesis Testing:** Evaluated directional accuracy via exact Binomial tests ($p > 0.05$).
-- **Trained Model Forecasting:** Future forecasting driven by real recursive ML and statistical ARIMA rollouts.
+- **5-Fold Time-Series CV:** Measured out-of-sample stability and mitigated overfitting risk.
+- **Econometric Honesty:** Acknowledged that **PRD functionality was implemented but the naive-baseline performance target was not achieved**, as Naive Persistence achieved the lowest level-price RMSE (209.33) per Martingale law.
+- **Trained Model Forecasting:** Multi-step forward projection driven by actual recursive ML and statistical ARIMA rollouts.
 - **Interactive Streamlit App & Presentation Deck:** Deployed interactive dashboard (`app/app.py`) and slide deck (`reports/presentation_deck.html`).
 
 ### Non-Goals & Disclaimers:

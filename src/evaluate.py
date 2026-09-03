@@ -1,7 +1,8 @@
 """
 Evaluation & Metrics Module for Model Benchmarking.
 Computes RMSE, MAE, MAPE, Directional Accuracy (Hit Rate),
-Binomial Statistical Significance Testing, and formats comparison scorecards.
+Binomial Statistical Significance Testing, and TimeSeriesSplit Cross-Validation.
+Adheres strictly to PRD v1.1 and econometric best practices.
 """
 
 from pathlib import Path
@@ -10,6 +11,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 from sklearn.metrics import mean_squared_error, mean_absolute_error, mean_absolute_percentage_error
+from sklearn.model_selection import TimeSeriesSplit
 
 MODELS_DIR = Path(__file__).resolve().parent.parent / "models"
 
@@ -31,6 +33,7 @@ def perform_binomial_directional_test(y_true: np.ndarray, y_pred: np.ndarray, y_
     actual_direction = np.sign(y_true - y_current)
     predicted_direction = np.sign(y_pred - y_current)
 
+    # Valid trading days where actual price moved
     valid_mask = actual_direction != 0
     actual_dir_valid = actual_direction[valid_mask]
     pred_dir_valid = predicted_direction[valid_mask]
@@ -59,13 +62,18 @@ def perform_binomial_directional_test(y_true: np.ndarray, y_pred: np.ndarray, y_
     }
 
 
-def calculate_metrics(y_true: np.ndarray, y_pred: np.ndarray, y_current: np.ndarray = None) -> dict:
+def calculate_metrics(y_true: np.ndarray, y_pred: np.ndarray, y_current: np.ndarray = None, is_naive: bool = False) -> dict:
     """
     Computes key financial regression performance metrics:
     - Root Mean Squared Error (RMSE)
     - Mean Absolute Error (MAE)
     - Mean Absolute Percentage Error (MAPE %)
     - Directional Accuracy / Hit Ratio (%) with formal Binomial Hypothesis Test
+
+    NOTE on Naive Persistence Baseline:
+    Since the naive model predicts Pt+1 = Pt (zero price change), it does not predict
+    a directional movement. Its directional accuracy is accurately reported as 'N/A'
+    rather than 0% (which would falsely imply it predicted the opposite direction).
     """
     y_true = np.asarray(y_true)
     y_pred = np.asarray(y_pred)
@@ -80,6 +88,15 @@ def calculate_metrics(y_true: np.ndarray, y_pred: np.ndarray, y_current: np.ndar
         "MAPE (%)": mape,
     }
 
+    if is_naive or (y_current is not None and np.allclose(y_pred, y_current)):
+        metrics["Directional Accuracy (%)"] = "N/A"
+        metrics["Directional Hits"] = "N/A (Neutral Model)"
+        metrics["Binomial p-value (1-sided)"] = "N/A"
+        metrics["Binomial p-value (2-sided)"] = "N/A"
+        metrics["95% Wilson CI (%)"] = "N/A"
+        metrics["Statistically Significant (p < 0.05)"] = "N/A"
+        return metrics
+
     if y_current is not None:
         binom_test = perform_binomial_directional_test(y_true, y_pred, y_current)
         if binom_test:
@@ -93,10 +110,40 @@ def calculate_metrics(y_true: np.ndarray, y_pred: np.ndarray, y_current: np.ndar
     return metrics
 
 
+def perform_time_series_cv(model_name: str, model_factory, X: np.ndarray, y: np.ndarray, n_splits: int = 5) -> dict:
+    """
+    Performs expanding-window TimeSeriesSplit cross-validation per PRD Section 12 (Risks & Limitations).
+    Evaluates out-of-sample stability across rolling periods to mitigate overfitting risks.
+    """
+    tscv = TimeSeriesSplit(n_splits=n_splits)
+    rmse_list = []
+    mae_list = []
+
+    for fold, (train_idx, val_idx) in enumerate(tscv.split(X)):
+        X_tr, y_tr = X[train_idx], y[train_idx]
+        X_va, y_va = X[val_idx], y[val_idx]
+        model = model_factory()
+        model.fit(X_tr, y_tr)
+        preds = model.predict(X_va)
+        rmse = np.sqrt(mean_squared_error(y_va, preds))
+        mae = mean_absolute_error(y_va, preds)
+        rmse_list.append(rmse)
+        mae_list.append(mae)
+
+    return {
+        "model": model_name,
+        "n_splits": n_splits,
+        "cv_rmse_mean": float(round(np.mean(rmse_list), 2)),
+        "cv_rmse_std": float(round(np.std(rmse_list), 2)),
+        "cv_mae_mean": float(round(np.mean(mae_list), 2)),
+        "cv_mae_std": float(round(np.std(mae_list), 2)),
+    }
+
+
 def generate_comparison_table(results_dict: dict[str, dict], baseline_name: str = "Naive Baseline (Persistence)") -> pd.DataFrame:
     """
     Generates a structured comparison table benchmarked against the naive baseline.
-    Computes % improvement in RMSE over baseline and reports binomial significance.
+    Computes % difference in RMSE over baseline and reports binomial significance.
     """
     rows = []
     baseline_rmse = None
@@ -104,14 +151,20 @@ def generate_comparison_table(results_dict: dict[str, dict], baseline_name: str 
         baseline_rmse = results_dict[baseline_name].get("RMSE")
 
     for model_name, metrics in results_dict.items():
+        dir_acc = metrics.get("Directional Accuracy (%)", "N/A")
+        if isinstance(dir_acc, (int, float)):
+            dir_str = f"{dir_acc:.2f}%"
+        else:
+            dir_str = str(dir_acc)
+
         row = {
             "Model": model_name,
             "RMSE": round(metrics.get("RMSE", 0), 2),
             "MAE": round(metrics.get("MAE", 0), 2),
             "MAPE (%)": round(metrics.get("MAPE (%)", 0), 3),
-            "Directional Acc (%)": round(metrics.get("Directional Accuracy (%)", 0), 2),
-            "Binomial p-val": metrics.get("Binomial p-value (1-sided)", "—"),
-            "95% Wilson CI": metrics.get("95% Wilson CI (%)", "—"),
+            "Directional Acc": dir_str,
+            "Binomial p-val": metrics.get("Binomial p-value (1-sided)", "N/A"),
+            "95% Wilson CI": metrics.get("95% Wilson CI (%)", "N/A"),
         }
         if baseline_rmse and baseline_rmse > 0:
             improvement = ((baseline_rmse - metrics["RMSE"]) / baseline_rmse) * 100
@@ -125,11 +178,19 @@ def generate_comparison_table(results_dict: dict[str, dict], baseline_name: str 
     return table
 
 
-def save_metrics_summary(results_dict: dict[str, dict], output_path: Path = MODELS_DIR / "metrics_summary.json"):
-    """Saves metrics summary as a JSON file for the Streamlit app and reports."""
+def save_metrics_summary(results_dict: dict[str, dict], cv_dict: dict = None, output_path: Path = MODELS_DIR / "metrics_summary.json"):
+    """
+    Saves metrics summary as a JSON file with transparent PRD status reporting.
+    """
     output_path.parent.mkdir(parents=True, exist_ok=True)
+    summary_payload = {
+        "prd_goal_status": "PRD functionality implemented; naive-baseline performance target not achieved.",
+        "best_rmse_model": "Naive Baseline (Persistence)",
+        "models": results_dict,
+        "cross_validation_5fold": cv_dict if cv_dict else {}
+    }
     with open(output_path, "w") as f:
-        json.dump(results_dict, f, indent=4)
+        json.dump(summary_payload, f, indent=4)
     print(f"[EVALUATION] Saved metrics summary to: {output_path}")
 
 

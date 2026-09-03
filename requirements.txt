@@ -9,6 +9,6 @@ matplotlib>=3.8.0
 seaborn>=0.13.0
 plotly>=5.18.0
 streamlit>=1.32.0
-yfinance>=0.2.36
 ipykernel>=6.29.0
 nbformat>=5.9.0
+python-pptx>=1.0.0
