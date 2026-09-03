@@ -1,19 +1,19 @@
 {
-    "total_samples": 1029,
-    "train_samples": 823,
-    "test_samples": 206,
-    "train_start_date": "2022-06-22 00:00:00",
-    "train_end_date": "2025-10-28 00:00:00",
-    "test_start_date": "2025-10-29 00:00:00",
-    "test_end_date": "2026-09-01 00:00:00",
+    "total_samples": 1040,
+    "train_samples": 832,
+    "test_samples": 208,
+    "train_start_date": "2022-06-21 00:00:00",
+    "train_end_date": "2025-10-27 00:00:00",
+    "test_start_date": "2025-10-28 00:00:00",
+    "test_end_date": "2026-08-28 00:00:00",
     "reconciliation": {
-        "nse_total_trading_days": 1229,
+        "nse_total_trading_days": 1240,
         "bse_total_trading_days": 1231,
         "common_trading_days": 1229,
-        "nse_exclusive_days": 0,
+        "nse_exclusive_days": 11,
         "bse_exclusive_days": 2,
-        "price_correlation": 0.9998881713668064,
-        "return_correlation": 0.9978593095852961
+        "price_correlation": 0.9998884642525112,
+        "return_correlation": 0.9968801615088972
     },
     "features_count": 31
 }

@@ -85,7 +85,8 @@ page_selection = st.sidebar.radio(
         "🤖 Model Predictions & Backtesting",
         "🏆 Evaluation Scorecard",
         "🔮 Future Horizon Forecaster",
-        "📑 Project Methodology & Disclaimers"
+        "📑 Project Methodology & Disclaimers",
+        "🖥️ Executive Presentation Deck"
     ]
 )
 
@@ -106,9 +107,10 @@ if page_selection == "📊 Executive Overview":
     st.title("📈 Nifty 500 Index Prediction & Analytics Hub")
     st.markdown(
         "Welcome to the Nifty 500 predictive analytics dashboard. This platform provides full-lifecycle "
-        "insights from 5 years of historical market data sourced from **NSE** (`^CRSLDX`) and **BSE** (`BSE-500.BO`), "
-        "benchmarking statistical time-series (**ARIMA**), classical machine learning (**Random Forest**, **XGBoost**), "
-        "and deep learning sequence models (**PyTorch LSTM**)."
+        "insights from 5 years of daily market data sourced from the **Authoritative Official NSE Historical Archive** "
+        "(September 1, 2021 to August 31, 2026; 1,240 trading sessions) and cross-reconciled against **BSE 500** "
+        "as a cross-exchange broad-market proxy, benchmarking statistical time-series (**ARIMA**), classical machine "
+        "learning (**Random Forest**, **XGBoost**), and deep learning sequence models (**PyTorch LSTM**)."
     )
 
     # Top KPI Metrics Cards
@@ -158,6 +160,7 @@ if page_selection == "📊 Executive Overview":
         st.markdown("### 🎯 Core Project Objectives")
         st.markdown("""
         - **Target Price Regression:** Forecast future target closing levels ($T+1$ to multi-day horizons).
+        - **Authoritative Data Ingestion:** Official NSE historical download as primary source, with BSE 500 as cross-market proxy.
         - **Model Diversity:** Statistical (**ARIMA**), Ensemble ML (**Random Forest**, **XGBoost**), Deep Learning (**LSTM**).
         - **Rigorous Financial Benchmarking:** Evaluated against the **Naive Persistence Random Walk** baseline.
         - **Data Integrity:** Strict chronological out-of-sample test split with zero lookahead bias.
@@ -165,10 +168,9 @@ if page_selection == "📊 Executive Overview":
 
     with col_b:
         st.markdown("### 🏆 Top Model Highlights")
-        best_dir_model = "XGBoost Regressor"
-        st.success(f"**Directional Accuracy:** {best_dir_model} achieved **57.28%** market direction hit rate (one-sided Binomial test $p = 0.0215$, 95% Wilson CI: [50.45%, 63.84%]).")
-        st.info("**Classical ML Performance:** Random Forest achieved an RMSE of **223.29** (0.735% MAPE), tracking real index dynamics closely.")
-        st.warning("**Scientific Reality of Deep Learning (LSTM):** While LSTM showed directional capability (54.85%), its level-price RMSE of **434.21** was substantially worse than the persistence baseline (208.51), underscoring non-stationarity challenges in raw price forecasting.")
+        st.success("**Lowest Level-Price RMSE:** The **Naive Persistence Baseline achieved the lowest RMSE of 209.33** (0.669% MAPE), validating the Martingale random-walk property of daily asset prices.")
+        st.info("**Classical ML Performance:** Random Forest achieved an RMSE of **228.48** (0.742% MAPE), closely tracking index trends.")
+        st.warning("**Directional Testing & LSTM Assessment:** Out-of-sample directional hit rates (51.92% for XGBoost, 54.81% for LSTM) do not statistically beat a 50% coin-toss ($p > 0.05$). Additionally, LSTM level-price RMSE (678.33) highlights the difficulty of forecasting non-stationary price levels with deep neural networks.")
 
 # ----------------- PAGE 2: TECHNICAL ANALYSIS & EDA -----------------
 elif page_selection == "📈 Technical Analysis & EDA":
@@ -431,19 +433,21 @@ elif page_selection == "🏆 Evaluation Scorecard":
     )
 
     st.info(
-        "📊 **Statistical Significance of Directional Accuracy:** "
-        "A formal one-sided Binomial test on XGBoost's 57.28% hit rate (118 correct out of 206 test days) yields p = 0.0215, "
-        "confirming statistical significance at α = 0.05 against a 50% random walk. "
-        "However, with the 95% Wilson Confidence Interval spanning [50.45%, 63.84%], the lower bound is near 50%, "
-        "so this edge should be viewed as an empirical signal rather than guaranteed trading alpha."
+        "📊 **Statistical Analysis of Directional Accuracy:** "
+        "A formal one-sided Binomial hypothesis test against a 50% random coin-toss null hypothesis ($H_0: p = 0.50$) "
+        "on the out-of-sample test split yields:\n"
+        "- **XGBoost:** 51.92% directional hit rate (108 / 208 days, $p = 0.3138$, 95% Wilson CI: [45.16%, 58.62%]) $\\rightarrow$ Fail to reject $H_0$.\n"
+        "- **LSTM:** 54.81% directional hit rate (114 / 208 days, $p = 0.0938$, 95% Wilson CI: [48.02%, 61.42%]) $\\rightarrow$ Moderate momentum trend, but not statistically significant at 5%.\n"
+        "Neither model achieves statistically significant directional outperformance over random guessing, confirming semi-strong market efficiency."
     )
     st.warning(
-        "⚠️ **Honest Scientific Assessment of Deep Learning (LSTM):** "
-        "While the PyTorch LSTM sequence model captured a moderate directional signal (54.85%), its level-price RMSE (434.21) "
-        "is more than double the Naive persistence baseline (208.51) and tree ensembles (~223–227). "
-        "Raw financial price levels are non-stationary and lack explicit mean-reversion anchors, causing deep neural networks "
-        "to suffer from scaling distortion and error accumulation. This provides practical empirical evidence for why quantitative "
-        "finance predominantly predicts stationary returns rather than raw index price levels."
+        "⚠️ **Honest Scientific Evaluation of Level-Price RMSE:** "
+        "The **Naive Persistence Baseline achieves the lowest RMSE of 209.33** (0.669% MAPE). In financial economics, "
+        "asset prices approximate martingales ($\\mathbb{E}[P_{t+1} \\mid \\mathcal{F}_t] \\approx P_t$), meaning today's "
+        "price is the minimum-variance quadratic estimator of tomorrow's price level. "
+        "Furthermore, the PyTorch LSTM network's high RMSE of 678.33 demonstrates the severe challenge of forecasting "
+        "raw non-stationary price levels with deep neural networks, reinforcing why quantitative finance targets stationary "
+        "returns rather than raw index prices."
     )
 
     st.markdown("---")
@@ -613,7 +617,8 @@ elif page_selection == "📑 Project Methodology & Disclaimers":
         st.markdown("""
         ### Key Analytical Findings:
         - **The Efficient Market Hypothesis in Practice:** In short daily forecasting horizons, stock market prices approximate martingales where the single best estimator of tomorrow's price is today's price.
-        - **Directional Edge:** While RMSE is competitive across models, **XGBoost achieved a 57.28% directional accuracy**, demonstrating actionable alpha for signal generation over random coin-toss (50%).
+        - **The Martingale Reality in Practice:** The Naive Persistence Baseline achieved the lowest level-price RMSE (209.33), demonstrating that today's price is the minimum-variance quadratic estimator of tomorrow's price level.
+        - **Directional Dynamics:** Out-of-sample directional hit rates (51.92% for XGBoost, 54.81% for LSTM) did not statistically beat a 50% coin-toss ($p > 0.05$), confirming semi-strong market efficiency.
         - **Feature Importance:** Price momentum (`lag_close_5`) and medium-term moving averages (`sma_20`) were identified as the strongest predictive drivers of index movements.
         """)
 
@@ -623,6 +628,129 @@ elif page_selection == "📑 Project Methodology & Disclaimers":
         - **Educational & Portfolio Purpose Only:** This software is built for demonstration, learning, and portfolio review.
         - **Not Financial Advice:** Under no circumstances should this dashboard or model predictions be interpreted as investment, legal, tax, or financial advice.
         - **No Trade Execution:** No live trading, brokerage integration, or automated execution is included.
+        """)
+
+# ----------------- PAGE 8: EXECUTIVE PRESENTATION DECK -----------------
+elif page_selection == "🖥️ Executive Presentation Deck":
+    st.title("🖥️ Executive Presentation Deck")
+    st.markdown(
+        "Per PRD Deliverables (Page 5), here is the comprehensive slide presentation deck "
+        "prepared for mentor and stakeholder review."
+    )
+
+    deck_path_md = ROOT_DIR / "reports" / "presentation_deck.md"
+    deck_path_html = ROOT_DIR / "reports" / "presentation_deck.html"
+
+    col_btn1, col_btn2 = st.columns([1, 4])
+    with col_btn1:
+        if deck_path_html.exists():
+            with open(deck_path_html, "r", encoding="utf-8") as f:
+                html_bytes = f.read().encode("utf-8")
+            st.download_button("📥 Download HTML Slide Deck", data=html_bytes, file_name="Nifty500_Presentation_Deck.html", mime="text/html")
+
+    slide_options = [
+        "Slide 1: Title & Executive Summary",
+        "Slide 2: PRD Goals & Success Verification",
+        "Slide 3: Authoritative Data Sourcing & BSE Proxy",
+        "Slide 4: EDA & Financial Stylized Facts",
+        "Slide 5: Feature Engineering Architecture",
+        "Slide 6: Chronological Validation & Models",
+        "Slide 7: Model Scorecard & The Martingale Reality",
+        "Slide 8: Statistical Hypothesis Testing",
+        "Slide 9: Real Model-Driven Future Forecaster",
+        "Slide 10: Limitations, Disclaimers & Next Steps"
+    ]
+
+    selected_slide = st.selectbox("Select Slide to View:", slide_options, index=0)
+    st.markdown("---")
+
+    # Render selected slide content
+    if "Slide 1:" in selected_slide:
+        st.subheader("Slide 1: Title & Executive Summary")
+        st.info("### End-to-End Stock Price Prediction Pipeline for Nifty 500\n**Scope:** 5 Years of Daily Market Data (01-09-2021 to 31-08-2026, 1,240 trading sessions)\n\n**Primary Study Subject:** NSE Nifty 500 Index (`^CRSLDX`)\n**Cross-Market Proxy:** BSE 500 Index (`BSE-500.BO`)\n**Core Deliverables:** Cleaned dataset, 15+ features, multi-model benchmark, Streamlit dashboard, findings report, and presentation deck.")
+
+    elif "Slide 2:" in selected_slide:
+        st.subheader("Slide 2: PRD Goals & Success Verification")
+        st.table(pd.DataFrame([
+            {"Goal": "Data Quality", "PRD Target": "Missing data < 2%", "Achieved Result": "0.00% missing data (1,240 days)", "Status": "Exceeded"},
+            {"Goal": "Trading Calendar", "PRD Target": "Calendar integrity", "Achieved Result": "Official ~250 trading days/yr (0 synthetic rows)", "Status": "Verified"},
+            {"Goal": "Model Benchmark", "PRD Target": "Compare vs. baselines", "Achieved Result": "Evaluated 6 configurations on RMSE/MAE/MAPE/Hit Rate", "Status": "Achieved"},
+            {"Goal": "Econometric Rigor", "PRD Target": "Honest baseline review", "Achieved Result": "Naive baseline achieved lowest level RMSE (209.33)", "Status": "Scientifically Honest"},
+            {"Goal": "Deep Learning", "PRD Target": "Scientific LSTM review", "Achieved Result": "Analyzed LSTM RMSE (678.33) vs. sequence momentum", "Status": "Documented"}
+        ]))
+
+    elif "Slide 3:" in selected_slide:
+        st.subheader("Slide 3: Authoritative Data Sourcing & BSE Proxy Architecture")
+        st.markdown("""
+        - **Primary Authoritative Source:** Official historical index download from NSE (1,240 active trading sessions).
+        - **Data Schema Compliance:** `Date`, `Open`, `High`, `Low`, `Close`, `Volume`, `Adjusted Close` (0 nulls).
+        - **BSE-500 Cross-Market Proxy:** Used for cross-exchange validation and co-movement verification per PRD Section 5.
+          - Common trading sessions reconciled: 1,229 days
+          - Price correlation: **0.9999** | Daily return correlation: **0.9969**
+        """)
+
+    elif "Slide 4:" in selected_slide:
+        st.subheader("Slide 4: Exploratory Data Analysis & Financial Stylized Facts")
+        st.markdown("""
+        1. **Trend & Moving Averages:** Index appreciated from ₹14,551 to ₹23,450; 50-day and 200-day SMAs acted as primary dynamic regime boundaries.
+        2. **Leptokurtosis (Fat Tails):** Daily returns exhibit negative skewness and excess kurtosis (> 3.0), verifying that severe downward moves happen far more frequently than predicted by a normal distribution.
+        3. **Volatility Clustering:** Shocks persist across multi-week regimes; rolling 20-day annualized volatility varied from 9.5% to 27.4%.
+        """)
+
+    elif "Slide 5:" in selected_slide:
+        st.subheader("Slide 5: Feature Engineering Architecture")
+        st.markdown("""
+        Over 15 indicators engineered with **zero future lookahead bias** across 1,040 sessions (post 200-day warmup):
+        - **Trend:** SMA 20, 50, 200; EMA 20, 50; Price-to-MA ratios
+        - **Momentum:** RSI 14; MACD Line, Signal Line, Histogram
+        - **Volatility:** Bollinger Bands (Upper, Lower, Width, %B); 20d & 50d rolling annualized volatility
+        - **Lags & Volume:** 1d, 5d, 20d returns; Price lags ($t-1, t-2, t-5$); Volume 20d SMA, Volume Ratio
+        - **Target Variable:** Next-day closing price ($Close_{t+1}$)
+        """)
+
+    elif "Slide 6:" in selected_slide:
+        st.subheader("Slide 6: Chronological Validation & Model Architecture")
+        st.markdown("""
+        - **Strict Chronological 80/20 Split (No Random Shuffling):**
+          - Training Window: 832 trading days (June 21, 2022 to October 27, 2025)
+          - Out-of-Sample Test Window: 208 trading days (October 28, 2025 to August 28, 2026)
+        - **Models Benchmarked:**
+          1. Naive Persistence Baseline ($P_{t+1} = P_t$)
+          2. Moving Average (5-day SMA)
+          3. ARIMA(1,1,1) with ADF stationarity validation
+          4. Random Forest & XGBoost Regressors with feature importances
+          5. PyTorch 2-layer LSTM sequence network with early stopping
+        """)
+
+    elif "Slide 7:" in selected_slide:
+        st.subheader("Slide 7: Model Performance Scorecard & The Martingale Reality")
+        st.dataframe(score_df, use_container_width=True)
+        st.success("**Key Econometric Takeaway:** The Naive Persistence Baseline achieved the lowest level-price RMSE of **209.33** (0.669% MAPE). Under the Martingale property of asset prices ($\\mathbb{E}[P_{t+1} \\mid \\mathcal{F}_t] \\approx P_t$), today's price is the minimum-variance quadratic estimator of tomorrow's price level.")
+
+    elif "Slide 8:" in selected_slide:
+        st.subheader("Slide 8: Statistical Hypothesis Testing & Scientific Honesty")
+        st.markdown("""
+        - **Hypothesis Test:** Exact one-sided Binomial test against 50% random walk null ($H_0: p = 0.50$):
+          - **XGBoost:** 51.92% hit rate ($p = 0.3138$, 95% Wilson CI: [45.16%, 58.62%]) $\\rightarrow$ Fail to reject $H_0$.
+          - **LSTM:** 54.81% hit rate ($p = 0.0938$, 95% Wilson CI: [48.02%, 61.42%]) $\\rightarrow$ Not statistically significant at 5%.
+        - **Scientific Integrity:** We transparently report that neither ML nor Deep Learning achieves statistically significant directional outperformance on daily index closing levels, confirming market efficiency.
+        """)
+
+    elif "Slide 9:" in selected_slide:
+        st.subheader("Slide 9: Real Model-Driven Future Forecasting (FR6)")
+        st.markdown("""
+        - **Beyond Fixed Drift:** Multi-step forward target price projections are driven by **actual trained models**:
+          - **Statistical ARIMA:** Uses statsmodels `get_forecast()` for parametric paths and confidence bands.
+          - **Recursive Machine Learning:** Steps forward $t+1 \\dots t+H$, dynamically updating all 15+ technical indicators and compounding test-derived error bands ($z \\cdot RMSE \\cdot \\sqrt{h}$).
+        - **Customizable Horizon:** Slider in Page 6 allows user-selected horizons from $T+1$ to $T+30$ trading sessions.
+        """)
+
+    elif "Slide 10:" in selected_slide:
+        st.subheader("Slide 10: Limitations, Disclaimers & Next Steps")
+        st.markdown("""
+        - **Limitations:** Unmodeled transaction slippage, brokerage, and STT; non-stationarity causes scaling distortion for deep neural networks on level prices.
+        - **Academic Disclaimer:** Built strictly for educational and intern learning purposes; not investment advice.
+        - **Next Steps:** Reformulate deep learning on stationary returns; integrate alternative macroeconomic data (RBI rates, crude oil); model constituent sector indices.
         """)
 
 st.markdown("---")

@@ -1,8 +1,8 @@
 """
 Notebook Generator for Nifty 500 Stock Market Prediction.
 Generates a comprehensive, publication-ready Jupyter Notebook (.ipynb)
-adhering strictly to ML Best Practices, complete scientific honesty,
-and rigorous empirical statistical hypothesis testing.
+adhering strictly to PRD v1.1, ML Best Practices, complete scientific honesty,
+and authoritative official NSE data sourcing.
 """
 
 from pathlib import Path
@@ -31,15 +31,15 @@ def build_notebook():
     # 1. Header
     cells.append(nbf.v4.new_markdown_cell("""# Stock Market Prediction — Nifty 500
 ### Data Analytics Intern Project · End-to-End Predictive Analytics Pipeline
-**Author:** Data Analytics Intern | **Status:** PRD v1.1 Complete | **Date:** September 2026
+**Author:** Data Analytics Intern | **Status:** PRD v1.1 Complete & Verified | **Date:** September 2026
 
 ---
 
 ## 1. Project Overview & Business Problem
-The objective of this project is to build a robust predictive modeling system for the **Nifty 500 index**, using **five years of historical daily market data** sourced from the **National Stock Exchange of India (NSE)** (`^CRSLDX`) and cross-reconciled against the **Bombay Stock Exchange (BSE)** (`BSE-500.BO`).
+The objective of this project is to build an end-to-end predictive modeling system for the **Nifty 500 index**, using **five years of historical daily market data** (September 1, 2021 to August 31, 2026; 1,240 trading sessions) sourced from the **Authoritative Official NSE Historical Archive** (`data/NIFTY_500_Historical_PR_01-09-2021 to 31-08-2026.csv`) and cross-reconciled against the **BSE 500** (`BSE-500.BO`) as a cross-exchange broad-market proxy.
 
 ### Scope & Goals (PRD v1.1):
-1. **Data Ingestion & Cleaning:** Ingest 5 years of daily OHLCV data strictly on the active exchange trading calendar (~250 sessions/year, no manufactured weekend/holiday rows). Target: Missing / erroneous data after cleaning $< 2\%$.
+1. **Authoritative Data Ingestion & Cleaning:** Ingest 5 years of daily OHLCV data strictly on the active exchange trading calendar (~250 sessions/year, zero manufactured weekend/holiday rows). Ensure complete minimum schema: Date, Open, High, Low, Close, Volume, Adjusted Close. Target: Missing / erroneous data after cleaning $< 2\%$.
 2. **Exploratory Data Analysis (EDA):** Analyze historical price trajectories, 50/200-day moving averages, returns distributions, and volatility clustering.
 3. **Feature Engineering:** Calculate over 15 technical indicators (SMA, EMA, RSI, MACD, Bollinger Bands, rolling volatility, lagged returns).
 4. **Predictive Modeling:** Benchmark four model families:
@@ -47,7 +47,7 @@ The objective of this project is to build a robust predictive modeling system fo
    - **Statistical Model:** ARIMA(1,1,1) with Augmented Dickey-Fuller stationarity testing
    - **Classical Machine Learning:** Random Forest & XGBoost Regressors with feature importances
    - **Deep Learning:** PyTorch Long Short-Term Memory (LSTM) Neural Network
-5. **Evaluation & Statistical Significance:** Chronological train/test split. Compare all models on **RMSE**, **MAE**, **MAPE**, and **Directional Hit Rate (%)**, backed by formal **Binomial Hypothesis Testing**.
+5. **Evaluation & Econometric Rigor:** Strict chronological train/test split. Compare all models on **RMSE**, **MAE**, **MAPE**, and **Directional Hit Rate (%)**, backed by formal **Binomial Hypothesis Testing**.
 6. **Future Forecasting Horizon:** Multi-day forward target price projections ($T+1$ to $T+30$ days) driven by **actual trained predictive models**.
 """))
 
@@ -67,7 +67,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import yfinance as yf
 from scipy import stats
 
 # Set styling
@@ -78,30 +77,30 @@ plt.rcParams['font.size'] = 11
 print("Environment configured successfully. Python libraries loaded.")"""))
 
     cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: Environment & Reproducibility
-The analytics environment is initialized with standard scientific packages (`numpy`, `pandas`, `scipy`, `matplotlib`, `seaborn`, `yfinance`, `scikit-learn`, `statsmodels`, `xgboost`, and `torch`). All random seeds are controlled throughout the pipeline to guarantee exact reproducibility of modeling results across executions."""))
+The analytics environment is initialized with standard scientific packages (`numpy`, `pandas`, `scipy`, `matplotlib`, `seaborn`, `scikit-learn`, `statsmodels`, `xgboost`, and `torch`). All random seeds are controlled throughout the pipeline to guarantee exact reproducibility of modeling results across executions."""))
 
     # 3. Data Collection Code
-    cells.append(nbf.v4.new_markdown_cell("""## 2. Data Collection: Sourcing 5 Years of NSE & BSE Market Data
-Per PRD Requirement **FR1**, we ingest daily OHLCV data for the Nifty 500 index (`^CRSLDX` on NSE) and BSE 500 (`BSE-500.BO`) covering the 5-year window."""))
+    cells.append(nbf.v4.new_markdown_cell("""## 2. Authoritative Data Collection: Official NSE Data & BSE Cross-Market Proxy
+Per PRD Section 5, official NSE historical downloads serve as the **authoritative primary source** for the Nifty 500 index. BSE-500 is used as a **cross-exchange broad-market proxy** for consistency validation."""))
 
     cells.append(nbf.v4.new_code_cell("""from src.data_collection import collect_and_save_data
 
-# Ingest and save raw data
+# Ingest and save raw data from authoritative sources
 df_nse_raw, df_bse_raw = collect_and_save_data(output_dir=ROOT_DIR / "data" / "raw")
 
-print("NSE Raw Shape:", df_nse_raw.shape)
-print("BSE Raw Shape:", df_bse_raw.shape)
+print("Authoritative NSE Raw Shape:", df_nse_raw.shape)
+print("BSE Proxy Raw Shape:", df_bse_raw.shape)
 print(f"NSE Date Range: {df_nse_raw['date'].min().date()} to {df_nse_raw['date'].max().date()} ({len(df_nse_raw)} trading sessions)")
 display(df_nse_raw.head())"""))
 
     cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: Data Ingestion Validation
-The historical download successfully retrieved 1,229 active trading sessions for NSE Nifty 500 (`^CRSLDX`) spanning exactly five years (2021-09-02 to 2026-09-02). The dataset contains standard OHLCV fields (`open`, `high`, `low`, `close`, `adj_close`, `volume`)."""))
+The authoritative dataset contains 1,240 active trading sessions for NSE Nifty 500 covering exactly five years (2021-09-01 to 2026-08-31). The dataset contains the complete required schema: `date`, `open`, `high`, `low`, `close`, `volume`, and `adj_close`."""))
 
     # 4. Data Cleaning Code
     cells.append(nbf.v4.new_markdown_cell("""## 3. Data Cleaning & Trading Calendar Integrity
 Per PRD Requirement **FR2** and Goal Metric (Missing data $< 2\%$), we execute:
 - Date deduplication
-- OHLC constraint verification ($High \ge Close, Open \ge Low$)
+- OHLC constraint verification ($High \ge Low, High \ge Open, High \ge Close$)
 - Anomaly treatment strictly within genuine trading sessions (zero synthetic rows created for non-trading weekends or holidays)
 - Outlier detection via daily return Z-scores"""))
 
@@ -122,8 +121,8 @@ assert null_pct < 2.0, "Missing data threshold exceeded!"
 2. **Quality Benchmark Exceeded:** The post-cleaning missing data percentage is **0.00%**, easily satisfying the PRD success criterion of $< 2\%$. All OHLC price constraints are valid."""))
 
     # 5. Cross-Exchange Reconciliation
-    cells.append(nbf.v4.new_markdown_cell("""## 4. Cross-Exchange Reconciliation: NSE vs. BSE
-We analyze the co-movement between NSE Nifty 500 and BSE 500 across 1,229 common trading sessions."""))
+    cells.append(nbf.v4.new_markdown_cell("""## 4. Cross-Exchange Reconciliation: NSE Nifty 500 vs. BSE 500 Proxy
+We analyze the co-movement between NSE Nifty 500 and the BSE 500 cross-market proxy across 1,229 common trading sessions."""))
 
     cells.append(nbf.v4.new_code_cell("""reconciliation_report = reconcile_nse_bse(df_nse_clean, df_bse_clean)
 
@@ -143,8 +142,8 @@ plt.ylabel("BSE 500 Daily Return (%)")
 plt.show()"""))
 
     cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: Common Broad-Market Dynamics
-The price correlation between NSE Nifty 500 and BSE 500 is **0.9999**, and daily return correlation is **0.9979**.
-**Defensible Interpretation:** This exceptionally high correlation indicates **strong common market dynamics** between the Nifty 500 and BSE 500 during the 5-year study period. Both represent broad-market Indian equities across their respective exchanges, while maintaining their distinct index construction and weighting rules. NSE Nifty 500 serves as the primary modeling index, with BSE 500 acting as an external broad-market verification benchmark."""))
+The price correlation between NSE Nifty 500 and the BSE 500 proxy is **0.9999**, and daily return correlation is **0.9969**.
+**Defensible Interpretation:** This exceptionally high correlation indicates **strong common market dynamics** between broad Indian equities across both premier exchanges. BSE 500 serves as a cross-exchange validation reference, confirming the integrity of the primary modeling series."""))
 
     # 6. EDA
     cells.append(nbf.v4.new_markdown_cell("""## 5. Exploratory Data Analysis (EDA) & Stylized Facts of Asset Prices
@@ -159,7 +158,7 @@ We examine:
 axes[0].plot(df_nse_clean['date'], df_nse_clean['close'], label='Nifty 500 Close', color='#1f77b4', lw=1.8)
 axes[0].plot(df_nse_clean['date'], df_nse_clean['close'].rolling(50).mean(), label='50-Day SMA', color='#ff7f0e', ls='--')
 axes[0].plot(df_nse_clean['date'], df_nse_clean['close'].rolling(200).mean(), label='200-Day SMA', color='#2ca02c', ls=':')
-axes[0].set_title("Nifty 500 Index: 5-Year Historical Trajectory (2021-09-02 to 2026-09-02)", fontsize=12)
+axes[0].set_title("Nifty 500 Index: 5-Year Historical Trajectory (2021-09-01 to 2026-08-31)", fontsize=12)
 axes[0].set_ylabel("Index Points (₹)")
 axes[0].legend(loc='upper left')
 
@@ -191,8 +190,8 @@ print(f"Kurtosis (Fat Tails): {stats.kurtosis(returns):.3f}")
 """))
 
     cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: Market Volatility & Non-Normality
-1. **Trend Dynamics:** The index demonstrated persistent secular growth, with the 50-day SMA acting as dynamic support during cyclical pullbacks.
-2. **Heavy Tails:** The return distribution exhibits negative skewness and excess kurtosis ($> 3.5$), confirming that market sell-offs are sharper and more abrupt than modeled by Gaussian distributions.
+1. **Trend Dynamics:** The index demonstrated persistent secular expansion from ₹14,551 to ₹23,450, with the 50-day SMA acting as dynamic support during cyclical pullbacks.
+2. **Heavy Tails:** The return distribution exhibits negative skewness and excess kurtosis ($> 3.0$), confirming that market sell-offs are sharper and more abrupt than modeled by Gaussian distributions.
 3. **Volatility Clustering:** Shocks to volatility persist over extended horizons, confirming the importance of rolling volatility features for predictive modeling."""))
 
     # 7. Feature Engineering
@@ -213,7 +212,7 @@ print(f"Feature dates span: {features_df['date'].min().date()} to {features_df['
 display(features_df[['date', 'close', 'sma_20', 'rsi_14', 'macd_line', 'bb_pct_b', 'volatility_20d', 'target_close']].head())"""))
 
     cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: Feature Set Integrity
-The feature dataset comprises 1,029 complete trading sessions (from 2022-06-22 to 2026-09-01) after dropping the 200-day moving average warmup window. Each feature row strictly contains information available at trading day $t$ to predict $Close_{t+1}$ on day $t+1$, ensuring zero lookahead bias."""))
+The feature dataset comprises 1,040 complete trading sessions (from 2022-06-21 to 2026-08-28) after dropping the 200-day moving average warmup window. Each feature row strictly contains information available at trading day $t$ to predict $Close_{t+1}$ on day $t+1$, ensuring zero lookahead bias."""))
 
     # 8. Train/Test Split
     cells.append(nbf.v4.new_markdown_cell("""## 7. Chronological Train / Test Split
@@ -233,7 +232,7 @@ y_true = test_df['target_close'].values
 y_current = test_df['close'].values"""))
 
     cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: Temporal Validation Discipline
-The out-of-sample test window spans **206 trading sessions from October 29, 2025 to September 1, 2026** (~10 calendar months). All preprocessing scalers are fitted exclusively on the training set (June 22, 2022 to October 28, 2025) to prevent future data leakage."""))
+The out-of-sample test window spans **208 trading sessions from October 28, 2025 to August 28, 2026** (~10 calendar months). All preprocessing scalers are fitted exclusively on the training set (June 21, 2022 to October 27, 2025) to prevent future data leakage."""))
 
     # 9. Baseline Models
     cells.append(nbf.v4.new_markdown_cell("""## 8. Baseline Models: Naive Persistence & Moving Average
@@ -257,7 +256,7 @@ print("Naive Persistence Baseline:", metrics_naive)
 print("5-Day Moving Average Baseline:", metrics_ma5)"""))
 
     cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: The Baseline Benchmark
-The Naive Persistence model establishes an RMSE of **208.51** and a MAPE of **0.67%**. Notice that the 5-day moving average achieves a higher RMSE of **288.97** because moving averages lag price action by construction in trending markets."""))
+The Naive Persistence model establishes the benchmark RMSE of **209.33** and a MAPE of **0.669%**. Notice that the 5-day moving average achieves a higher RMSE of **288.86** because moving averages lag price action by construction in trending markets."""))
 
     # 10. Statistical Model: ARIMA
     cells.append(nbf.v4.new_markdown_cell("""## 9. Statistical Modeling: ARIMA with ADF Stationarity Check
@@ -283,11 +282,11 @@ metrics_arima = calculate_metrics(y_true, pred_arima, y_current)
 print("ARIMA(1,1,1) Metrics:", metrics_arima)"""))
 
     cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: Statistical Time-Series Findings
-The ADF test fails to reject the null hypothesis of non-stationarity for raw level prices ($p = 0.7052$), but strongly rejects it on first differences ($p = 2.52 \times 10^{-22}$). This confirms that the Nifty 500 index is an integrated process of order 1 ($I(1)$), validating $d=1$ in our ARIMA model."""))
+The ADF test fails to reject the null hypothesis of non-stationarity for raw level prices ($p = 0.6906$), but strongly rejects it on first differences ($p = 1.21 \times 10^{-22}$). This confirms that the Nifty 500 index is an integrated process of order 1 ($I(1)$), validating $d=1$ in our ARIMA model."""))
 
     # 11. Classical ML
-    cells.append(nbf.v4.new_markdown_cell("""## 10. Classical Machine Learning & Statistical Significance Testing
-We train non-linear ensemble models (Random Forest and XGBoost) and conduct a **formal Binomial Hypothesis Test** ($H_0: p = 0.50$) to evaluate whether directional hit rate exceeds random guessing."""))
+    cells.append(nbf.v4.new_markdown_cell("""## 10. Classical Machine Learning & Hypothesis Testing
+We train non-linear ensemble models (Random Forest and XGBoost) and conduct a **formal Binomial Hypothesis Test** ($H_0: p = 0.50$) to evaluate directional market accuracy."""))
 
     cells.append(nbf.v4.new_code_cell("""from src.models.ml_models import MLForecastingSuite
 from src.evaluate import perform_binomial_directional_test
@@ -324,9 +323,9 @@ plt.xlabel("Mean Relative Importance (%)")
 plt.show()"""))
 
     cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: Rigorous Statistical Assessment of Directional Edge
-1. **Hypothesis Testing Results:** Over the 206 out-of-sample trading days, XGBoost correctly predicted market direction on **118 days (57.28%)**. The exact one-sided binomial test yields $p = 0.0215$ (statistically significant at $\alpha = 0.05$).
-2. **Nuance & Caveat:** The 95% Wilson Confidence Interval is **[50.45%, 63.84%]**. Because the lower boundary lies close to 50% and trading execution costs (bid-ask spread, brokerage slippage) are unmodeled, this should be interpreted as an encouraging statistical tilt rather than guaranteed trading alpha.
-3. **Predictive Drivers:** Multi-day lagged price (`lag_close_5`) and medium-term moving average (`sma_20`) lead feature importance, confirming that short-to-medium price momentum drives the directional signal."""))
+1. **Hypothesis Testing Results:** Over the 208 out-of-sample trading days, XGBoost predicted market direction correctly on 108 days (51.92%). The one-sided binomial test yields $p = 0.3138$ (fail to reject $H_0$).
+2. **Econometric Reality:** Neither Random Forest nor XGBoost statistically beats a 50% random walk on directional accuracy. Furthermore, Naive persistence achieves the lowest level-price RMSE (209.33 vs. 228.48 for RF and 239.19 for XGBoost).
+3. **Predictive Drivers:** Multi-day lagged price (`lag_close_5`) and medium-term moving average (`sma_20`) lead feature importance, confirming that short-to-medium price momentum drives tree split decisions."""))
 
     # 12. Deep Learning
     cells.append(nbf.v4.new_markdown_cell("""## 11. Deep Learning: PyTorch LSTM Sequence Model & Honest Performance Critique
@@ -367,10 +366,10 @@ metrics_lstm = calculate_metrics(y_true, pred_lstm, y_current)
 print("PyTorch LSTM Metrics:", metrics_lstm)"""))
 
     cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: Honest Scientific Assessment of LSTM Performance
-1. **Level-Price Underperformance:** The PyTorch LSTM achieved an RMSE of **434.21** (MAPE 1.56%), which is **more than double the Naive persistence baseline** (RMSE 208.51) and substantially worse than Random Forest (223.29) and XGBoost (226.94).
+1. **Level-Price Underperformance:** The PyTorch LSTM achieved an RMSE of **678.33** (MAPE 2.63%), which is **more than double the Naive persistence baseline** (RMSE 209.33) and substantially worse than Random Forest (228.48) and XGBoost (239.19).
 2. **Why Deep Learning Struggles on Price Levels:** Raw financial price series are non-stationary with stochastic drift. Neural networks trained on MinMax-scaled price levels lack explicit local mean-reversion anchors, causing predictions to lag turning points and amplify error variance.
-3. **Directional Signal:** Interestingly, the LSTM achieved a **54.85% directional hit rate** ($p = 0.0927$), capturing sequence momentum.
-4. **Key Finding:** In institutional quantitative finance, deep learning models are rarely trained on raw price levels; instead, they are formulated on stationary returns or volatility targets. This empirical underperformance confirms that principle."""))
+3. **Directional Momentum:** The LSTM achieved a **54.81% directional hit rate** ($p = 0.0938$), demonstrating that sequence memory captures cyclical momentum patterns.
+4. **Key Takeaway:** In institutional quantitative finance, deep learning models are rarely trained on raw price levels; instead, they are formulated on stationary returns or volatility targets."""))
 
     # 13. Evaluation Scorecard
     cells.append(nbf.v4.new_markdown_cell("""## 12. Model Evaluation & Benchmark Scorecard
@@ -380,10 +379,10 @@ Per PRD Requirement **FR7**, we compile the full evaluation comparison table acr
 
 all_results = {
     "Naive Baseline (Persistence)": metrics_naive,
-    "Moving Average (5-day SMA)": metrics_ma5,
-    "ARIMA(1,1,1)": metrics_arima,
     "Random Forest Regressor": metrics_rf,
     "XGBoost Regressor": metrics_xgb,
+    "Moving Average (5-day SMA)": metrics_ma5,
+    "ARIMA(1,1,1)": metrics_arima,
     "LSTM Neural Network": metrics_lstm,
 }
 
@@ -397,16 +396,16 @@ plt.plot(test_df['date'], pred_naive, label='Naive Baseline', color='gray', ls='
 plt.plot(test_df['date'], pred_rf, label='Random Forest', color='#2ca02c', lw=1.5)
 plt.plot(test_df['date'], pred_xgb, label='XGBoost', color='#ff7f0e', lw=1.5)
 plt.plot(test_df['date'], pred_lstm, label='PyTorch LSTM', color='#1f77b4', lw=1.5)
-plt.title("Nifty 500 Out-of-Sample Backtesting: Actual vs. Model Predictions (2025-10-29 to 2026-09-01)", fontsize=14)
+plt.title("Nifty 500 Out-of-Sample Backtesting: Actual vs. Model Predictions (2025-10-28 to 2026-08-28)", fontsize=14)
 plt.ylabel("Nifty 500 Level (₹)")
 plt.xlabel("Date")
 plt.legend(loc='upper left')
 plt.show()"""))
 
     cells.append(nbf.v4.new_markdown_cell("""### Analytical Insight: Scorecard Synthesis
-1. **RMSE Ranking:** Naive Persistence (208.51) > Random Forest (223.29) > XGBoost (226.94) > ARIMA (287.52) > 5d SMA (288.97) > LSTM (434.21).
-2. **Directional Accuracy Ranking:** XGBoost (57.28%, $p=0.0215$) > LSTM (54.85%, $p=0.0927$) > ARIMA (50.97%) > 5d SMA (50.97%) > Random Forest (49.51%).
-3. **Martingale Property:** Under the Efficient Market Hypothesis, today's price is the minimum-variance quadratic estimator of tomorrow's price, explaining why beating persistence on RMSE is structurally difficult."""))
+1. **RMSE Ranking:** Naive Persistence (209.33) > Random Forest (228.48) > XGBoost (239.19) > 5d SMA (288.86) > ARIMA (291.08) > LSTM (678.33).
+2. **Martingale Property:** Under the Efficient Market Hypothesis, today's price is the minimum-variance quadratic estimator of tomorrow's price, explaining why beating persistence on RMSE is structurally difficult.
+3. **Directional Accuracy:** LSTM (54.81%) > ARIMA (51.92%) = XGBoost (51.92%) > 5d SMA (51.44%) > Random Forest (48.56%). None statistically exceed 50% at $\alpha = 0.05$."""))
 
     # 14. Future Forecasting with REAL MODELS
     cells.append(nbf.v4.new_markdown_cell("""## 13. Future Target Price Forecasting Horizon (Trained Models)
@@ -460,14 +459,15 @@ Unlike static mathematical drift, this projection is generated by **iteratively 
     # 15. Conclusion & PRD Compliance
     cells.append(nbf.v4.new_markdown_cell("""## 14. Project Summary, Findings & Limitations
 ### Summary of Deliverables Achieved (PRD v1.1):
-- **Cleaned Dataset:** Sourced 5 years of daily OHLCV from NSE and BSE with **0.00% missing data** (PRD Target: $< 2\%$) strictly adhering to the exchange trading calendar.
+- **Authoritative Dataset:** Sourced 5 years of daily OHLCV from official NSE download with **0.00% missing data** (PRD Target: $< 2\%$) strictly adhering to the exchange trading calendar.
+- **Cross-Exchange Proxy:** Verified broad-market dynamics against BSE-500 proxy (Price r = 0.9999).
 - **EDA & Stylized Facts:** Documented volatility clustering, return kurtosis, and 50/200 MA trends.
 - **15+ Engineered Features:** Trend, momentum, volatility, and lagged features.
 - **Model Suite:** Benchmarked Naive Persistence, ARIMA(1,1,1), Random Forest, XGBoost, and PyTorch LSTM.
-- **Statistical Rigor:** Directional edge validated via formal Binomial hypothesis testing with exact $p$-values and Wilson confidence intervals.
-- **Scientific Honesty:** Transparently analyzed why LSTM level-price RMSE underperformed the persistence baseline.
+- **Econometric Honesty:** Acknowledged that Naive Persistence achieves the best level-price RMSE (209.33) per Martingale law.
+- **Hypothesis Testing:** Evaluated directional accuracy via exact Binomial tests ($p > 0.05$).
 - **Trained Model Forecasting:** Future forecasting driven by real recursive ML and statistical ARIMA rollouts.
-- **Interactive Streamlit App:** Deployed interactive exploration dashboard (`app/app.py`).
+- **Interactive Streamlit App & Presentation Deck:** Deployed interactive dashboard (`app/app.py`) and slide deck (`reports/presentation_deck.html`).
 
 ### Non-Goals & Disclaimers:
 - **Academic & Educational Purpose Only:** Built for a Data Analytics Intern project.
