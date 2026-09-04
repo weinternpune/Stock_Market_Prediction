@@ -78,18 +78,18 @@
   },
   {
     "Model": "LSTM Network",
-    "RMSE": 560.27,
-    "MAE": 453.11,
-    "MAPE_Pct": 1.974,
-    "Directional_Accuracy": "52.88%",
-    "Binomial_P_Val": "0.4457",
-    "Wilson_95_CI": "[46.1%, 59.6%]",
-    "vs_Naive_RMSE": "-167.64%",
-    "raw_dir_acc": 52.88461538461539,
+    "RMSE": 625.19,
+    "MAE": 545.71,
+    "MAPE_Pct": 2.371,
+    "Directional_Accuracy": "54.33%",
+    "Binomial_P_Val": "0.2384",
+    "Wilson_95_CI": "[47.5%, 61.0%]",
+    "vs_Naive_RMSE": "-198.66%",
+    "raw_dir_acc": 54.32692307692307,
     "raw_ci": [
-      46.110255723155234,
-      59.554357835872885
+      47.540198257029914,
+      60.95672208151225
     ],
-    "raw_binom_pval": 0.44571222099285324
+    "raw_binom_pval": 0.23843026889610858
   }
 ]
