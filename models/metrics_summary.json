@@ -1,0 +1,95 @@
+[
+  {
+    "Model": "Naive Persistence",
+    "RMSE": 209.33,
+    "MAE": 151.88,
+    "MAPE_Pct": 0.669,
+    "Directional_Accuracy": "N/A",
+    "Binomial_P_Val": "N/A",
+    "Wilson_95_CI": "N/A",
+    "vs_Naive_RMSE": "+0.00% (Best)",
+    "raw_dir_acc": null,
+    "raw_ci": null,
+    "raw_binom_pval": null
+  },
+  {
+    "Model": "Moving Average (5-Day SMA)",
+    "RMSE": 288.87,
+    "MAE": 218.16,
+    "MAPE_Pct": 0.957,
+    "Directional_Accuracy": "51.92%",
+    "Binomial_P_Val": "0.6275",
+    "Wilson_95_CI": "[45.2%, 58.6%]",
+    "vs_Naive_RMSE": "-37.99%",
+    "raw_dir_acc": 51.92307692307693,
+    "raw_ci": [
+      45.160034026039845,
+      58.61637501331223
+    ],
+    "raw_binom_pval": 0.6275255016466621
+  },
+  {
+    "Model": "ARIMA(1, 1, 1) Walk-Forward",
+    "RMSE": 291.08,
+    "MAE": 216.41,
+    "MAPE_Pct": 0.95,
+    "Directional_Accuracy": "51.92%",
+    "Binomial_P_Val": "0.6275",
+    "Wilson_95_CI": "[45.2%, 58.6%]",
+    "vs_Naive_RMSE": "-39.05%",
+    "raw_dir_acc": 51.92307692307693,
+    "raw_ci": [
+      45.160034026039845,
+      58.61637501331223
+    ],
+    "raw_binom_pval": 0.6275255016466621
+  },
+  {
+    "Model": "Random Forest",
+    "RMSE": 229.66,
+    "MAE": 167.47,
+    "MAPE_Pct": 0.735,
+    "Directional_Accuracy": "49.52%",
+    "Binomial_P_Val": "0.9447",
+    "Wilson_95_CI": "[42.8%, 56.3%]",
+    "vs_Naive_RMSE": "-9.71%",
+    "raw_dir_acc": 49.519230769230774,
+    "raw_ci": [
+      42.79519244854062,
+      56.26070529162136
+    ],
+    "raw_binom_pval": 0.9447431138936884
+  },
+  {
+    "Model": "XGBoost",
+    "RMSE": 299.91,
+    "MAE": 239.62,
+    "MAPE_Pct": 1.044,
+    "Directional_Accuracy": "51.92%",
+    "Binomial_P_Val": "0.6275",
+    "Wilson_95_CI": "[45.2%, 58.6%]",
+    "vs_Naive_RMSE": "-43.27%",
+    "raw_dir_acc": 51.92307692307693,
+    "raw_ci": [
+      45.160034026039845,
+      58.61637501331223
+    ],
+    "raw_binom_pval": 0.6275255016466621
+  },
+  {
+    "Model": "LSTM Network",
+    "RMSE": 560.27,
+    "MAE": 453.11,
+    "MAPE_Pct": 1.974,
+    "Directional_Accuracy": "52.88%",
+    "Binomial_P_Val": "0.4457",
+    "Wilson_95_CI": "[46.1%, 59.6%]",
+    "vs_Naive_RMSE": "-167.64%",
+    "raw_dir_acc": 52.88461538461539,
+    "raw_ci": [
+      46.110255723155234,
+      59.554357835872885
+    ],
+    "raw_binom_pval": 0.44571222099285324
+  }
+]

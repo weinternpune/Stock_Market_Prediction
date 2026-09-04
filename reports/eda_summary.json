@@ -1,0 +1,50 @@
+{
+  "price_trend": {
+    "start_close": 14551.35,
+    "end_close": 23450.35,
+    "min_close": 12950.75,
+    "min_close_date": "2022-06-20",
+    "max_close": 24496.9,
+    "max_close_date": "2024-09-26",
+    "total_gain_pct": 61.16,
+    "avg_daily_range_pct": 1.02,
+    "max_daily_range_pct": 10.85
+  },
+  "returns_profile": {
+    "positive_days": 682,
+    "negative_days": 557,
+    "win_rate_pct": 55.04,
+    "mean_daily_return_pct": 0.0427,
+    "annualized_compound_return_pct": 11.26,
+    "max_gain_pct": 3.95,
+    "max_loss_pct": -6.76,
+    "skewness": -0.678,
+    "excess_kurtosis": 4.5846,
+    "jarque_bera_p_value": 5.756303278891332e-257,
+    "is_normal": false
+  },
+  "volatility": {
+    "mean_20d_ann_vol_pct": 13.4,
+    "min_20d_ann_vol_pct": 4.31,
+    "max_20d_ann_vol_pct": 32.14,
+    "current_20d_ann_vol_pct": 4.31
+  },
+  "volume_proxy": {
+    "volume_return_correlation": -0.0178,
+    "turnover_return_correlation": -0.0397,
+    "volume_abs_return_correlation": 0.0688
+  },
+  "seasonality": {
+    "day_of_week_anova_p_val": 0.312,
+    "is_dow_seasonality_significant": false,
+    "best_dow": "Wednesday",
+    "worst_dow": "Friday",
+    "best_month": "April",
+    "worst_month": "February"
+  },
+  "cross_market_reconciliation": {
+    "common_sessions": 1239,
+    "price_level_correlation": 0.99989,
+    "return_co_movement_correlation": 0.9993
+  }
+}
