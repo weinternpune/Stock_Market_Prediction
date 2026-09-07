@@ -435,6 +435,16 @@ elif page == "📊 Historical Market Explorer":
     ])
     
     with tab_nse:
+        # Candlestick Color Legend
+        st.markdown("""
+        <div style='background:rgba(30,41,59,0.5); border:1px solid #334155; border-radius:8px; padding:10px 16px; margin-bottom:12px; display:flex; flex-wrap:wrap; align-items:center; gap:16px; font-size:0.85rem;'>
+            <span style='color:#E2E8F0; font-weight:600;'>📈 Chart Legend:</span>
+            <span><span style='display:inline-block; width:12px; height:12px; background:#22C55E; border-radius:2px; vertical-align:middle; margin-right:5px;'></span><strong style='color:#4ADE80;'>Green:</strong> Bullish Day (Close ≥ Open)</span>
+            <span><span style='display:inline-block; width:12px; height:12px; background:#EF4444; border-radius:2px; vertical-align:middle; margin-right:5px;'></span><strong style='color:#F87171;'>Red:</strong> Bearish Day (Close &lt; Open)</span>
+            <span style='color:#94A3B8; font-size:0.8rem; margin-left:auto;'>💡 Tip: Use the bottom range slider or click-and-drag on the chart to zoom into individual candles</span>
+        </div>
+        """, unsafe_allow_html=True)
+
         # Candlestick
         fig_nse = go.Figure()
         fig_nse.add_trace(go.Candlestick(
@@ -449,6 +459,16 @@ elif page == "📊 Historical Market Explorer":
         st.dataframe(f_nse.tail(8)[['Date', 'Open', 'High', 'Low', 'Close', 'Daily_Return']], use_container_width=True)
         
     with tab_bse:
+        # Candlestick Color Legend
+        st.markdown("""
+        <div style='background:rgba(30,41,59,0.5); border:1px solid #334155; border-radius:8px; padding:10px 16px; margin-bottom:12px; display:flex; flex-wrap:wrap; align-items:center; gap:16px; font-size:0.85rem;'>
+            <span style='color:#E2E8F0; font-weight:600;'>🏛️ Chart Legend:</span>
+            <span><span style='display:inline-block; width:12px; height:12px; background:#38BDF8; border-radius:2px; vertical-align:middle; margin-right:5px;'></span><strong style='color:#38BDF8;'>Cyan / Light Blue:</strong> Bullish Day (Close ≥ Open)</span>
+            <span><span style='display:inline-block; width:12px; height:12px; background:#F43F5E; border-radius:2px; vertical-align:middle; margin-right:5px;'></span><strong style='color:#FB7185;'>Coral / Rose Red:</strong> Bearish Day (Close &lt; Open)</span>
+            <span style='color:#94A3B8; font-size:0.8rem; margin-left:auto;'>💡 Tip: Over 1,200 sessions displayed; zoom in using the slider to see individual OHLC bodies & wicks</span>
+        </div>
+        """, unsafe_allow_html=True)
+
         fig_bse = go.Figure()
         fig_bse.add_trace(go.Candlestick(
             x=f_bse['Date'], open=f_bse['Open'], high=f_bse['High'], low=f_bse['Low'], close=f_bse['Close'],
@@ -846,3 +866,31 @@ elif page == "🖥️ Executive Presentation Deck":
         </div>
     </div>
     """, unsafe_allow_html=True)
+    
+    st.markdown("<div style='margin-top:24px;'></div>", unsafe_allow_html=True)
+    
+    # Download & Presentation Assets Banner
+    pptx_path = REPORTS_DIR / "Nifty_500_Executive_Presentation.pptx"
+    
+    col_dl1, col_dl2 = st.columns([1.2, 1.8])
+    with col_dl1:
+        if pptx_path.exists():
+            with open(pptx_path, "rb") as f:
+                pptx_data = f.read()
+            st.download_button(
+                label="📥 Download Executive Presentation (.pptx)",
+                data=pptx_data,
+                file_name="Nifty_500_Executive_Presentation.pptx",
+                mime="application/vnd.openxmlformats-officedocument.presentationml.presentation",
+                use_container_width=True
+            )
+        else:
+            st.button("📥 PPTX Not Found (Run src/generate_pptx.py)", disabled=True, use_container_width=True)
+            
+    with col_dl2:
+        st.markdown("""
+        <div style='background:rgba(30,41,59,0.4); border:1px solid #334155; border-radius:8px; padding:10px 14px; font-size:0.85rem; color:#94A3B8;'>
+            💡 <strong>Presentation Format Note:</strong> This interactive web view is designed for live dashboard demos. Click the button to the left to download the complete <strong>18-slide PowerPoint (.pptx)</strong> deck for Microsoft PowerPoint or Google Slides!
+        </div>
+        """, unsafe_allow_html=True)
+
