@@ -58,7 +58,7 @@
       42.79519244854062,
       56.26070529162136
     ],
-    "raw_binom_pval": 0.9447431138936884
+    "raw_binom_pval": 0.9447431138936883
   },
   {
     "Model": "XGBoost",
@@ -78,18 +78,18 @@
   },
   {
     "Model": "LSTM Network",
-    "RMSE": 625.19,
-    "MAE": 545.71,
-    "MAPE_Pct": 2.371,
-    "Directional_Accuracy": "54.33%",
-    "Binomial_P_Val": "0.2384",
-    "Wilson_95_CI": "[47.5%, 61.0%]",
-    "vs_Naive_RMSE": "-198.66%",
-    "raw_dir_acc": 54.32692307692307,
+    "RMSE": 503.45,
+    "MAE": 399.7,
+    "MAPE_Pct": 1.752,
+    "Directional_Accuracy": "54.81%",
+    "Binomial_P_Val": "0.1876",
+    "Wilson_95_CI": "[48.0%, 61.4%]",
+    "vs_Naive_RMSE": "-140.50%",
+    "raw_dir_acc": 54.807692307692314,
     "raw_ci": [
-      47.540198257029914,
-      60.95672208151225
+      48.01807998768524,
+      61.42294261069496
     ],
-    "raw_binom_pval": 0.23843026889610858
+    "raw_binom_pval": 0.1875708463740632
   }
 ]
