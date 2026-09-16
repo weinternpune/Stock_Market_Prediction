@@ -1,0 +1,40 @@
+{
+  "symbol": "TECHM",
+  "best_model": "XGBoost",
+  "metrics": {
+    "Baseline": {
+      "mae": 83.04,
+      "rmse": 104.17,
+      "mape": 5.47,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 87.88,
+      "rmse": 110.38,
+      "mape": 5.77,
+      "directional_accuracy": 48.33,
+      "baseline_improvement_pct": -5.83
+    },
+    "XGBoost": {
+      "mae": 73.14,
+      "rmse": 89.01,
+      "mape": 4.97,
+      "directional_accuracy": 72.5,
+      "baseline_improvement_pct": 11.92
+    },
+    "LSTM": {
+      "mae": 88.96,
+      "rmse": 126.75,
+      "mape": 5.82,
+      "directional_accuracy": 51.67,
+      "baseline_improvement_pct": -7.13
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 1541.0,
+    "ARIMA": 1541.389968364298,
+    "XGBoost": 1637.3956298828125,
+    "LSTM": 1545.8597412109375
+  }
+}

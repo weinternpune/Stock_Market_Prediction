@@ -1,0 +1,40 @@
+{
+  "symbol": "TRENT",
+  "best_model": "ARIMA",
+  "metrics": {
+    "Baseline": {
+      "mae": 436.73,
+      "rmse": 594.8,
+      "mape": 13.33,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 444.65,
+      "rmse": 577.33,
+      "mape": 13.16,
+      "directional_accuracy": 60.0,
+      "baseline_improvement_pct": -1.81
+    },
+    "XGBoost": {
+      "mae": 766.56,
+      "rmse": 926.79,
+      "mape": 24.97,
+      "directional_accuracy": 44.17,
+      "baseline_improvement_pct": -75.52
+    },
+    "LSTM": {
+      "mae": 756.49,
+      "rmse": 907.52,
+      "mape": 24.12,
+      "directional_accuracy": 46.67,
+      "baseline_improvement_pct": -73.22
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 2802.4,
+    "ARIMA": 2832.832989031962,
+    "XGBoost": 2996.988525390625,
+    "LSTM": 2746.91748046875
+  }
+}

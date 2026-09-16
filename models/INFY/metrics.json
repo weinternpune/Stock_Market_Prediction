@@ -1,0 +1,40 @@
+{
+  "symbol": "INFY",
+  "best_model": "Baseline",
+  "metrics": {
+    "Baseline": {
+      "mae": 80.07,
+      "rmse": 97.64,
+      "mape": 7.09,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 84.1,
+      "rmse": 102.3,
+      "mape": 7.42,
+      "directional_accuracy": 49.17,
+      "baseline_improvement_pct": -5.03
+    },
+    "XGBoost": {
+      "mae": 241.13,
+      "rmse": 256.99,
+      "mape": 21.44,
+      "directional_accuracy": 43.33,
+      "baseline_improvement_pct": -201.15
+    },
+    "LSTM": {
+      "mae": 155.01,
+      "rmse": 174.41,
+      "mape": 13.9,
+      "directional_accuracy": 41.67,
+      "baseline_improvement_pct": -93.6
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 1037.7,
+    "ARIMA": 1037.6804257475048,
+    "XGBoost": 1435.1165771484375,
+    "LSTM": 1218.8525390625
+  }
+}

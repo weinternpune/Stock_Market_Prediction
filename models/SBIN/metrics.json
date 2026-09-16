@@ -1,0 +1,40 @@
+{
+  "symbol": "SBIN",
+  "best_model": "Baseline",
+  "metrics": {
+    "Baseline": {
+      "mae": 68.15,
+      "rmse": 85.5,
+      "mape": 6.7,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 70.54,
+      "rmse": 96.23,
+      "mape": 7.0,
+      "directional_accuracy": 54.17,
+      "baseline_improvement_pct": -3.51
+    },
+    "XGBoost": {
+      "mae": 227.18,
+      "rmse": 231.16,
+      "mape": 21.92,
+      "directional_accuracy": 48.33,
+      "baseline_improvement_pct": -233.36
+    },
+    "LSTM": {
+      "mae": 111.38,
+      "rmse": 136.43,
+      "mape": 10.74,
+      "directional_accuracy": 54.17,
+      "baseline_improvement_pct": -63.43
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 995.7,
+    "ARIMA": 995.9584232154401,
+    "XGBoost": 808.6609497070312,
+    "LSTM": 1084.79541015625
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "symbol": "LT",
+  "best_model": "Baseline",
+  "metrics": {
+    "Baseline": {
+      "mae": 249.9,
+      "rmse": 335.58,
+      "mape": 6.46,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 253.94,
+      "rmse": 337.96,
+      "mape": 6.61,
+      "directional_accuracy": 53.33,
+      "baseline_improvement_pct": -1.62
+    },
+    "XGBoost": {
+      "mae": 430.83,
+      "rmse": 464.98,
+      "mape": 10.74,
+      "directional_accuracy": 50.83,
+      "baseline_improvement_pct": -72.4
+    },
+    "LSTM": {
+      "mae": 397.06,
+      "rmse": 432.12,
+      "mape": 9.9,
+      "directional_accuracy": 60.0,
+      "baseline_improvement_pct": -58.89
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 3930.7,
+    "ARIMA": 3931.284643781635,
+    "XGBoost": 3834.728271484375,
+    "LSTM": 3992.64404296875
+  }
+}

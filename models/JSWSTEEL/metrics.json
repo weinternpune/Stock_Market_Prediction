@@ -1,0 +1,40 @@
+{
+  "symbol": "JSWSTEEL",
+  "best_model": "LSTM",
+  "metrics": {
+    "Baseline": {
+      "mae": 56.48,
+      "rmse": 70.47,
+      "mape": 4.54,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 55.0,
+      "rmse": 69.19,
+      "mape": 4.45,
+      "directional_accuracy": 56.67,
+      "baseline_improvement_pct": 2.62
+    },
+    "XGBoost": {
+      "mae": 152.57,
+      "rmse": 160.34,
+      "mape": 11.97,
+      "directional_accuracy": 37.5,
+      "baseline_improvement_pct": -170.13
+    },
+    "LSTM": {
+      "mae": 44.02,
+      "rmse": 51.28,
+      "mape": 3.5,
+      "directional_accuracy": 73.33,
+      "baseline_improvement_pct": 22.06
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 1265.0,
+    "ARIMA": 1274.3617652260357,
+    "XGBoost": 1096.7879638671875,
+    "LSTM": 1260.08349609375
+  }
+}

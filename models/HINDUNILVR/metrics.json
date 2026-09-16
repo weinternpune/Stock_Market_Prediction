@@ -1,0 +1,40 @@
+{
+  "symbol": "HINDUNILVR",
+  "best_model": "ARIMA",
+  "metrics": {
+    "Baseline": {
+      "mae": 118.15,
+      "rmse": 142.28,
+      "mape": 5.52,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 108.32,
+      "rmse": 138.34,
+      "mape": 5.02,
+      "directional_accuracy": 65.0,
+      "baseline_improvement_pct": 8.32
+    },
+    "XGBoost": {
+      "mae": 185.58,
+      "rmse": 242.61,
+      "mape": 8.96,
+      "directional_accuracy": 46.67,
+      "baseline_improvement_pct": -57.07
+    },
+    "LSTM": {
+      "mae": 176.49,
+      "rmse": 205.33,
+      "mape": 8.31,
+      "directional_accuracy": 40.0,
+      "baseline_improvement_pct": -49.38
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 1927.0,
+    "ARIMA": 1928.8244784861386,
+    "XGBoost": 2495.222412109375,
+    "LSTM": 2225.190673828125
+  }
+}

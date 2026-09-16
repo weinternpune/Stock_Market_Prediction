@@ -1,0 +1,40 @@
+{
+  "symbol": "BPCL",
+  "best_model": "XGBoost",
+  "metrics": {
+    "Baseline": {
+      "mae": 20.99,
+      "rmse": 32.98,
+      "mape": 7.11,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 22.6,
+      "rmse": 36.37,
+      "mape": 7.71,
+      "directional_accuracy": 52.5,
+      "baseline_improvement_pct": -7.66
+    },
+    "XGBoost": {
+      "mae": 14.63,
+      "rmse": 19.16,
+      "mape": 4.85,
+      "directional_accuracy": 65.0,
+      "baseline_improvement_pct": 30.31
+    },
+    "LSTM": {
+      "mae": 20.46,
+      "rmse": 31.7,
+      "mape": 6.95,
+      "directional_accuracy": 65.83,
+      "baseline_improvement_pct": 2.51
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 304.5,
+    "ARIMA": 304.4974921636002,
+    "XGBoost": 323.30712890625,
+    "LSTM": 322.4460754394531
+  }
+}

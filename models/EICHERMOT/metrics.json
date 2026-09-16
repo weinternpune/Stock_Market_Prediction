@@ -1,0 +1,40 @@
+{
+  "symbol": "EICHERMOT",
+  "best_model": "LSTM",
+  "metrics": {
+    "Baseline": {
+      "mae": 409.15,
+      "rmse": 525.53,
+      "mape": 5.59,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 399.46,
+      "rmse": 543.16,
+      "mape": 5.53,
+      "directional_accuracy": 64.17,
+      "baseline_improvement_pct": 2.37
+    },
+    "XGBoost": {
+      "mae": 430.54,
+      "rmse": 531.67,
+      "mape": 5.63,
+      "directional_accuracy": 58.33,
+      "baseline_improvement_pct": -5.23
+    },
+    "LSTM": {
+      "mae": 334.14,
+      "rmse": 407.67,
+      "mape": 4.47,
+      "directional_accuracy": 73.33,
+      "baseline_improvement_pct": 18.33
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 7530.0,
+    "ARIMA": 7530.665456904573,
+    "XGBoost": 7049.44873046875,
+    "LSTM": 7780.22265625
+  }
+}

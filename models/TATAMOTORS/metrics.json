@@ -1,0 +1,40 @@
+{
+  "symbol": "TATAMOTORS",
+  "best_model": "XGBoost",
+  "metrics": {
+    "Baseline": {
+      "mae": 32.21,
+      "rmse": 38.73,
+      "mape": 9.54,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 32.57,
+      "rmse": 39.59,
+      "mape": 9.68,
+      "directional_accuracy": 50.0,
+      "baseline_improvement_pct": -1.11
+    },
+    "XGBoost": {
+      "mae": 18.62,
+      "rmse": 23.4,
+      "mape": 5.41,
+      "directional_accuracy": 76.67,
+      "baseline_improvement_pct": 42.19
+    },
+    "LSTM": {
+      "mae": 23.97,
+      "rmse": 30.28,
+      "mape": 7.02,
+      "directional_accuracy": 65.83,
+      "baseline_improvement_pct": 25.57
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 301.1,
+    "ARIMA": 301.1071315641938,
+    "XGBoost": 337.5966796875,
+    "LSTM": 332.6519470214844
+  }
+}

@@ -1,129 +1,64 @@
 """
 pipeline.py
 -----------
-Master End-to-End Execution Pipeline for Nifty 500 Stock Market Prediction.
-Orchestrates Phases 1 through 47 in a single, reproducible script:
-Raw Data -> Validation -> Cleaning -> Outliers -> Features -> Models -> Backtesting -> Scorecard -> Forecast.
+Master End-to-End Execution Pipeline for NIFTY 50 Stock Price Prediction.
+Orchestrates Phases 1 through 17 in a single, reproducible command:
+Master Raw Data -> Validation -> Cleaning -> Corporate Actions -> Features -> Models -> Evaluation -> Forecasts -> Ranking.
 """
 
 import sys
 from pathlib import Path
-import pandas as pd
-import numpy as np
 
-# Ensure src/ is on sys.path
+# Ensure project root is in sys.path
 SRC_DIR = Path(__file__).resolve().parent
 PROJECT_ROOT = SRC_DIR.parent
-if str(SRC_DIR) not in sys.path:
-    sys.path.insert(0, str(SRC_DIR))
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
-from data_validation import validate_nse_dataset, validate_bse_dataset, reconcile_dates
-from data_cleaning import clean_nse_dataset, clean_bse_dataset, investigate_outliers, save_master_datasets
-from eda import perform_eda
-from feature_engineering import engineer_features, get_train_test_split
-from models.baseline import NaivePersistenceBaseline, MovingAverageBaseline
-from models.arima_model import ARIMAPredictor
-from models.ml_models import ClassicalMLManager
-from models.lstm_model import LSTMPredictorManager
-from models.forecast_service import ForecastService
-from evaluate import evaluate_all_models
+from src.data.validator import validate_master_data
+from src.data.cleaner import clean_data
+from src.eda import run_eda
+from src.features.technical_indicators import run_feature_engineering
+from src.predictions.forecaster import run_predictions
+from src.utilities.logger import get_logger
 
+logger = get_logger("MasterPipeline")
 
-def run_complete_pipeline():
-    print("\n" + "=" * 75)
-    print(">>> NIFTY 500 STOCK MARKET PREDICTION: END-TO-END AUTOMATED PIPELINE")
-    print("=" * 75 + "\n")
+def run_end_to_end_pipeline():
+    """Executes the entire NIFTY 50 stock price prediction pipeline."""
+    logger.info("=" * 75)
+    logger.info(">>> NIFTY 50 STOCK MARKET PREDICTION: MASTER AUTOMATED PIPELINE <<<")
+    logger.info("=" * 75)
     
-    # Paths
-    raw_dir = PROJECT_ROOT / "data" / "raw"
-    processed_dir = PROJECT_ROOT / "data" / "processed"
-    features_dir = PROJECT_ROOT / "data" / "features"
-    models_dir = PROJECT_ROOT / "models"
-    saved_models_dir = models_dir / "saved_models"
-    reports_dir = PROJECT_ROOT / "reports"
+    # Phase 2: Data Validation
+    logger.info("\n>>> STEP 1: MASTER DATASET VALIDATION (Phase 2)")
+    val_report, _ = validate_master_data()
+    logger.info(f"Validation Status: {val_report['validation_status']} (Total rows: {val_report['total_rows']})")
     
-    nse_raw_path = raw_dir / "nse_nifty500_raw.csv"
-    bse_raw_path = raw_dir / "bse_500_raw.csv"
+    # Phase 3 & 4: Data Cleaning & Corporate Actions
+    logger.info("\n>>> STEP 2: DATA CLEANING & CORPORATE SPLIT ADJUSTMENTS (Phase 3 & 4)")
+    clean_df, clean_report = clean_data()
+    logger.info(f"Cleaned dataset: {len(clean_df)} records, {len(clean_report['corporate_actions_detected'])} corporate actions adjusted.")
     
-    # -------------------------------------------------------------
-    # Step 1: Validation (Phases 6-8)
-    # -------------------------------------------------------------
-    nse_val_report, nse_raw_df = validate_nse_dataset(nse_raw_path)
-    bse_val_report, bse_raw_df = validate_bse_dataset(bse_raw_path)
-    rec_report = reconcile_dates(nse_raw_df, bse_raw_df)
+    # Phase 5: Exploratory Data Analysis
+    logger.info("\n>>> STEP 3: EXPLORATORY DATA ANALYSIS (Phase 5)")
+    eda_report = run_eda()
+    logger.info(f"EDA completed across {eda_report['total_stocks']} stocks. Avg 5Y Return: {eda_report['average_cumulative_return_pct']}%.")
     
-    # -------------------------------------------------------------
-    # Step 2: Cleaning & Outlier Audit (Phases 9-11)
-    # -------------------------------------------------------------
-    nse_clean = clean_nse_dataset(nse_raw_path)
-    bse_clean = clean_bse_dataset(bse_raw_path)
-    outlier_df = investigate_outliers(nse_clean, bse_clean, models_dir)
-    save_master_datasets(nse_clean, bse_clean, processed_dir)
+    # Phase 6 & 7: Feature Engineering
+    logger.info("\n>>> STEP 4: TECHNICAL & STATISTICAL FEATURE ENGINEERING (Phase 6 & 7)")
+    feat_df = run_feature_engineering()
+    logger.info(f"Engineered {len(feat_df.columns)} features across {len(feat_df)} rows.")
     
-    # -------------------------------------------------------------
-    # Step 3: Exploratory Data Analysis (Phases 12-16)
-    # -------------------------------------------------------------
-    eda_summary = perform_eda(processed_dir / "NIFTY500_clean.csv", 
-                              processed_dir / "BSE500_clean.csv", 
-                              reports_dir)
+    # Phase 8 - 17: Model Training, Evaluation, Future Forecasting & Ranking
+    logger.info("\n>>> STEP 5: TIME-SERIES MODELING, EVALUATION & RANKING (Phase 8 - 17)")
+    stock_results = run_predictions()
+    logger.info(f"Modeling complete for {len(stock_results)} stocks.")
     
-    # -------------------------------------------------------------
-    # Step 4: Feature Engineering & Target Split (Phases 17-27)
-    # -------------------------------------------------------------
-    model_df, forecast_row = engineer_features(nse_clean)
-    model_df.to_csv(features_dir / "nifty_500_features.csv", index=False)
-    train_df, test_df = get_train_test_split(model_df, test_sessions=208)
-    
-    # -------------------------------------------------------------
-    # Step 5: Model Training & Prediction (Phases 28-40)
-    # -------------------------------------------------------------
-    predictions = {}
-    
-    # 5.1 Naive Persistence Baseline (Phase 28)
-    naive_model = NaivePersistenceBaseline()
-    predictions["Naive Persistence"] = naive_model.predict(test_df)
-    
-    # 5.2 5-Day Moving Average Baseline (Phase 29)
-    ma_model = MovingAverageBaseline(window=5)
-    predictions["Moving Average (5-Day SMA)"] = ma_model.predict(model_df, len(test_df))
-    
-    # 5.3 ARIMA(1, 1, 1) Walk-Forward (Phase 30-31)
-    arima = ARIMAPredictor(order=(1, 1, 1))
-    predictions["ARIMA(1, 1, 1) Walk-Forward"] = arima.fit_and_predict(train_df['Close'], test_df['Close'])
-    
-    # 5.4 Classical ML: Random Forest & XGBoost (Phase 32-35)
-    ml_mgr = ClassicalMLManager(saved_models_dir)
-    ml_results = ml_mgr.train_and_predict(train_df, test_df)
-    predictions["Random Forest"] = ml_results["rf_preds"]
-    predictions["XGBoost"] = ml_results["xgb_preds"]
-    
-    # 5.5 Deep Learning: PyTorch LSTM (Phase 36-40)
-    lstm_mgr = LSTMPredictorManager(saved_models_dir, lookback=20)
-    predictions["LSTM Network"] = lstm_mgr.train_and_predict(model_df, train_df, test_df)
-    
-    # -------------------------------------------------------------
-    # Step 6: Evaluation & Master Scorecard (Phases 41-46)
-    # -------------------------------------------------------------
-    scorecard_df = evaluate_all_models(test_df, predictions, models_dir, processed_dir)
-    
-    # -------------------------------------------------------------
-    # Step 7: Forward Forecasting (Phase 47)
-    # -------------------------------------------------------------
-    forecast_srv = ForecastService(models_dir)
-    latest_feat = forecast_row.iloc[0]
-    last_close = float(nse_clean['Close'].iloc[-1])
-    forward_df = forecast_srv.generate_forecast(latest_feat, last_close, horizon_days=30)
-    forward_df.to_csv(processed_dir / "future_forecast_t30.csv", index=False)
-    print("\n" + "=" * 70)
-    print("PHASE 47: 30-DAY FORWARD FORECAST GENERATED (2026-09-01 to 2026-10-12)")
-    print("=" * 70)
-    print(forward_df.head(5).to_string(index=False))
-    print(f">> Future forecast saved to: {processed_dir / 'future_forecast_t30.csv'}")
-    
-    print("\n" + "=" * 75)
-    print(">>> END-TO-END PIPELINE COMPLETED SUCCESSFULLY!")
-    print("=" * 75)
-
+    logger.info("\n" + "=" * 75)
+    logger.info(">>> PIPELINE EXECUTION SUCCESSFULLY COMPLETED! <<<")
+    logger.info("Launch the dashboard with: streamlit run app/app.py")
+    logger.info("=" * 75)
 
 if __name__ == "__main__":
-    run_complete_pipeline()
+    run_end_to_end_pipeline()

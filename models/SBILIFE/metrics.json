@@ -1,0 +1,40 @@
+{
+  "symbol": "SBILIFE",
+  "best_model": "Baseline",
+  "metrics": {
+    "Baseline": {
+      "mae": 87.0,
+      "rmse": 107.44,
+      "mape": 4.81,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 102.27,
+      "rmse": 126.75,
+      "mape": 5.68,
+      "directional_accuracy": 35.83,
+      "baseline_improvement_pct": -17.55
+    },
+    "XGBoost": {
+      "mae": 136.26,
+      "rmse": 154.09,
+      "mape": 7.56,
+      "directional_accuracy": 40.83,
+      "baseline_improvement_pct": -56.63
+    },
+    "LSTM": {
+      "mae": 129.4,
+      "rmse": 145.07,
+      "mape": 7.15,
+      "directional_accuracy": 55.83,
+      "baseline_improvement_pct": -48.74
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 1684.7,
+    "ARIMA": 1687.0368923822912,
+    "XGBoost": 1632.6865234375,
+    "LSTM": 1776.7633056640625
+  }
+}

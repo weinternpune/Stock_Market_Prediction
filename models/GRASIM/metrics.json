@@ -1,0 +1,40 @@
+{
+  "symbol": "GRASIM",
+  "best_model": "Baseline",
+  "metrics": {
+    "Baseline": {
+      "mae": 151.15,
+      "rmse": 185.63,
+      "mape": 5.05,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 161.16,
+      "rmse": 197.99,
+      "mape": 5.36,
+      "directional_accuracy": 41.67,
+      "baseline_improvement_pct": -6.62
+    },
+    "XGBoost": {
+      "mae": 345.52,
+      "rmse": 380.8,
+      "mape": 11.03,
+      "directional_accuracy": 39.17,
+      "baseline_improvement_pct": -128.6
+    },
+    "LSTM": {
+      "mae": 326.26,
+      "rmse": 361.04,
+      "mape": 10.41,
+      "directional_accuracy": 40.83,
+      "baseline_improvement_pct": -115.85
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 3281.9,
+    "ARIMA": 3289.5916650348727,
+    "XGBoost": 2784.404541015625,
+    "LSTM": 2864.876953125
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "symbol": "WIPRO",
+  "best_model": "Baseline",
+  "metrics": {
+    "Baseline": {
+      "mae": 10.99,
+      "rmse": 13.61,
+      "mape": 5.98,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 11.29,
+      "rmse": 14.32,
+      "mape": 6.13,
+      "directional_accuracy": 50.83,
+      "baseline_improvement_pct": -2.74
+    },
+    "XGBoost": {
+      "mae": 19.29,
+      "rmse": 21.42,
+      "mape": 10.62,
+      "directional_accuracy": 48.33,
+      "baseline_improvement_pct": -75.57
+    },
+    "LSTM": {
+      "mae": 31.74,
+      "rmse": 35.59,
+      "mape": 17.33,
+      "directional_accuracy": 49.17,
+      "baseline_improvement_pct": -188.76
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 167.4,
+    "ARIMA": 165.8261831613706,
+    "XGBoost": 197.47694396972656,
+    "LSTM": 194.62535095214844
+  }
+}

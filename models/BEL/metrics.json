@@ -1,0 +1,40 @@
+{
+  "symbol": "BEL",
+  "best_model": "Baseline",
+  "metrics": {
+    "Baseline": {
+      "mae": 16.65,
+      "rmse": 19.71,
+      "mape": 4.0,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 19.78,
+      "rmse": 24.24,
+      "mape": 4.79,
+      "directional_accuracy": 41.67,
+      "baseline_improvement_pct": -18.79
+    },
+    "XGBoost": {
+      "mae": 27.41,
+      "rmse": 32.61,
+      "mape": 6.44,
+      "directional_accuracy": 61.67,
+      "baseline_improvement_pct": -64.61
+    },
+    "LSTM": {
+      "mae": 20.21,
+      "rmse": 23.19,
+      "mape": 4.9,
+      "directional_accuracy": 56.67,
+      "baseline_improvement_pct": -21.37
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 404.35,
+    "ARIMA": 404.5752502935029,
+    "XGBoost": 394.9233703613281,
+    "LSTM": 426.12115478515625
+  }
+}

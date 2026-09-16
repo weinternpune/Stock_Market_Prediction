@@ -1,0 +1,40 @@
+{
+  "symbol": "BHARTIARTL",
+  "best_model": "Baseline",
+  "metrics": {
+    "Baseline": {
+      "mae": 59.95,
+      "rmse": 74.6,
+      "mape": 3.21,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 67.08,
+      "rmse": 92.72,
+      "mape": 3.63,
+      "directional_accuracy": 64.17,
+      "baseline_improvement_pct": -11.89
+    },
+    "XGBoost": {
+      "mae": 168.98,
+      "rmse": 181.47,
+      "mape": 9.13,
+      "directional_accuracy": 62.5,
+      "baseline_improvement_pct": -181.87
+    },
+    "LSTM": {
+      "mae": 72.43,
+      "rmse": 91.2,
+      "mape": 3.93,
+      "directional_accuracy": 64.17,
+      "baseline_improvement_pct": -20.81
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 1831.1,
+    "ARIMA": 1837.8649895181372,
+    "XGBoost": 2031.4052734375,
+    "LSTM": 1901.846923828125
+  }
+}

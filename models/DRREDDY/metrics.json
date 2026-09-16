@@ -1,0 +1,40 @@
+{
+  "symbol": "DRREDDY",
+  "best_model": "XGBoost",
+  "metrics": {
+    "Baseline": {
+      "mae": 62.79,
+      "rmse": 81.32,
+      "mape": 5.11,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 62.57,
+      "rmse": 80.35,
+      "mape": 5.08,
+      "directional_accuracy": 55.83,
+      "baseline_improvement_pct": 0.35
+    },
+    "XGBoost": {
+      "mae": 57.62,
+      "rmse": 69.58,
+      "mape": 4.68,
+      "directional_accuracy": 67.5,
+      "baseline_improvement_pct": 8.24
+    },
+    "LSTM": {
+      "mae": 56.97,
+      "rmse": 69.68,
+      "mape": 4.54,
+      "directional_accuracy": 68.33,
+      "baseline_improvement_pct": 9.26
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 1165.5,
+    "ARIMA": 1166.5333865709322,
+    "XGBoost": 1266.16064453125,
+    "LSTM": 1225.14013671875
+  }
+}

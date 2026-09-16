@@ -1,0 +1,40 @@
+{
+  "symbol": "MAXHEALTH",
+  "best_model": "LSTM",
+  "metrics": {
+    "Baseline": {
+      "mae": 67.35,
+      "rmse": 81.21,
+      "mape": 6.55,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 68.54,
+      "rmse": 83.92,
+      "mape": 6.65,
+      "directional_accuracy": 52.5,
+      "baseline_improvement_pct": -1.77
+    },
+    "XGBoost": {
+      "mae": 91.8,
+      "rmse": 111.88,
+      "mape": 9.22,
+      "directional_accuracy": 48.33,
+      "baseline_improvement_pct": -36.31
+    },
+    "LSTM": {
+      "mae": 65.6,
+      "rmse": 80.56,
+      "mape": 6.5,
+      "directional_accuracy": 51.67,
+      "baseline_improvement_pct": 2.6
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 1037.7,
+    "ARIMA": 1037.241924499383,
+    "XGBoost": 1108.712890625,
+    "LSTM": 1057.2857666015625
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "symbol": "TATACONSUM",
+  "best_model": "LSTM",
+  "metrics": {
+    "Baseline": {
+      "mae": 63.6,
+      "rmse": 79.9,
+      "mape": 5.73,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 73.07,
+      "rmse": 86.37,
+      "mape": 6.64,
+      "directional_accuracy": 36.67,
+      "baseline_improvement_pct": -14.89
+    },
+    "XGBoost": {
+      "mae": 63.98,
+      "rmse": 89.87,
+      "mape": 5.62,
+      "directional_accuracy": 67.5,
+      "baseline_improvement_pct": -0.6
+    },
+    "LSTM": {
+      "mae": 55.7,
+      "rmse": 71.76,
+      "mape": 5.01,
+      "directional_accuracy": 55.83,
+      "baseline_improvement_pct": 12.42
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 991.0,
+    "ARIMA": 993.6858742582966,
+    "XGBoost": 962.6959228515625,
+    "LSTM": 1057.8863525390625
+  }
+}

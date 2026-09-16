@@ -1,0 +1,40 @@
+{
+  "symbol": "BAJAJ-AUTO",
+  "best_model": "Baseline",
+  "metrics": {
+    "Baseline": {
+      "mae": 743.97,
+      "rmse": 886.52,
+      "mape": 7.08,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 741.97,
+      "rmse": 890.14,
+      "mape": 7.05,
+      "directional_accuracy": 50.83,
+      "baseline_improvement_pct": 0.27
+    },
+    "XGBoost": {
+      "mae": 1077.82,
+      "rmse": 1270.44,
+      "mape": 10.3,
+      "directional_accuracy": 28.33,
+      "baseline_improvement_pct": -44.87
+    },
+    "LSTM": {
+      "mae": 824.06,
+      "rmse": 971.49,
+      "mape": 7.88,
+      "directional_accuracy": 56.67,
+      "baseline_improvement_pct": -10.77
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 11678.0,
+    "ARIMA": 11683.545823507682,
+    "XGBoost": 9650.81640625,
+    "LSTM": 10691.5029296875
+  }
+}

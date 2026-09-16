@@ -1,0 +1,40 @@
+{
+  "symbol": "ASIANPAINT",
+  "best_model": "XGBoost",
+  "metrics": {
+    "Baseline": {
+      "mae": 142.48,
+      "rmse": 173.11,
+      "mape": 5.65,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 141.84,
+      "rmse": 181.59,
+      "mape": 5.7,
+      "directional_accuracy": 55.0,
+      "baseline_improvement_pct": 0.45
+    },
+    "XGBoost": {
+      "mae": 113.2,
+      "rmse": 135.29,
+      "mape": 4.39,
+      "directional_accuracy": 60.83,
+      "baseline_improvement_pct": 20.55
+    },
+    "LSTM": {
+      "mae": 132.19,
+      "rmse": 155.61,
+      "mape": 5.08,
+      "directional_accuracy": 68.33,
+      "baseline_improvement_pct": 7.22
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 2472.5,
+    "ARIMA": 2455.9303056721687,
+    "XGBoost": 2471.7998046875,
+    "LSTM": 2721.254150390625
+  }
+}

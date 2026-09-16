@@ -1,0 +1,40 @@
+{
+  "symbol": "HCLTECH",
+  "best_model": "Baseline",
+  "metrics": {
+    "Baseline": {
+      "mae": 110.11,
+      "rmse": 139.69,
+      "mape": 8.84,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 118.9,
+      "rmse": 149.05,
+      "mape": 9.64,
+      "directional_accuracy": 44.17,
+      "baseline_improvement_pct": -7.98
+    },
+    "XGBoost": {
+      "mae": 184.43,
+      "rmse": 217.55,
+      "mape": 15.08,
+      "directional_accuracy": 40.83,
+      "baseline_improvement_pct": -67.5
+    },
+    "LSTM": {
+      "mae": 172.15,
+      "rmse": 209.22,
+      "mape": 14.08,
+      "directional_accuracy": 42.5,
+      "baseline_improvement_pct": -56.34
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 1206.1,
+    "ARIMA": 1202.80560627591,
+    "XGBoost": 1292.3787841796875,
+    "LSTM": 1317.5350341796875
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "symbol": "POWERGRID",
+  "best_model": "LSTM",
+  "metrics": {
+    "Baseline": {
+      "mae": 12.59,
+      "rmse": 15.7,
+      "mape": 4.35,
+      "directional_accuracy": 0.83,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 12.46,
+      "rmse": 15.6,
+      "mape": 4.3,
+      "directional_accuracy": 60.0,
+      "baseline_improvement_pct": 1.07
+    },
+    "XGBoost": {
+      "mae": 14.26,
+      "rmse": 18.92,
+      "mape": 4.95,
+      "directional_accuracy": 63.33,
+      "baseline_improvement_pct": -13.23
+    },
+    "LSTM": {
+      "mae": 8.4,
+      "rmse": 10.61,
+      "mape": 2.86,
+      "directional_accuracy": 80.0,
+      "baseline_improvement_pct": 33.26
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 269.1,
+    "ARIMA": 269.3044761093496,
+    "XGBoost": 286.26519775390625,
+    "LSTM": 264.7021484375
+  }
+}

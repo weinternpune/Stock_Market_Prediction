@@ -1,0 +1,40 @@
+{
+  "symbol": "APOLLOHOSP",
+  "best_model": "Baseline",
+  "metrics": {
+    "Baseline": {
+      "mae": 331.73,
+      "rmse": 374.94,
+      "mape": 4.01,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 368.9,
+      "rmse": 430.92,
+      "mape": 4.43,
+      "directional_accuracy": 35.83,
+      "baseline_improvement_pct": -11.2
+    },
+    "XGBoost": {
+      "mae": 1046.46,
+      "rmse": 1260.37,
+      "mape": 12.05,
+      "directional_accuracy": 48.33,
+      "baseline_improvement_pct": -215.46
+    },
+    "LSTM": {
+      "mae": 632.32,
+      "rmse": 700.87,
+      "mape": 7.38,
+      "directional_accuracy": 45.83,
+      "baseline_improvement_pct": -90.61
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 8836.0,
+    "ARIMA": 8834.73580369049,
+    "XGBoost": 7154.04345703125,
+    "LSTM": 8100.9990234375
+  }
+}

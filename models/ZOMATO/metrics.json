@@ -1,0 +1,40 @@
+{
+  "symbol": "ZOMATO",
+  "best_model": "LSTM",
+  "metrics": {
+    "Baseline": {
+      "mae": 20.99,
+      "rmse": 24.89,
+      "mape": 7.56,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 23.48,
+      "rmse": 27.85,
+      "mape": 8.44,
+      "directional_accuracy": 40.83,
+      "baseline_improvement_pct": -11.84
+    },
+    "XGBoost": {
+      "mae": 20.53,
+      "rmse": 25.36,
+      "mape": 7.92,
+      "directional_accuracy": 63.33,
+      "baseline_improvement_pct": 2.21
+    },
+    "LSTM": {
+      "mae": 14.45,
+      "rmse": 16.95,
+      "mape": 5.43,
+      "directional_accuracy": 77.5,
+      "baseline_improvement_pct": 31.16
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 323.5,
+    "ARIMA": 323.51759641355517,
+    "XGBoost": 324.104736328125,
+    "LSTM": 324.4895935058594
+  }
+}

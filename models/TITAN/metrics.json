@@ -1,0 +1,40 @@
+{
+  "symbol": "TITAN",
+  "best_model": "ARIMA",
+  "metrics": {
+    "Baseline": {
+      "mae": 309.23,
+      "rmse": 336.63,
+      "mape": 6.85,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 300.45,
+      "rmse": 326.14,
+      "mape": 6.69,
+      "directional_accuracy": 55.83,
+      "baseline_improvement_pct": 2.84
+    },
+    "XGBoost": {
+      "mae": 1144.49,
+      "rmse": 1217.33,
+      "mape": 24.74,
+      "directional_accuracy": 30.83,
+      "baseline_improvement_pct": -270.11
+    },
+    "LSTM": {
+      "mae": 527.65,
+      "rmse": 617.77,
+      "mape": 11.36,
+      "directional_accuracy": 41.67,
+      "baseline_improvement_pct": -70.63
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 5009.5,
+    "ARIMA": 5010.7563218287305,
+    "XGBoost": 3579.350830078125,
+    "LSTM": 4427.92041015625
+  }
+}

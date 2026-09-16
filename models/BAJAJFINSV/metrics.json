@@ -1,0 +1,40 @@
+{
+  "symbol": "BAJAJFINSV",
+  "best_model": "XGBoost",
+  "metrics": {
+    "Baseline": {
+      "mae": 119.97,
+      "rmse": 150.33,
+      "mape": 6.56,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 121.61,
+      "rmse": 155.85,
+      "mape": 6.69,
+      "directional_accuracy": 55.0,
+      "baseline_improvement_pct": -1.37
+    },
+    "XGBoost": {
+      "mae": 103.66,
+      "rmse": 148.23,
+      "mape": 5.91,
+      "directional_accuracy": 69.17,
+      "baseline_improvement_pct": 13.6
+    },
+    "LSTM": {
+      "mae": 136.71,
+      "rmse": 169.69,
+      "mape": 7.74,
+      "directional_accuracy": 68.33,
+      "baseline_improvement_pct": -13.96
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 1913.5,
+    "ARIMA": 1913.0374582130062,
+    "XGBoost": 2016.055908203125,
+    "LSTM": 1957.3779296875
+  }
+}

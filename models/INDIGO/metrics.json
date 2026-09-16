@@ -1,0 +1,40 @@
+{
+  "symbol": "INDIGO",
+  "best_model": "LSTM",
+  "metrics": {
+    "Baseline": {
+      "mae": 346.63,
+      "rmse": 444.79,
+      "mape": 7.27,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 373.25,
+      "rmse": 486.05,
+      "mape": 7.81,
+      "directional_accuracy": 48.33,
+      "baseline_improvement_pct": -7.68
+    },
+    "XGBoost": {
+      "mae": 448.8,
+      "rmse": 543.23,
+      "mape": 9.9,
+      "directional_accuracy": 63.33,
+      "baseline_improvement_pct": -29.48
+    },
+    "LSTM": {
+      "mae": 324.48,
+      "rmse": 414.24,
+      "mape": 6.84,
+      "directional_accuracy": 69.17,
+      "baseline_improvement_pct": 6.39
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 4973.0,
+    "ARIMA": 4971.369446553361,
+    "XGBoost": 5395.03662109375,
+    "LSTM": 4976.892578125
+  }
+}

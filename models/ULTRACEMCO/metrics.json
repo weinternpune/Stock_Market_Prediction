@@ -1,0 +1,40 @@
+{
+  "symbol": "ULTRACEMCO",
+  "best_model": "XGBoost",
+  "metrics": {
+    "Baseline": {
+      "mae": 686.41,
+      "rmse": 868.69,
+      "mape": 6.04,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 680.34,
+      "rmse": 864.2,
+      "mape": 5.95,
+      "directional_accuracy": 54.17,
+      "baseline_improvement_pct": 0.88
+    },
+    "XGBoost": {
+      "mae": 385.13,
+      "rmse": 529.28,
+      "mape": 3.43,
+      "directional_accuracy": 85.83,
+      "baseline_improvement_pct": 43.89
+    },
+    "LSTM": {
+      "mae": 458.67,
+      "rmse": 598.62,
+      "mape": 4.04,
+      "directional_accuracy": 85.0,
+      "baseline_improvement_pct": 33.18
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 11000.0,
+    "ARIMA": 10997.911683825945,
+    "XGBoost": 12298.18359375,
+    "LSTM": 11693.81640625
+  }
+}

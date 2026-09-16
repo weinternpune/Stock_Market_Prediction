@@ -1,0 +1,40 @@
+{
+  "symbol": "KOTAKBANK",
+  "best_model": "LSTM",
+  "metrics": {
+    "Baseline": {
+      "mae": 18.51,
+      "rmse": 24.1,
+      "mape": 4.81,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 17.73,
+      "rmse": 24.62,
+      "mape": 4.63,
+      "directional_accuracy": 64.17,
+      "baseline_improvement_pct": 4.2
+    },
+    "XGBoost": {
+      "mae": 23.84,
+      "rmse": 27.91,
+      "mape": 6.18,
+      "directional_accuracy": 52.5,
+      "baseline_improvement_pct": -28.82
+    },
+    "LSTM": {
+      "mae": 16.55,
+      "rmse": 19.52,
+      "mape": 4.19,
+      "directional_accuracy": 50.83,
+      "baseline_improvement_pct": 10.6
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 419.0,
+    "ARIMA": 418.90396796641096,
+    "XGBoost": 415.83612060546875,
+    "LSTM": 394.98779296875
+  }
+}

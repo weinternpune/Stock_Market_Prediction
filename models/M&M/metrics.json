@@ -1,0 +1,40 @@
+{
+  "symbol": "M&M",
+  "best_model": "LSTM",
+  "metrics": {
+    "Baseline": {
+      "mae": 180.8,
+      "rmse": 219.67,
+      "mape": 5.68,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 186.11,
+      "rmse": 238.14,
+      "mape": 5.9,
+      "directional_accuracy": 56.67,
+      "baseline_improvement_pct": -2.94
+    },
+    "XGBoost": {
+      "mae": 239.17,
+      "rmse": 287.66,
+      "mape": 7.7,
+      "directional_accuracy": 59.17,
+      "baseline_improvement_pct": -32.28
+    },
+    "LSTM": {
+      "mae": 161.33,
+      "rmse": 205.49,
+      "mape": 5.08,
+      "directional_accuracy": 72.5,
+      "baseline_improvement_pct": 10.77
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 3107.0,
+    "ARIMA": 3163.537977745816,
+    "XGBoost": 3384.007568359375,
+    "LSTM": 3333.684814453125
+  }
+}

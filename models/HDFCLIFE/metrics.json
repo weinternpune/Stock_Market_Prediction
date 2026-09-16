@@ -1,0 +1,40 @@
+{
+  "symbol": "HDFCLIFE",
+  "best_model": "LSTM",
+  "metrics": {
+    "Baseline": {
+      "mae": 31.35,
+      "rmse": 46.81,
+      "mape": 5.4,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 30.58,
+      "rmse": 47.16,
+      "mape": 5.25,
+      "directional_accuracy": 65.0,
+      "baseline_improvement_pct": 2.46
+    },
+    "XGBoost": {
+      "mae": 38.04,
+      "rmse": 50.78,
+      "mape": 6.65,
+      "directional_accuracy": 53.33,
+      "baseline_improvement_pct": -21.33
+    },
+    "LSTM": {
+      "mae": 38.7,
+      "rmse": 43.21,
+      "mape": 6.81,
+      "directional_accuracy": 35.83,
+      "baseline_improvement_pct": -23.44
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 530.0,
+    "ARIMA": 530.0719521649345,
+    "XGBoost": 548.9349975585938,
+    "LSTM": 537.7503051757812
+  }
+}

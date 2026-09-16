@@ -1,0 +1,40 @@
+{
+  "symbol": "NTPC",
+  "best_model": "LSTM",
+  "metrics": {
+    "Baseline": {
+      "mae": 16.19,
+      "rmse": 19.99,
+      "mape": 4.44,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 16.38,
+      "rmse": 20.36,
+      "mape": 4.47,
+      "directional_accuracy": 57.5,
+      "baseline_improvement_pct": -1.19
+    },
+    "XGBoost": {
+      "mae": 18.95,
+      "rmse": 25.55,
+      "mape": 5.18,
+      "directional_accuracy": 63.33,
+      "baseline_improvement_pct": -17.08
+    },
+    "LSTM": {
+      "mae": 13.61,
+      "rmse": 16.38,
+      "mape": 3.74,
+      "directional_accuracy": 90.83,
+      "baseline_improvement_pct": 15.94
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 333.4,
+    "ARIMA": 333.3550523077945,
+    "XGBoost": 335.23858642578125,
+    "LSTM": 328.7557373046875
+  }
+}

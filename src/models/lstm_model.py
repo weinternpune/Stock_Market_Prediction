@@ -1,41 +1,27 @@
 """
 lstm_model.py
 -------------
-Implements Phases 36, 37, 38, 39, and 40 of the Project Roadmap:
-- Phase 36 (Step 42): Convert data into sliding sequences (lookback=20).
-- Phase 37 (Step 43): Normalize/scale inputs (MinMaxScaler fitted strictly on training data).
-- Phase 38 (Step 44): Design PyTorch LSTM architecture.
-- Phase 39 (Step 45): Train LSTM with validation loss tracking and early stopping.
-- Phase 40 (Step 46): Generate inverse-scaled test predictions and metrics.
+Deep Learning Model for Stock Price Forecasting using PyTorch LSTM.
+Constructs multi-feature sliding window sequences (lookback=20), scales inputs strictly
+on training data, trains an LSTM network with Adam optimizer, and generates inverse-scaled
+predictions and future 21-day forecasts.
 """
 
 from pathlib import Path
-import pandas as pd
+from typing import List, Tuple
 import numpy as np
+import pandas as pd
 import torch
 import torch.nn as nn
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import TensorDataset, DataLoader
 from sklearn.preprocessing import MinMaxScaler
 import joblib
 
-
-class StockSequenceDataset(Dataset):
-    """PyTorch Dataset for multi-feature sliding window time-series sequences."""
-    def __init__(self, sequences: np.ndarray, targets: np.ndarray):
-        self.sequences = torch.tensor(sequences, dtype=torch.float32)
-        self.targets = torch.tensor(targets, dtype=torch.float32).unsqueeze(1)
-        
-    def __len__(self):
-        return len(self.sequences)
-        
-    def __getitem__(self, idx):
-        return self.sequences[idx], self.targets[idx]
-
-
-class LSTMRegressor(nn.Module):
-    """Stacked LSTM with Dropout and Dense output for price level regression."""
-    def __init__(self, input_dim: int, hidden_dim: int = 64, num_layers: int = 2, dropout: float = 0.2):
-        super(LSTMRegressor, self).__init__()
+class PyTorchLSTM(nn.Module):
+    """Stacked LSTM with linear projection head for continuous price forecasting."""
+    
+    def __init__(self, input_dim: int, hidden_dim: int = 32, num_layers: int = 1, dropout: float = 0.1):
+        super(PyTorchLSTM, self).__init__()
         self.hidden_dim = hidden_dim
         self.num_layers = num_layers
         
@@ -46,160 +32,132 @@ class LSTMRegressor(nn.Module):
             batch_first=True,
             dropout=dropout if num_layers > 1 else 0.0
         )
-        self.fc = nn.Sequential(
-            nn.Linear(hidden_dim, 32),
+        self.head = nn.Sequential(
+            nn.Linear(hidden_dim, 16),
             nn.ReLU(),
-            nn.Dropout(dropout),
-            nn.Linear(32, 1)
+            nn.Linear(16, 1)
         )
         
     def forward(self, x):
-        h0 = torch.zeros(self.num_layers, x.size(0), self.hidden_dim).to(x.device)
-        c0 = torch.zeros(self.num_layers, x.size(0), self.hidden_dim).to(x.device)
-        out, _ = self.lstm(x, (h0, c0))
-        out = self.fc(out[:, -1, :])
-        return out
+        out, _ = self.lstm(x)
+        last_step = out[:, -1, :]
+        return self.head(last_step)
 
-
-class LSTMPredictorManager:
-    """Manages scaling, sequence generation, training, and inference for PyTorch LSTM."""
-    def __init__(self, saved_models_dir: Path, lookback: int = 20):
-        self.saved_models_dir = saved_models_dir
-        self.saved_models_dir.mkdir(parents=True, exist_ok=True)
+class LSTMPredictor:
+    """Manages PyTorch LSTM sequence dataset creation, training, and inference."""
+    
+    def __init__(self, lookback: int = 20, hidden_dim: int = 32, epochs: int = 15, lr: float = 0.003):
+        self.name = "LSTM"
         self.lookback = lookback
+        self.hidden_dim = hidden_dim
+        self.epochs = epochs
+        self.lr = lr
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.feature_scaler = MinMaxScaler(feature_range=(0, 1))
         self.target_scaler = MinMaxScaler(feature_range=(0, 1))
-        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
         self.model = None
-        self.feature_cols = []
+        self.feature_cols: List[str] = []
         
-    def create_sequences(self, features: np.ndarray, targets: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
+    def _create_sequences(self, X_scaled: np.ndarray, y_scaled: np.ndarray = None):
         """Creates sliding sequences of shape (num_samples, lookback, num_features)."""
         X_seq, y_seq = [], []
-        for i in range(self.lookback, len(features)):
-            X_seq.append(features[i - self.lookback:i])
-            y_seq.append(targets[i])
-        return np.array(X_seq), np.array(y_seq)
+        for i in range(self.lookback, len(X_scaled) + 1):
+            X_seq.append(X_scaled[i - self.lookback:i])
+            if y_scaled is not None and (i - 1) < len(y_scaled):
+                y_seq.append(y_scaled[i - 1])
+                
+        X_arr = np.array(X_seq, dtype=np.float32)
+        if y_scaled is not None:
+            y_arr = np.array(y_seq, dtype=np.float32)
+            return X_arr, y_arr
+        return X_arr
         
-    def train_and_predict(self, full_features_df: pd.DataFrame, train_df: pd.DataFrame, test_df: pd.DataFrame) -> np.ndarray:
-        """
-        Prepares sequences, fits scalers on train set only, trains LSTM with early stopping,
-        and produces inverse-scaled test predictions.
-        """
-        print(f"\nPhase 36-40: Initializing PyTorch LSTM on device: {self.device}")
+    def fit(self, X_train: pd.DataFrame, y_train: pd.Series):
+        """Fits scalers strictly on training data and trains LSTM network."""
+        self.feature_cols = list(X_train.columns)
         
-        exclude_cols = ['Date', 'Target']
-        self.feature_cols = [c for c in train_df.columns if c not in exclude_cols]
-        
-        X_train_raw = train_df[self.feature_cols].to_numpy(dtype=np.float64)
-        y_train_raw = train_df[['Target']].to_numpy(dtype=np.float64)
+        # Clean NaNs
+        X_raw = np.nan_to_num(X_train.values.astype(np.float64), nan=0.0)
+        y_raw = np.nan_to_num(y_train.values.reshape(-1, 1).astype(np.float64), nan=0.0)
         
         # Fit scalers STRICTLY on training split
-        X_train_scaled = self.feature_scaler.fit_transform(X_train_raw)
-        y_train_scaled = self.target_scaler.fit_transform(y_train_raw)
+        X_scaled = self.feature_scaler.fit_transform(X_raw)
+        y_scaled = self.target_scaler.fit_transform(y_raw)
         
-        # Create training sequences
-        X_tr_seq, y_tr_seq = self.create_sequences(X_train_scaled, y_train_scaled)
+        X_seq, y_seq = self._create_sequences(X_scaled, y_scaled)
+        if len(X_seq) < 10:
+            # Fallback for very small sequences
+            self.model = None
+            return self
+            
+        dataset = TensorDataset(torch.tensor(X_seq), torch.tensor(y_seq))
+        loader = DataLoader(dataset, batch_size=32, shuffle=True)
         
-        # Train/Validation split within training set (last 15% of train for early stopping)
-        val_size = int(len(X_tr_seq) * 0.15)
-        train_ds = StockSequenceDataset(X_tr_seq[:-val_size], y_tr_seq[:-val_size])
-        val_ds = StockSequenceDataset(X_tr_seq[-val_size:], y_tr_seq[-val_size:])
-        
-        train_loader = DataLoader(train_ds, batch_size=32, shuffle=False)
-        val_loader = DataLoader(val_ds, batch_size=32, shuffle=False)
-        
-        # Initialize model
-        input_dim = len(self.feature_cols)
-        self.model = LSTMRegressor(input_dim=input_dim, hidden_dim=64, num_layers=2, dropout=0.2).to(self.device)
+        input_dim = X_seq.shape[2]
+        self.model = PyTorchLSTM(input_dim=input_dim, hidden_dim=self.hidden_dim).to(self.device)
         criterion = nn.MSELoss()
-        optimizer = torch.optim.Adam(self.model.parameters(), lr=0.001, weight_decay=1e-5)
-        
-        print("Training LSTM network (Phase 39)...")
-        epochs = 60
-        best_loss = float('inf')
-        patience = 12
-        patience_counter = 0
-        best_weights = None
+        optimizer = torch.optim.Adam(self.model.parameters(), lr=self.lr, weight_decay=1e-5)
         
         self.model.train()
-        for epoch in range(1, epochs + 1):
-            epoch_loss = 0.0
-            for X_batch, y_batch in train_loader:
-                X_batch, y_batch = X_batch.to(self.device), y_batch.to(self.device)
+        for epoch in range(self.epochs):
+            for batch_x, batch_y in loader:
+                batch_x, batch_y = batch_x.to(self.device), batch_y.to(self.device)
                 optimizer.zero_grad()
-                out = self.model(X_batch)
-                loss = criterion(out, y_batch)
+                out = self.model(batch_x)
+                loss = criterion(out, batch_y)
                 loss.backward()
+                nn.utils.clip_grad_norm_(self.model.parameters(), max_norm=1.0)
                 optimizer.step()
-                epoch_loss += loss.item() * len(X_batch)
                 
-            train_loss = epoch_loss / len(train_ds)
+        return self
+        
+    def predict_test(self, full_feature_df: pd.DataFrame, test_start_idx: int, test_len: int) -> np.ndarray:
+        """
+        Generates sequence-based predictions for the holdout test set using preceding lookback context.
+        """
+        if self.model is None:
+            return np.zeros(test_len, dtype=np.float64)
             
-            # Validation
-            self.model.eval()
-            val_loss = 0.0
-            with torch.no_grad():
-                for X_v, y_v in val_loader:
-                    X_v, y_v = X_v.to(self.device), y_v.to(self.device)
-                    out_v = self.model(X_v)
-                    v_loss = criterion(out_v, y_v)
-                    val_loss += v_loss.item() * len(X_v)
-            val_loss /= len(val_ds)
-            
-            if val_loss < best_loss:
-                best_loss = val_loss
-                best_weights = self.model.state_dict().copy()
-                patience_counter = 0
-            else:
-                patience_counter += 1
-                
-            if epoch % 10 == 0 or epoch == 1:
-                print(f"Epoch {epoch:2d}/{epochs} | Train Loss: {train_loss:.6f} | Val Loss: {val_loss:.6f}")
-                
-            if patience_counter >= patience:
-                print(f"Early stopping triggered at epoch {epoch}. Best Val Loss: {best_loss:.6f}")
-                break
-                
-        # Load best model weights
-        if best_weights is not None:
-            self.model.load_state_dict(best_weights)
-            
-        # -------------------------------------------------------------
-        # Test Set Prediction (Phase 40)
-        # -------------------------------------------------------------
-        # To evaluate on test set of length N, we need the preceding lookback rows
-        test_start_idx = len(train_df)
-        eval_window = full_features_df.iloc[test_start_idx - self.lookback : test_start_idx + len(test_df)]
-        
-        X_eval_raw = eval_window[self.feature_cols].to_numpy(dtype=np.float64)
-        y_eval_raw = eval_window[['Target']].to_numpy(dtype=np.float64)
-        
-        # Scale test features using fitted training scaler (NO DATA LEAKAGE)
-        X_eval_scaled = self.feature_scaler.transform(X_eval_raw)
-        y_eval_scaled = self.target_scaler.transform(y_eval_raw)
-        
-        X_test_seq, _ = self.create_sequences(X_eval_scaled, y_eval_scaled)
-        
         self.model.eval()
+        X_full = np.nan_to_num(full_feature_df[self.feature_cols].values.astype(np.float64), nan=0.0)
+        X_scaled = self.feature_scaler.transform(X_full)
+        
+        preds_scaled = []
         with torch.no_grad():
-            X_test_t = torch.tensor(X_test_seq, dtype=torch.float32).to(self.device)
-            lstm_scaled_preds = self.model(X_test_t).cpu().numpy()
+            for i in range(test_start_idx, test_start_idx + test_len):
+                seq = X_scaled[i - self.lookback + 1:i + 1]
+                if len(seq) < self.lookback:
+                    pad = np.zeros((self.lookback - len(seq), seq.shape[1]))
+                    seq = np.vstack([pad, seq])
+                seq_tensor = torch.tensor(seq, dtype=torch.float32).unsqueeze(0).to(self.device)
+                p = self.model(seq_tensor).cpu().item()
+                preds_scaled.append([p])
+                
+        preds_scaled = np.array(preds_scaled, dtype=np.float64)
+        preds_unscaled = self.target_scaler.inverse_transform(preds_scaled).flatten()
+        return preds_unscaled
+        
+    def forecast_future(self, full_feature_df: pd.DataFrame) -> float:
+        """Forecasts future 21-day price using the latest lookback window of features."""
+        if self.model is None:
+            return 0.0
             
-        # Inverse transform to get rupee price predictions
-        lstm_preds = self.target_scaler.inverse_transform(lstm_scaled_preds).flatten()
+        self.model.eval()
+        X_full = np.nan_to_num(full_feature_df[self.feature_cols].values.astype(np.float64), nan=0.0)
+        X_scaled = self.feature_scaler.transform(X_full)
+        seq = X_scaled[-self.lookback:]
         
-        # Save artifacts
-        torch.save(self.model.state_dict(), self.saved_models_dir / "lstm_weights.pt")
-        joblib.dump(self.feature_scaler, self.saved_models_dir / "lstm_feature_scaler.joblib")
-        joblib.dump(self.target_scaler, self.saved_models_dir / "lstm_target_scaler.joblib")
-        joblib.dump({
-            "input_dim": input_dim,
-            "hidden_dim": 64,
-            "num_layers": 2,
-            "dropout": 0.2,
-            "lookback": self.lookback
-        }, self.saved_models_dir / "lstm_config.joblib")
-        print("Saved LSTM weights, scalers, and config to models/saved_models/")
-        
-        return lstm_preds
+        with torch.no_grad():
+            seq_tensor = torch.tensor(seq, dtype=torch.float32).unsqueeze(0).to(self.device)
+            p_scaled = self.model(seq_tensor).cpu().numpy()
+            p_unscaled = self.target_scaler.inverse_transform(p_scaled).item()
+            return float(p_unscaled)
+            
+    def save(self, model_dir: Path):
+        model_dir = Path(model_dir)
+        model_dir.mkdir(parents=True, exist_ok=True)
+        if self.model is not None:
+            torch.save(self.model.state_dict(), model_dir / "lstm_weights.pt")
+        joblib.dump(self.feature_scaler, model_dir / "lstm_feature_scaler.joblib")
+        joblib.dump(self.target_scaler, model_dir / "lstm_target_scaler.joblib")
+        joblib.dump(self.feature_cols, model_dir / "lstm_features.joblib")

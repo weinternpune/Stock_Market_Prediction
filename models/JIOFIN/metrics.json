@@ -1,0 +1,40 @@
+{
+  "symbol": "JIOFIN",
+  "best_model": "Baseline",
+  "metrics": {
+    "Baseline": {
+      "mae": 11.74,
+      "rmse": 14.57,
+      "mape": 4.87,
+      "directional_accuracy": 0.83,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 12.46,
+      "rmse": 15.8,
+      "mape": 5.17,
+      "directional_accuracy": 50.83,
+      "baseline_improvement_pct": -6.16
+    },
+    "XGBoost": {
+      "mae": 21.22,
+      "rmse": 26.84,
+      "mape": 8.93,
+      "directional_accuracy": 45.83,
+      "baseline_improvement_pct": -80.71
+    },
+    "LSTM": {
+      "mae": 22.2,
+      "rmse": 27.85,
+      "mape": 9.34,
+      "directional_accuracy": 52.5,
+      "baseline_improvement_pct": -89.13
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 229.9,
+    "ARIMA": 230.21828731702004,
+    "XGBoost": 237.71701049804688,
+    "LSTM": 234.89923095703125
+  }
+}

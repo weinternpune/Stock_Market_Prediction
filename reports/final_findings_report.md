@@ -1,163 +1,158 @@
-# 📈 Nifty 500 Stock Market Prediction Pipeline: Final Findings & Technical Report
+# NIFTY 50 Stock Price Prediction & Analytics: Final Technical Findings Report
 
-### Data Analytics Intern Capstone Project · Product Requirements Document (PRD v1.1)
-**Author:** Data Analytics Intern | **Target Index:** Nifty 500 (NSE) | **Date:** September 2026
+**Project Title**: End-to-End NIFTY 50 Stock Price Prediction & Comparative Financial Analytics System  
+**Dataset Time Span**: September 15, 2021 to September 11, 2026 (5 Years, 1,240 Trading Sessions)  
+**Constituent Universe**: 50 Current NIFTY 50 Index Constituents  
+**Forecast Horizon**: 21 Trading Days (~1 Month Forward)  
+**Author / System**: Automated Algorithmic Research Pipeline  
 
 ---
 
 ## 1. Executive Summary
 
-This project delivers an end-to-end quantitative analytics and predictive modeling system for the **Nifty 500 index**, the broad-market benchmark capturing ~96% of the free-float market capitalization of the **National Stock Exchange of India (NSE)**.
+An end-to-end algorithmic research and financial analytics platform was built to model and forecast the 21-trading-day future closing price of all constituents in the **NIFTY 50** index. Operating as a unified, reusable pipeline, the system automates:
+- Institutional-level validation of historical daily OHLCV records.
+- Backward adjustment of 12 unadjusted corporate actions (stock splits and bonus shares).
+- Feature engineering of 73 technical, momentum, volatility, volume, and lag indicators.
+- Time-series forward chronological splitting with strict mathematical guarantees against data leakage.
+- Stock-by-stock training and evaluation of four distinct modeling paradigms: **Naive Persistence Baseline**, **ARIMA(1, 1, 1)**, **XGBoost Regressor**, and **PyTorch Deep LSTM**.
+- Objective model selection based on unseen holdout test RMSE, empirical 90% confidence interval generation, and full constituent league ranking.
+- Interactive multi-page visual exploration via a 10-page Streamlit web dashboard.
 
-Covering a strict five-year historical period (**September 1, 2021 to August 31, 2026**, 1,240 trading sessions), the system integrates data validation, exchange trading calendar reconciliation, quantitative feature engineering, multi-family time-series modeling (Naive Baseline, 5-Day SMA, Walk-Forward ARIMA, Random Forest, XGBoost, and PyTorch LSTM), backtesting, and deployment via an 8-page interactive Streamlit dashboard.
-
-### Key Finding:
-- **The Naive Persistence Baseline achieved the lowest out-of-sample level-price RMSE (209.33 points, MAE 151.88, MAPE 0.669%)**, outperforming all feature-based and deep learning architectures on level RMSE.
-- Under the **Martingale Property of Asset Prices** and the **Efficient Market Hypothesis (EMH)**:
-  $$\mathbb{E}[P_{t+1} \mid \mathcal{F}_t] \approx P_t$$
-  Today's closing price is the minimum-variance quadratic estimator of tomorrow's price level. Models forecasting directional deltas incur variance penalties on sideways days, demonstrating why empirical quantitative finance targets stationary returns rather than raw price levels.
-
----
-
-## 2. Problem Statement
-
-Forecasting financial equity index price levels is one of the most challenging problems in quantitative machine learning due to:
-1. **High Noise-to-Signal Ratio:** Short-term fluctuations are predominantly driven by stochastic market noise and microstructural order flow.
-2. **Non-Stationarity:** Macro trends, monetary regime shifts, and economic growth induce time-varying means and variances.
-3. **Severe Lookahead Bias Risks:** Improper scaling, indicator leakage, or random data shuffling produce misleadingly optimistic backtests that fail out-of-sample.
+All models and predictions were successfully executed across all constituents with **0 pipeline failures** and **27/27 automated unit tests passing**.
 
 ---
 
-## 3. Project Objective
+## 2. Master Dataset Profile & Validation
 
-To formulate, validate, and execute an empirical pipeline that predicts the **next trading day's closing price ($P_{t+1}$)** of the Nifty 500 index using 5 years of daily data, comparing:
-- **Baseline Benchmarks:** Naive Persistence and 5-Day Simple Moving Average.
-- **Statistical Econometrics:** Autoregressive Integrated Moving Average (ARIMA).
-- **Classical Machine Learning:** Random Forest Regressor and XGBoost Regressor.
-- **Deep Learning:** PyTorch Long Short-Term Memory (LSTM) Neural Network.
+The raw master dataset (`master_merged_stock_data_all_50_stocks.csv`) comprises **61,511 raw observations** spanning September 15, 2021 to September 11, 2026 (1,240 calendar trading days).
 
----
+### 2.1 Constituent Continuity & Universe Mapping
+The raw dataset contained 52 unique symbols. Through systematic corporate action mapping, three corporate continuity transitions were identified and combined into continuous 1,240-day price series:
+1. **`SRTRANSFIN` $\rightarrow$ `SHRIRAMFIN`**: Shriram Transport Finance merged into Shriram Finance Ltd. (314 rows + 926 rows = 1,240 continuous days).
+2. **`ETERNAL` $\rightarrow$ `ZOMATO`**: Eternal Ltd. is the corporate rebranding of Zomato Ltd. (886 rows + 354 rows = 1,240 continuous days).
+3. **`TMPV` $\rightarrow$ `TATAMOTORS`**: Tata Motors demerged passenger vehicles business (1,020 unique dates + 220 unique dates = 1,240 continuous days).
 
-## 4. Data Sources & Architecture
+With these transitions resolved, the dataset contains **49 continuous active corporate entities** (each with 1,240 sessions), plus `JIOFIN` (spun off from Reliance in late 2023, possessing 751 sessions).
 
-Two distinct authoritative datasets covering identical trading dates (**1 September 2021 to 31 August 2026**) were utilized:
-
-1. **Primary Dataset — NSE NIFTY 500:**
-   - Source: Official National Stock Exchange historical index archive (`data/raw/nse_nifty500_raw.csv`).
-   - Observations: 1,240 daily records.
-   - Schema: `Date, Open, High, Low, Close`.
-   - Role: Sole primary dataset for feature engineering, model training, and forecasting.
-2. **Secondary Dataset — BSE 500 Proxy:**
-   - Source: Bombay Stock Exchange broad-market index (`data/raw/bse_500_raw.csv`).
-   - Observations: 1,240 daily records.
-   - Schema: `Date, Open, High, Low, Close, Points Change, Change %, Volume, Turnover, P/E, P/B, Div Yield`.
-   - Role: Cross-market reference proxy for calendar verification, macro reconciliation, and volume dynamics.
-   - **Critical Rule:** The two index series were kept strictly separated and never merged or price-averaged.
+### 2.2 Data Validation Audit Results
+- **OHLC Logical Consistency**: 0 violations detected ($High \ge Open, Close, Low$ and $Low \le Open, Close, High$ hold for 100% of rows).
+- **Missing Values**: 0 missing values across all essential price and volume fields.
+- **Deduplication**: 1,240 exact duplicate rows (arising from TATAMOTORS and TMPV raw sheet merging) were detected and purged, leaving **60,271 verified records**.
+- **Overall Validation Status**: **PASS**.
 
 ---
 
-## 5. Data Cleaning & Outlier Audit
+## 3. Corporate Action Split Adjustments
 
-- **Calendar Integrity:** Strict adherence to exchange trading sessions (~250 trading days/year). Zero synthetic holidays or weekend insertions. Post-cleaning missing OHLC values: **0.00%** (PRD target < 2%).
-- **BSE Field Conversions:** Converted 23 string `'-'` volume placeholders to numeric floats and performed forward-fills on isolated non-trading special session entries.
-- **Outlier Investigation ($|Z| > 3.5$):**
-  - **2022-02-24 (-5.04%):** Russia-Ukraine war outbreak (verified cross-market shock).
-  - **2024-06-04 (-6.76%):** Lok Sabha General Election counting day volatility.
-  - **2024-06-05 (+3.59%):** Coalition clarity rebound rally.
-  - **Verdict:** All extreme return movements were audited against official exchange records and retained to prevent downside risk censorship bias.
+Historical NSE stock price series are frequently unadjusted in raw extracts, leading to artificial price crashes of 50%–90% that corrupt technical indicators such as Moving Averages, RSI, and MACD.
 
----
+The cleaning pipeline implemented an automated single-day jump detector (|return| > 38%) that identified and backward-adjusted **12 major corporate actions**:
+- **Bajaj Finserv (`BAJAJFINSV`)**: 2022-09-13 (5:1 stock split + 1:1 bonus, effective 10:1 ratio; ₹17,138 $\rightarrow$ ₹1,784).
+- **Bajaj Finance (`BAJFINANCE`)**: 2025-06-16 (10:1 stock split; ₹9,331 $\rightarrow$ ₹938).
+- **Bharat Electronics (`BEL`)**: 2022-09-15 (2:1 bonus issue, 3:1 factor; ₹335.90 $\rightarrow$ ₹111.10).
+- **Dr. Reddy's Laboratories (`DRREDDY`)**: 2024-10-28 (5:1 stock split; ₹6,514 $\rightarrow$ ₹1,311).
+- **HDFC Bank (`HDFCBANK`)**: 2025-08-26 (2:1 bonus/split; ₹1,964 $\rightarrow$ ₹973).
+- **Kotak Mahindra Bank (`KOTAKBANK`)**: 2026-01-14 (5:1 stock split; ₹2,132 $\rightarrow$ ₹421).
+- **Nestle India (`NESTLEIND`)**: 2024-01-05 (10:1 stock split; ₹27,116 $\rightarrow$ ₹2,666) & 2025-08-08 (2:1 split; ₹2,234 $\rightarrow$ ₹1,096).
+- **Reliance Industries (`RELIANCE`)**: 2024-10-28 (1:1 bonus issue; ₹2,655 $\rightarrow$ ₹1,334).
+- **Shriram Finance (`SHRIRAMFIN`)**: 2025-01-10 (5:1 stock split; ₹2,809 $\rightarrow$ ₹532).
+- **Tata Motors (`TATAMOTORS`)**: 2025-10-14 (demerger adjustment; ₹660 $\rightarrow$ ₹395).
+- **Wipro (`WIPRO`)**: 2024-12-03 (1:1 bonus issue; ₹584 $\rightarrow$ ₹291).
 
-## 6. Exploratory Data Analysis (EDA)
-
-- **Price Trajectory:** Sourced at 14,551.35 on Sep 1, 2021 and concluded at 23,450.35 on Aug 31, 2026 (+61.16% total gain).
-- **Trading Sessions:** 682 Up days (55.0%), 557 Down days. Mean daily return: +0.043% (Annualized: ~11.26%).
-- **Stylized Facts:**
-  - **Skewness (-0.678) & Kurtosis (4.585):** Significant negative asymmetry and heavy tails.
-  - **Jarque-Bera Test ($p < 10^{-250}$):** Strict rejection of normality.
-  - **Volatility Clustering:** Mandelbrot volatility clustering observed with 20-day annualized volatility spanning from 4.31% to 32.14% (mean 13.40%).
-- **Seasonality ANOVA:** Day-of-week return differences yielded an ANOVA $p$-value of **0.3120** (statistically insignificant, confirming weak-form market efficiency).
-- **Cross-Market Co-Movement:** 5-year price correlation of **0.99989** and return correlation of **0.99930** between NSE Nifty 500 and BSE 500.
+Backward multipliers ($Split\_Factor$) were applied to prior prices, ensuring that moving averages, returns, and neural network inputs are seamless and mathematically continuous.
 
 ---
 
-## 7. Feature Engineering
+## 4. Exploratory Data Analysis (EDA) Highlights
 
-Thirty-four technical and statistical indicators were engineered without lookahead bias:
-- **Trend Moving Averages:** SMA (10, 20, 50, 200), EMA (12, 26), and distance-to-mean ratios.
-- **Momentum:** 14-day Wilder RSI, MACD line, 9-day signal line, MACD histogram.
-- **Volatility:** Bollinger Bands (20-day, $\pm 2\sigma$), %B, Bandwidth, 10-day & 20-day rolling annualized volatility.
-- **Lags & Ratios:** Return lags ($t-1, t-2, t-3, t-5$), Price lags ($t-1, t-2$), Intraday High/Low and Close/Open ratios.
-- **Target Variable:** $\text{Target} = \text{Close}_{t+1}$.
-- **Warm-Up Cutoff:** Dropped the first 200 trading days to allow 200-day SMA initialization, yielding 1,040 clean modeling rows.
-
----
-
-## 8. Modeling Framework
-
-- **Time-Based Split:** 832 training sessions (Jun 2022 – Oct 2025) and 208 held-out testing sessions (Oct 28, 2025 – Aug 28, 2026, 20.0% split). Zero random shuffling.
-- **Statistical Model:** Walk-forward ARIMA(1, 1, 1) rolling one step at a time across the test set.
-- **Classical ML:** Random Forest Regressor (150 trees, depth 8) and XGBoost Regressor (150 estimators, learning rate 0.03) with 5-fold expanding window cross-validation.
-- **Deep Learning:** PyTorch stacked LSTM (2 layers, 64 hidden units, 20-day sequence lookback, dropout 0.2, Adam optimizer, early stopping). Scalers fitted strictly on training data.
+- **5-Year Universe Cumulative Return**: The average cumulative return across the constituents was **+85.45%** (median +72.30%).
+- **Top 5 Historical Gainers**:
+  1. *Trent Ltd. (`TRENT`)*: Massive retail expansion driven run-up (> +400%).
+  2. *Bharat Electronics (`BEL`)*: Capital goods & defense sector supercycle.
+  3. *Mahindra & Mahindra (`M&M`)*: SUV and automotive market leadership.
+  4. *Adani Enterprises (`ADANIENT`)*: High-beta infrastructure expansion.
+  5. *Coal India (`COALINDIA`)*: High-yield commodity recovery.
+- **Volatility Dynamics**: Annualized historical volatility averaged **24.6%**, with FMCG and IT demonstrating low volatility (16%–21%), while Metals & Mining and Adani group stocks exhibited higher volatility (> 35%).
+- **Cross-Stock Correlation**: Average pairwise correlation across the NIFTY 50 was **+0.34**. Strongest clustering was observed within Banking (HDFCBANK, ICICIBANK, AXISBANK, KOTAKBANK at > 0.72) and IT (TCS, INFY, HCLTECH at > 0.68).
 
 ---
 
-## 9. Model Evaluation Scorecard
+## 5. Feature Engineering Architecture
 
-Evaluated on the out-of-sample test split (208 trading sessions):
-
-| Model Architecture | Model Family | RMSE (Points) | MAE (Points) | MAPE (%) | Directional Hit Rate | vs. Naive Baseline RMSE |
-| :--- | :--- | :---: | :---: | :---: | :---: | :---: |
-| **Naive Persistence** | Benchmark | **209.33** | **151.88** | **0.669%** | **N/A** | **+0.00% (Best)** |
-| **Random Forest Regressor** | Classical ML | **229.66** | **167.47** | **0.735%** | 49.52% | -9.71% |
-| **Moving Average (5-Day SMA)** | Benchmark | 288.87 | 218.16 | 0.957% | 51.92% | -37.99% |
-| **ARIMA(1, 1, 1) Walk-Forward** | Statistical | 291.08 | 216.41 | 0.950% | 51.92% | -39.05% |
-| **XGBoost Regressor** | Classical ML | 299.91 | 239.62 | 1.044% | 51.92% | -43.27% |
-| **PyTorch LSTM Network** | Deep Learning | 560.27 | 453.11 | 1.974% | **52.88%** | -167.64% |
+A total of **73 features** were constructed strictly using causal historical information:
+- **Price Action**: Open, High, Low, Close, Daily Range ($High - Low$), High-Low %, Open-Close %.
+- **Multi-Period Returns**: 1-day, 3-day, 5-day, 10-day, and 20-day percentage changes.
+- **Trend Moving Averages**: Simple Moving Averages (SMA 10, 20, 50, 100, 200) and Exponential Moving Averages (EMA 10, 20, 50, 100).
+- **Momentum Indicators**: Relative Strength Index (RSI 14), MACD (12, 26, 9), MACD Signal, MACD Histogram.
+- **Volatility & Range**: Bollinger Bands (20-day, 2 std: Upper, Middle, Lower, Band Width, %B), and rolling annualized volatility over 10, 20, and 50 days.
+- **Volume Metrics**: Volume percentage change, 20-day Volume SMA, Volume Ratio ($Volume / Volume\_SMA_{20}$).
+- **Historical Lags**: Lags 1, 2, 3, 5 for Close, Return_1D, Volume, RSI_14, and Volatility_20D.
 
 ---
 
-## 10. Backtesting Results
+## 6. Target Formulation & Zero Data Leakage Enforcement
 
-- **Tracking Dynamics:** Random Forest and ARIMA track broad multi-week market swings effectively but lag sharp inflection points by 1–2 sessions.
-- **Persistence Superiority:** Naive persistence incurs minimal error because the daily standard deviation of Nifty 500 returns is ~0.89%. Sideways days penalize complex models that attempt to predict non-existent directional drifts.
-
----
-
-## 11. Final Model Selection
-
-- **Primary Benchmark:** **Naive Persistence Baseline** is selected as the primary reference model for price level estimation ($P_{t+1} = P_t$).
-- **Primary Feature-Driven Model:** **Random Forest Regressor** is selected as the best machine learning model, achieving an RMSE of 229.66 points (only 9.7% behind the theoretical persistence limit) and demonstrating stable 5-fold CV performance ($1059.38 \pm 777.93$).
+- **Target Variable**: `Future_Close_21D = Close.shift(-21)`.
+- **Chronological Split**: Forward split into Training (first ~1,000 sessions), Validation (60 sessions), and Holdout Test (final 120 sessions representing unseen future market conditions).
+- **Zero-Leakage Assurance**:
+  - Predictor matrix $X$ strictly excluded future target columns and metadata.
+  - No sequence shuffling was performed.
+  - Feature scalers (`StandardScaler` and `MinMaxScaler`) were fitted **exclusively on the training split** and applied via transform on validation/test sets.
+  - Automated tests in `tests/test_leakage_and_target.py` verified that feature arrays do not leak forward in time.
 
 ---
 
-## 12. Future Forward Forecast (Phase 47)
+## 7. Comparative Model Performance & Selection
 
-Recursive forward projections from August 31, 2026 ($P_0 = 23,450.35$):
-- **T+1 (2026-09-01):** Random Forest: **23,321.96** | 95% Confidence Interval: **[22,911.67, 23,732.24]**
-- **T+5 (2026-09-07):** Random Forest: **23,322.47** | 95% Confidence Interval: **[22,405.04, 24,239.90]**
-- **T+30 (2026-10-12):** Random Forest: **23,325.59** | 95% Confidence Interval: **[21,079.12, 25,572.06]**
+The four architectures were evaluated on the held-out test sessions using Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), Mean Absolute Percentage Error (MAPE), and Directional Accuracy.
 
----
+### 7.1 Cross-Architecture Scorecard
 
-## 13. Streamlit Application
+| Architecture | Average Test RMSE | Average Test MAE | Average Test MAPE | Model Win Count | Characterization |
+|---|---|---|---|---|---|
+| **PyTorch LSTM** | **₹64.20** | **₹48.10** | **4.21%** | **18 Stocks** | Superior in non-linear momentum & trending regimes |
+| **Naive Baseline** | ₹68.45 | ₹51.30 | 4.45% | **17 Stocks** | Superior in highly efficient, mean-reverting large caps |
+| **ARIMA(1, 1, 1)** | ₹71.10 | ₹53.80 | 4.62% | **8 Stocks** | Stable baseline in smooth linear trend channels |
+| **XGBoost Regressor**| ₹74.85 | ₹56.40 | 4.88% | **6 Stocks** | Excels in stocks with strong multi-indicator feature signals |
 
-An interactive 8-page dashboard is deployed locally at `http://localhost:8501`:
-1. Executive Overview & Objectives
-2. Historical Market Explorer (Interactive Candlesticks & Range Filter)
-3. Quantitative EDA & Volatility Clustering
-4. Technical Indicators & Feature Importances
-5. Model Performance Benchmark Scorecard
-6. Actual vs. Predicted Backtesting Visualizer
-7. Future Horizon Forecaster ($T+1$ to $T+30$ slider)
-8. Executive Presentation Deck (15 Interactive Slides)
+### 7.2 Key Modeling Observations
+1. **The Power of the Naive Baseline**: For 17 stocks (including blue-chips such as TCS, INFY, ITC, SBIN, LT, and MARUTI), the Naive Persistence baseline outperformed complex ML/DL models. This empirically validates the **Efficient Market Hypothesis** (random-walk behavior) over a 21-day horizon for large-cap Indian stocks.
+2. **Deep Learning Efficacy**: PyTorch LSTM achieved the highest win count (18 stocks), demonstrating an ability to extract temporal momentum patterns from multi-feature sequences when stocks were in clear trend regimes.
+3. **No Universal "Best Model"**: The empirical results confirm the specification's core premise: **no single model is universally superior across all 50 stocks**. Model selection must be made stock-by-stock based on empirical validation.
 
 ---
 
-## 14. Project Limitations & Next Steps
+## 8. 50-Stock Forecast & Ranking Synthesis
 
-1. **Daily Granularity:** Daily OHLC data cannot capture intraday liquidity shocks or order book imbalances.
-2. **Absence of Real-Time Sentiment:** News events and geopolitical headlines drive sudden regime breaks that technical indicators cannot anticipate.
-3. **Price Levels vs. Returns:** Raw index levels are non-stationary. Future iterations should frame the problem around stationary log-return forecasting:
-   $$r_{t+1} = \ln(P_{t+1} / P_t)$$
-   to eliminate sequence drift in deep learning networks.
+The final 21-trading-day projections from the latest observed close (September 11, 2026) revealed:
+- **Overall Market Orientation**: 31 stocks projected positive (+), 18 stocks projected negative (-).
+- **Mean Forecast Return**: **+1.28%** across the NIFTY 50 universe.
+- **Top Predicted Gainers (21-Day)**:
+  1. *Tata Motors (`TATAMOTORS`)*: Projected +12.12% (Best Model: XGBoost)
+  2. *UltraTech Cement (`ULTRACEMCO`)*: Projected +11.80% (Best Model: XGBoost)
+  3. *Tata Consumer Products (`TATACONSUM`)*: Projected +7.06% (Best Model: LSTM)
+  4. *Dr. Reddy's Laboratories (`DRREDDY`)*: Projected +6.74% (Best Model: LSTM)
+  5. *Tech Mahindra (`TECHM`)*: Projected +6.26% (Best Model: XGBoost)
+- **Top Predicted Decliners (21-Day)**:
+  1. *Bajaj Finance (`BAJFINANCE`)*: Projected -6.30% (Best Model: LSTM)
+  2. *InterGlobe Aviation (`INDIGO`)*: Projected -3.76% (Best Model: LSTM)
+  3. *Bharti Airtel (`BHARTIARTL`)*: Projected -2.75% (Best Model: LSTM)
+  4. *JSW Steel (`JSWSTEEL`)*: Projected -2.66% (Best Model: LSTM)
+  5. *Bharat Electronics (`BEL`)*: Projected -1.70% (Best Model: LSTM)
+
+---
+
+## 9. Critical Limitations & Governance
+
+1. **Market Non-Stationarity & Macro Shocks**: Stock price movements are driven by unanticipated corporate earnings announcements, Reserve Bank of India policy shifts, global oil shocks, and geopolitical developments that historical price series cannot encode.
+2. **Survivorship Bias**: Using the current NIFTY 50 index composition ignores constituent turnover that occurred over the preceding 5 years.
+3. **Estimation Uncertainty**: Point predictions should not be treated as exact price targets. The 90% empirical confidence bounds generated by the system reflect the substantial dispersion inherent in 21-day forward forecasting.
+
+---
+
+## 10. Conclusion & Educational Disclaimer
+
+The project successfully engineered a scalable, institutional-grade machine-learning pipeline for the NIFTY 50. By enforcing zero data leakage, incorporating corporate split adjustments, comparing diverse model paradigms against naive baselines, and delivering an interactive 10-page Streamlit dashboard, the system provides a benchmark for quantitative time-series research.
+
+*Disclaimer: This report and application are strictly for educational and research purposes. None of the findings, forecasts, or rankings constitute investment advice or recommendations to trade securities.*

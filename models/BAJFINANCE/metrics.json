@@ -1,0 +1,40 @@
+{
+  "symbol": "BAJFINANCE",
+  "best_model": "LSTM",
+  "metrics": {
+    "Baseline": {
+      "mae": 76.71,
+      "rmse": 91.88,
+      "mape": 7.96,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 73.08,
+      "rmse": 91.93,
+      "mape": 7.71,
+      "directional_accuracy": 60.83,
+      "baseline_improvement_pct": 4.73
+    },
+    "XGBoost": {
+      "mae": 78.05,
+      "rmse": 96.11,
+      "mape": 8.43,
+      "directional_accuracy": 68.33,
+      "baseline_improvement_pct": -1.75
+    },
+    "LSTM": {
+      "mae": 61.98,
+      "rmse": 76.15,
+      "mape": 6.44,
+      "directional_accuracy": 66.67,
+      "baseline_improvement_pct": 19.2
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 1034.5,
+    "ARIMA": 1013.3080201103628,
+    "XGBoost": 1000.5173950195312,
+    "LSTM": 1008.531494140625
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "total_stocks_modeled": 50,
+  "model_win_counts": {
+    "Baseline": 20,
+    "LSTM": 17,
+    "XGBoost": 8,
+    "ARIMA": 5
+  },
+  "average_expected_return_pct": 1.36,
+  "median_expected_return_pct": 0.0,
+  "stocks_predicted_positive": 21,
+  "stocks_predicted_negative": 9,
+  "overall_mean_rmse": 162.54,
+  "overall_mean_mae": 131.18,
+  "overall_mean_mape": 5.63,
+  "overall_mean_directional_acc": 39.05
+}

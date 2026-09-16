@@ -1,0 +1,40 @@
+{
+  "symbol": "ONGC",
+  "best_model": "XGBoost",
+  "metrics": {
+    "Baseline": {
+      "mae": 15.34,
+      "rmse": 20.86,
+      "mape": 5.99,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 16.18,
+      "rmse": 22.16,
+      "mape": 6.37,
+      "directional_accuracy": 47.5,
+      "baseline_improvement_pct": -5.49
+    },
+    "XGBoost": {
+      "mae": 15.95,
+      "rmse": 18.78,
+      "mape": 6.07,
+      "directional_accuracy": 47.5,
+      "baseline_improvement_pct": -3.99
+    },
+    "LSTM": {
+      "mae": 15.73,
+      "rmse": 19.34,
+      "mape": 5.87,
+      "directional_accuracy": 57.5,
+      "baseline_improvement_pct": -2.55
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 232.5,
+    "ARIMA": 231.86471241493294,
+    "XGBoost": 241.81886291503906,
+    "LSTM": 242.2867431640625
+  }
+}
