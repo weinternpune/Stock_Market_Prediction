@@ -1,6 +1,6 @@
 {
   "symbol": "LT",
-  "best_model": "Baseline",
+  "best_model": "LSTM",
   "metrics": {
     "Baseline": {
       "mae": 249.9,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": -72.4
     },
     "LSTM": {
-      "mae": 397.06,
-      "rmse": 432.12,
-      "mape": 9.9,
-      "directional_accuracy": 60.0,
-      "baseline_improvement_pct": -58.89
+      "mae": 274.62,
+      "rmse": 305.67,
+      "mape": 6.87,
+      "directional_accuracy": 62.5,
+      "baseline_improvement_pct": -9.89
     }
   },
   "future_forecasts": {
     "Baseline": 3930.7,
     "ARIMA": 3931.284643781635,
     "XGBoost": 3834.728271484375,
-    "LSTM": 3992.64404296875
+    "LSTM": 4111.095703125
   }
 }

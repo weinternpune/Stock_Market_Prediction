@@ -1,6 +1,6 @@
 {
   "symbol": "POWERGRID",
-  "best_model": "LSTM",
+  "best_model": "ARIMA",
   "metrics": {
     "Baseline": {
       "mae": 12.59,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": -13.23
     },
     "LSTM": {
-      "mae": 8.4,
-      "rmse": 10.61,
-      "mape": 2.86,
-      "directional_accuracy": 80.0,
-      "baseline_improvement_pct": 33.26
+      "mae": 14.34,
+      "rmse": 16.75,
+      "mape": 4.97,
+      "directional_accuracy": 50.83,
+      "baseline_improvement_pct": -13.87
     }
   },
   "future_forecasts": {
     "Baseline": 269.1,
     "ARIMA": 269.3044761093496,
     "XGBoost": 286.26519775390625,
-    "LSTM": 264.7021484375
+    "LSTM": 286.94305419921875
   }
 }

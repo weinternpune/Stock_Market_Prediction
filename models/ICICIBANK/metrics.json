@@ -1,6 +1,6 @@
 {
   "symbol": "ICICIBANK",
-  "best_model": "Baseline",
+  "best_model": "LSTM",
   "metrics": {
     "Baseline": {
       "mae": 72.58,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": 7.8
     },
     "LSTM": {
-      "mae": 78.88,
-      "rmse": 89.83,
-      "mape": 5.8,
-      "directional_accuracy": 60.0,
-      "baseline_improvement_pct": -8.68
+      "mae": 61.13,
+      "rmse": 78.0,
+      "mape": 4.67,
+      "directional_accuracy": 68.33,
+      "baseline_improvement_pct": 15.77
     }
   },
   "future_forecasts": {
     "Baseline": 1379.3,
     "ARIMA": 1378.9956385940156,
     "XGBoost": 1394.9700927734375,
-    "LSTM": 1351.3558349609375
+    "LSTM": 1399.1650390625
   }
 }

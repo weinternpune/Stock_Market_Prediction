@@ -1,6 +1,6 @@
 {
   "symbol": "SBIN",
-  "best_model": "Baseline",
+  "best_model": "LSTM",
   "metrics": {
     "Baseline": {
       "mae": 68.15,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": -233.36
     },
     "LSTM": {
-      "mae": 111.38,
-      "rmse": 136.43,
-      "mape": 10.74,
-      "directional_accuracy": 54.17,
-      "baseline_improvement_pct": -63.43
+      "mae": 58.71,
+      "rmse": 69.85,
+      "mape": 5.68,
+      "directional_accuracy": 68.33,
+      "baseline_improvement_pct": 13.85
     }
   },
   "future_forecasts": {
     "Baseline": 995.7,
     "ARIMA": 995.9584232154401,
     "XGBoost": 808.6609497070312,
-    "LSTM": 1084.79541015625
+    "LSTM": 1010.7687377929688
   }
 }

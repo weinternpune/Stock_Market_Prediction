@@ -109,8 +109,8 @@
   "missing_symbols": [],
   "extra_symbols": [],
   "corporate_continuity_aliases_detected": {
-    "TMPV": "TATAMOTORS",
     "ETERNAL": "ZOMATO",
+    "TMPV": "TATAMOTORS",
     "SRTRANSFIN": "SHRIRAMFIN"
   },
   "validation_status": "PASS"

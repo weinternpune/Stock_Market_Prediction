@@ -24,17 +24,17 @@
       "baseline_improvement_pct": -0.6
     },
     "LSTM": {
-      "mae": 55.7,
-      "rmse": 71.76,
-      "mape": 5.01,
-      "directional_accuracy": 55.83,
-      "baseline_improvement_pct": 12.42
+      "mae": 55.69,
+      "rmse": 72.69,
+      "mape": 4.97,
+      "directional_accuracy": 56.67,
+      "baseline_improvement_pct": 12.44
     }
   },
   "future_forecasts": {
     "Baseline": 991.0,
     "ARIMA": 993.6858742582966,
     "XGBoost": 962.6959228515625,
-    "LSTM": 1057.8863525390625
+    "LSTM": 1049.797119140625
   }
 }
