@@ -1,6 +1,6 @@
 {
   "symbol": "GRASIM",
-  "best_model": "Baseline",
+  "best_model": "ARIMA",
   "metrics": {
     "Baseline": {
       "mae": 151.15,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": -128.6
     },
     "LSTM": {
-      "mae": 290.28,
-      "rmse": 319.31,
-      "mape": 9.3,
-      "directional_accuracy": 40.0,
-      "baseline_improvement_pct": -92.05
+      "mae": 286.1,
+      "rmse": 316.29,
+      "mape": 9.15,
+      "directional_accuracy": 40.83,
+      "baseline_improvement_pct": -89.28
     }
   },
   "future_forecasts": {
     "Baseline": 3281.9,
     "ARIMA": 3289.5916650348727,
     "XGBoost": 2784.404541015625,
-    "LSTM": 2906.388916015625
+    "LSTM": 2963.806640625
   }
 }

@@ -27,7 +27,6 @@ except ModuleNotFoundError:
     from components.styling import apply_custom_styles
     from components.cards import metric_card
 
-@st.cache_data
 def get_predictions():
     if not PREDICTIONS_CSV.exists():
         return None
@@ -44,17 +43,20 @@ def render_page():
         st.warning("⚠️ Future predictions not found. Please execute the modeling pipeline first.")
         return
         
-    # Summary KPI row
-    k1, k2, k3, k4 = st.columns(4)
+    # Summary KPI row (Accounting for Positive, Negative, and Neutral)
+    k1, k2, k3, k4, k5 = st.columns(5)
     with k1:
         metric_card("Total Forecasts", f"{len(df)} Stocks", subtext="NIFTY 50 Universe")
     with k2:
         n_up = (df['Expected_Return_Pct'] > 0).sum()
-        metric_card("Bullish Projections", f"{n_up} Stocks", delta=f"{(n_up/len(df))*100:.1f}%", is_positive=True)
+        metric_card("Bullish Projections (+ve)", f"{n_up} Stocks", delta=f"{(n_up/len(df))*100:.1f}%", is_positive=True)
     with k3:
         n_down = (df['Expected_Return_Pct'] < 0).sum()
-        metric_card("Bearish Projections", f"{n_down} Stocks", delta=f"{(n_down/len(df))*100:.1f}%", is_positive=False)
+        metric_card("Bearish Projections (-ve)", f"{n_down} Stocks", delta=f"{(n_down/len(df))*100:.1f}%", is_positive=False)
     with k4:
+        n_neu = (df['Expected_Return_Pct'] == 0).sum()
+        metric_card("Neutral Projections", f"{n_neu} Stocks", delta=f"{(n_neu/len(df))*100:.1f}%", is_positive=None, subtext="Flat (0.00% Return)")
+    with k5:
         avg_ret = df['Expected_Return_Pct'].mean()
         metric_card("Average Expected Return", f"{avg_ret:+.2f}%", is_positive=(avg_ret >= 0))
         
@@ -63,7 +65,7 @@ def render_page():
     f1, f2, f3 = st.columns(3)
     
     with f1:
-        scope = st.selectbox("Scope:", ["All 50 Stocks", "Top 5 Gainers", "Top 10 Gainers", "Positive Return Only", "Negative Return Only"])
+        scope = st.selectbox("Scope:", ["All (50 Stocks)", "Top 5 Gainers", "Top 10 Gainers", "Positive Return Only (+ve)", "Negative Return Only (-ve)", "Neutral Return Only (0.00%)"])
     with f2:
         all_industries = ["All Industries"] + sorted(df['Industry'].unique().tolist())
         sel_ind = st.selectbox("Industry:", all_industries)
@@ -81,15 +83,18 @@ def render_page():
         filtered = filtered.sort_values('Expected_Return_Pct', ascending=False).head(5)
     elif scope == "Top 10 Gainers":
         filtered = filtered.sort_values('Expected_Return_Pct', ascending=False).head(10)
-    elif scope == "Positive Return Only":
+    elif scope == "Positive Return Only (+ve)":
         filtered = filtered[filtered['Expected_Return_Pct'] > 0].sort_values('Expected_Return_Pct', ascending=False)
-    elif scope == "Negative Return Only":
+    elif scope == "Negative Return Only (-ve)":
         filtered = filtered[filtered['Expected_Return_Pct'] < 0].sort_values('Expected_Return_Pct', ascending=True)
+    elif scope == "Neutral Return Only (0.00%)":
+        filtered = filtered[filtered['Expected_Return_Pct'] == 0].sort_values('Symbol')
     else:
         filtered = filtered.sort_values('Expected_Return_Pct', ascending=False)
         
     # Dataframe with Uncertainty Bounds
-    st.markdown(f"**Showing {len(filtered)} Stocks**")
+    pct_display = (len(filtered) / len(df)) * 100.0
+    st.markdown(f"**Showing {len(filtered)} of {len(df)} Stocks ({pct_display:.0f}% of NIFTY 50 Universe)**")
     
     display_cols = [
         'Symbol', 'Company', 'Industry', 'Current_Price', 'Predicted_21D_Price',

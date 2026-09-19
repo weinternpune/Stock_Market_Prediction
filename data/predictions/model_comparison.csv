@@ -1,201 +1,201 @@
 Symbol,Company,Industry,Model,MAE,RMSE,MAPE,Directional_Accuracy,Baseline_Improvement_Pct,Is_Best_Model
 ADANIENT,Adani Enterprises Ltd.,Metals & Mining,Baseline,272.71,330.71,10.43,0.0,0.0,False
 ADANIENT,Adani Enterprises Ltd.,Metals & Mining,ARIMA,278.08,333.57,10.68,53.33,-1.97,False
-ADANIENT,Adani Enterprises Ltd.,Metals & Mining,XGBoost,269.3,310.73,10.58,63.33,1.25,False
-ADANIENT,Adani Enterprises Ltd.,Metals & Mining,LSTM,184.82,244.6,7.46,77.5,32.23,True
-ADANIPORTS,Adani Ports & SEZ Ltd.,Services,Baseline,124.76,160.12,7.53,0.0,0.0,True
-ADANIPORTS,Adani Ports & SEZ Ltd.,Services,ARIMA,127.6,160.18,7.73,53.33,-2.28,False
+ADANIENT,Adani Enterprises Ltd.,Metals & Mining,XGBoost,269.3,310.73,10.58,63.33,1.25,True
+ADANIENT,Adani Enterprises Ltd.,Metals & Mining,LSTM,273.52,316.39,10.25,62.5,-0.3,False
+ADANIPORTS,Adani Ports & SEZ Ltd.,Services,Baseline,124.76,160.12,7.53,0.0,0.0,False
+ADANIPORTS,Adani Ports & SEZ Ltd.,Services,ARIMA,127.6,160.18,7.73,53.33,-2.28,True
 ADANIPORTS,Adani Ports & SEZ Ltd.,Services,XGBoost,397.77,420.63,22.84,40.0,-218.83,False
-ADANIPORTS,Adani Ports & SEZ Ltd.,Services,LSTM,228.12,250.56,13.15,50.83,-82.85,False
-APOLLOHOSP,Apollo Hospitals Enterprise Ltd.,Healthcare,Baseline,331.73,374.94,4.01,0.0,0.0,True
-APOLLOHOSP,Apollo Hospitals Enterprise Ltd.,Healthcare,ARIMA,368.9,430.92,4.43,35.83,-11.2,False
+ADANIPORTS,Adani Ports & SEZ Ltd.,Services,LSTM,231.34,252.38,13.34,50.0,-85.42,False
+APOLLOHOSP,Apollo Hospitals Enterprise Ltd.,Healthcare,Baseline,331.73,374.94,4.01,0.0,0.0,False
+APOLLOHOSP,Apollo Hospitals Enterprise Ltd.,Healthcare,ARIMA,368.9,430.92,4.43,35.83,-11.2,True
 APOLLOHOSP,Apollo Hospitals Enterprise Ltd.,Healthcare,XGBoost,1046.46,1260.37,12.05,48.33,-215.46,False
-APOLLOHOSP,Apollo Hospitals Enterprise Ltd.,Healthcare,LSTM,524.78,595.31,6.11,59.17,-58.2,False
+APOLLOHOSP,Apollo Hospitals Enterprise Ltd.,Healthcare,LSTM,928.42,1015.53,10.84,30.83,-179.87,False
 ASIANPAINT,Asian Paints Ltd.,Consumer Durables,Baseline,142.48,173.11,5.65,0.0,0.0,False
 ASIANPAINT,Asian Paints Ltd.,Consumer Durables,ARIMA,141.84,181.59,5.7,55.0,0.45,False
 ASIANPAINT,Asian Paints Ltd.,Consumer Durables,XGBoost,113.2,135.29,4.39,60.83,20.55,True
-ASIANPAINT,Asian Paints Ltd.,Consumer Durables,LSTM,162.95,187.75,6.25,61.67,-14.37,False
-AXISBANK,Axis Bank Ltd.,Financial Services,Baseline,79.76,96.16,6.26,0.0,0.0,True
-AXISBANK,Axis Bank Ltd.,Financial Services,ARIMA,87.39,107.16,6.94,50.83,-9.56,False
+ASIANPAINT,Asian Paints Ltd.,Consumer Durables,LSTM,176.56,206.22,6.79,58.33,-23.92,False
+AXISBANK,Axis Bank Ltd.,Financial Services,Baseline,79.76,96.16,6.26,0.0,0.0,False
+AXISBANK,Axis Bank Ltd.,Financial Services,ARIMA,87.39,107.16,6.94,50.83,-9.56,True
 AXISBANK,Axis Bank Ltd.,Financial Services,XGBoost,160.51,170.03,12.37,51.67,-101.24,False
-AXISBANK,Axis Bank Ltd.,Financial Services,LSTM,90.52,108.2,6.92,53.33,-13.5,False
-BAJAJ-AUTO,Bajaj Auto Ltd.,Automobile and Auto Components,Baseline,743.97,886.52,7.08,0.0,0.0,True
-BAJAJ-AUTO,Bajaj Auto Ltd.,Automobile and Auto Components,ARIMA,741.97,890.14,7.05,50.83,0.27,False
+AXISBANK,Axis Bank Ltd.,Financial Services,LSTM,101.91,123.02,7.78,51.67,-27.77,False
+BAJAJ-AUTO,Bajaj Auto Ltd.,Automobile and Auto Components,Baseline,743.97,886.52,7.08,0.0,0.0,False
+BAJAJ-AUTO,Bajaj Auto Ltd.,Automobile and Auto Components,ARIMA,741.97,890.14,7.05,50.83,0.27,True
 BAJAJ-AUTO,Bajaj Auto Ltd.,Automobile and Auto Components,XGBoost,1077.82,1270.44,10.3,28.33,-44.87,False
-BAJAJ-AUTO,Bajaj Auto Ltd.,Automobile and Auto Components,LSTM,824.98,1023.65,7.58,47.5,-10.89,False
+BAJAJ-AUTO,Bajaj Auto Ltd.,Automobile and Auto Components,LSTM,807.21,961.85,7.73,60.0,-8.5,False
 BAJAJFINSV,Bajaj Finserv Ltd.,Financial Services,Baseline,119.97,150.33,6.56,0.0,0.0,False
 BAJAJFINSV,Bajaj Finserv Ltd.,Financial Services,ARIMA,121.61,155.85,6.69,55.0,-1.37,False
-BAJAJFINSV,Bajaj Finserv Ltd.,Financial Services,XGBoost,103.66,148.23,5.91,69.17,13.6,False
-BAJAJFINSV,Bajaj Finserv Ltd.,Financial Services,LSTM,98.14,131.11,5.54,78.33,18.2,True
+BAJAJFINSV,Bajaj Finserv Ltd.,Financial Services,XGBoost,103.66,148.23,5.91,69.17,13.6,True
+BAJAJFINSV,Bajaj Finserv Ltd.,Financial Services,LSTM,128.78,156.77,7.27,72.5,-7.34,False
 BAJFINANCE,Bajaj Finance Ltd.,Financial Services,Baseline,76.71,91.88,7.96,0.0,0.0,False
 BAJFINANCE,Bajaj Finance Ltd.,Financial Services,ARIMA,73.08,91.93,7.71,60.83,4.73,False
 BAJFINANCE,Bajaj Finance Ltd.,Financial Services,XGBoost,78.05,96.11,8.43,68.33,-1.75,False
-BAJFINANCE,Bajaj Finance Ltd.,Financial Services,LSTM,63.24,76.61,6.63,69.17,17.56,True
-BEL,Bharat Electronics Ltd.,Capital Goods,Baseline,16.65,19.71,4.0,0.0,0.0,True
+BAJFINANCE,Bajaj Finance Ltd.,Financial Services,LSTM,64.83,80.49,6.87,67.5,15.48,True
+BEL,Bharat Electronics Ltd.,Capital Goods,Baseline,16.65,19.71,4.0,0.0,0.0,False
 BEL,Bharat Electronics Ltd.,Capital Goods,ARIMA,19.78,24.24,4.79,41.67,-18.79,False
 BEL,Bharat Electronics Ltd.,Capital Goods,XGBoost,27.41,32.61,6.44,61.67,-64.61,False
-BEL,Bharat Electronics Ltd.,Capital Goods,LSTM,17.71,20.67,4.29,64.17,-6.38,False
-BHARTIARTL,Bharti Airtel Ltd.,Telecommunication,Baseline,59.95,74.6,3.21,0.0,0.0,True
-BHARTIARTL,Bharti Airtel Ltd.,Telecommunication,ARIMA,67.08,92.72,3.63,64.17,-11.89,False
+BEL,Bharat Electronics Ltd.,Capital Goods,LSTM,15.93,19.33,3.84,61.67,4.34,True
+BHARTIARTL,Bharti Airtel Ltd.,Telecommunication,Baseline,59.95,74.6,3.21,0.0,0.0,False
+BHARTIARTL,Bharti Airtel Ltd.,Telecommunication,ARIMA,67.08,92.72,3.63,64.17,-11.89,True
 BHARTIARTL,Bharti Airtel Ltd.,Telecommunication,XGBoost,168.98,181.47,9.13,62.5,-181.87,False
-BHARTIARTL,Bharti Airtel Ltd.,Telecommunication,LSTM,80.42,98.43,4.36,62.5,-34.14,False
+BHARTIARTL,Bharti Airtel Ltd.,Telecommunication,LSTM,78.41,97.55,4.22,70.0,-30.79,False
 BPCL,Bharat Petroleum Corporation Ltd.,Oil Gas & Consumable Fuels,Baseline,20.99,32.98,7.11,0.0,0.0,False
 BPCL,Bharat Petroleum Corporation Ltd.,Oil Gas & Consumable Fuels,ARIMA,22.6,36.37,7.71,52.5,-7.66,False
 BPCL,Bharat Petroleum Corporation Ltd.,Oil Gas & Consumable Fuels,XGBoost,14.63,19.16,4.85,65.0,30.31,True
-BPCL,Bharat Petroleum Corporation Ltd.,Oil Gas & Consumable Fuels,LSTM,25.7,37.69,8.7,52.5,-22.46,False
-CIPLA,Cipla Ltd.,Healthcare,Baseline,72.45,86.48,5.38,0.0,0.0,True
+BPCL,Bharat Petroleum Corporation Ltd.,Oil Gas & Consumable Fuels,LSTM,23.86,34.04,8.07,50.83,-13.69,False
+CIPLA,Cipla Ltd.,Healthcare,Baseline,72.45,86.48,5.38,0.0,0.0,False
 CIPLA,Cipla Ltd.,Healthcare,ARIMA,78.16,94.2,5.78,43.33,-7.88,False
 CIPLA,Cipla Ltd.,Healthcare,XGBoost,86.88,128.69,6.77,69.17,-19.92,False
-CIPLA,Cipla Ltd.,Healthcare,LSTM,67.93,90.08,5.13,60.83,6.24,False
+CIPLA,Cipla Ltd.,Healthcare,LSTM,67.92,88.51,5.06,58.33,6.26,True
 COALINDIA,Coal India Ltd.,Oil Gas & Consumable Fuels,Baseline,18.01,20.84,4.12,0.0,0.0,False
 COALINDIA,Coal India Ltd.,Oil Gas & Consumable Fuels,ARIMA,18.53,21.96,4.24,49.17,-2.89,False
 COALINDIA,Coal India Ltd.,Oil Gas & Consumable Fuels,XGBoost,27.22,33.39,6.33,42.5,-51.15,False
-COALINDIA,Coal India Ltd.,Oil Gas & Consumable Fuels,LSTM,13.02,15.98,2.98,66.67,27.73,True
+COALINDIA,Coal India Ltd.,Oil Gas & Consumable Fuels,LSTM,14.15,17.16,3.25,80.0,21.44,True
 DRREDDY,Dr. Reddy's Laboratories Ltd.,Healthcare,Baseline,62.79,81.32,5.11,0.0,0.0,False
 DRREDDY,Dr. Reddy's Laboratories Ltd.,Healthcare,ARIMA,62.57,80.35,5.08,55.83,0.35,False
-DRREDDY,Dr. Reddy's Laboratories Ltd.,Healthcare,XGBoost,57.62,69.58,4.68,67.5,8.24,True
-DRREDDY,Dr. Reddy's Laboratories Ltd.,Healthcare,LSTM,56.42,70.89,4.59,68.33,10.15,False
+DRREDDY,Dr. Reddy's Laboratories Ltd.,Healthcare,XGBoost,57.62,69.58,4.68,67.5,8.24,False
+DRREDDY,Dr. Reddy's Laboratories Ltd.,Healthcare,LSTM,50.53,62.29,4.06,65.83,19.53,True
 EICHERMOT,Eicher Motors Ltd.,Automobile and Auto Components,Baseline,409.15,525.53,5.59,0.0,0.0,False
 EICHERMOT,Eicher Motors Ltd.,Automobile and Auto Components,ARIMA,399.46,543.16,5.53,64.17,2.37,False
 EICHERMOT,Eicher Motors Ltd.,Automobile and Auto Components,XGBoost,430.54,531.67,5.63,58.33,-5.23,False
-EICHERMOT,Eicher Motors Ltd.,Automobile and Auto Components,LSTM,395.67,484.05,5.45,70.0,3.29,True
-GRASIM,Grasim Industries Ltd.,Construction Materials,Baseline,151.15,185.63,5.05,0.0,0.0,True
-GRASIM,Grasim Industries Ltd.,Construction Materials,ARIMA,161.16,197.99,5.36,41.67,-6.62,False
+EICHERMOT,Eicher Motors Ltd.,Automobile and Auto Components,LSTM,381.96,447.23,5.21,70.83,6.64,True
+GRASIM,Grasim Industries Ltd.,Construction Materials,Baseline,151.15,185.63,5.05,0.0,0.0,False
+GRASIM,Grasim Industries Ltd.,Construction Materials,ARIMA,161.16,197.99,5.36,41.67,-6.62,True
 GRASIM,Grasim Industries Ltd.,Construction Materials,XGBoost,345.52,380.8,11.03,39.17,-128.6,False
-GRASIM,Grasim Industries Ltd.,Construction Materials,LSTM,290.28,319.31,9.3,40.0,-92.05,False
-HCLTECH,HCL Technologies Ltd.,Information Technology,Baseline,110.11,139.69,8.84,0.0,0.0,True
-HCLTECH,HCL Technologies Ltd.,Information Technology,ARIMA,118.9,149.05,9.64,44.17,-7.98,False
+GRASIM,Grasim Industries Ltd.,Construction Materials,LSTM,286.1,316.29,9.15,40.83,-89.28,False
+HCLTECH,HCL Technologies Ltd.,Information Technology,Baseline,110.11,139.69,8.84,0.0,0.0,False
+HCLTECH,HCL Technologies Ltd.,Information Technology,ARIMA,118.9,149.05,9.64,44.17,-7.98,True
 HCLTECH,HCL Technologies Ltd.,Information Technology,XGBoost,184.43,217.55,15.08,40.83,-67.5,False
-HCLTECH,HCL Technologies Ltd.,Information Technology,LSTM,165.68,198.98,13.54,27.5,-50.47,False
+HCLTECH,HCL Technologies Ltd.,Information Technology,LSTM,223.04,260.02,18.6,42.5,-102.56,False
 HDFCBANK,HDFC Bank Ltd.,Financial Services,Baseline,49.16,61.82,6.46,0.0,0.0,False
-HDFCBANK,HDFC Bank Ltd.,Financial Services,ARIMA,54.15,68.08,7.13,38.33,-10.15,False
+HDFCBANK,HDFC Bank Ltd.,Financial Services,ARIMA,54.15,68.08,7.13,38.33,-10.15,True
 HDFCBANK,HDFC Bank Ltd.,Financial Services,XGBoost,63.74,91.0,8.23,49.17,-29.66,False
-HDFCBANK,HDFC Bank Ltd.,Financial Services,LSTM,40.55,50.05,5.41,60.83,17.51,True
-HDFCLIFE,HDFC Life Insurance Co. Ltd.,Financial Services,Baseline,31.35,46.81,5.4,0.0,0.0,True
-HDFCLIFE,HDFC Life Insurance Co. Ltd.,Financial Services,ARIMA,30.58,47.16,5.25,65.0,2.46,False
+HDFCBANK,HDFC Bank Ltd.,Financial Services,LSTM,70.76,86.43,9.11,70.0,-43.94,False
+HDFCLIFE,HDFC Life Insurance Co. Ltd.,Financial Services,Baseline,31.35,46.81,5.4,0.0,0.0,False
+HDFCLIFE,HDFC Life Insurance Co. Ltd.,Financial Services,ARIMA,30.58,47.16,5.25,65.0,2.46,True
 HDFCLIFE,HDFC Life Insurance Co. Ltd.,Financial Services,XGBoost,38.04,50.78,6.65,53.33,-21.33,False
-HDFCLIFE,HDFC Life Insurance Co. Ltd.,Financial Services,LSTM,36.72,47.02,6.36,40.83,-17.14,False
+HDFCLIFE,HDFC Life Insurance Co. Ltd.,Financial Services,LSTM,45.14,56.45,7.9,29.17,-44.0,False
 HINDALCO,Hindalco Industries Ltd.,Metals & Mining,Baseline,76.34,91.49,7.52,0.0,0.0,False
 HINDALCO,Hindalco Industries Ltd.,Metals & Mining,ARIMA,75.91,91.03,7.54,57.5,0.56,False
 HINDALCO,Hindalco Industries Ltd.,Metals & Mining,XGBoost,318.66,325.62,31.23,42.5,-317.42,False
-HINDALCO,Hindalco Industries Ltd.,Metals & Mining,LSTM,57.66,68.98,5.64,70.0,24.47,True
+HINDALCO,Hindalco Industries Ltd.,Metals & Mining,LSTM,66.77,82.92,6.41,62.5,12.53,True
 HINDUNILVR,Hindustan Unilever Ltd.,Fast Moving Consumer Goods,Baseline,118.15,142.28,5.52,0.0,0.0,False
 HINDUNILVR,Hindustan Unilever Ltd.,Fast Moving Consumer Goods,ARIMA,108.32,138.34,5.02,65.0,8.32,True
 HINDUNILVR,Hindustan Unilever Ltd.,Fast Moving Consumer Goods,XGBoost,185.58,242.61,8.96,46.67,-57.07,False
-HINDUNILVR,Hindustan Unilever Ltd.,Fast Moving Consumer Goods,LSTM,143.74,159.5,6.82,51.67,-21.66,False
+HINDUNILVR,Hindustan Unilever Ltd.,Fast Moving Consumer Goods,LSTM,173.03,194.97,8.19,39.17,-46.45,False
 ICICIBANK,ICICI Bank Ltd.,Financial Services,Baseline,72.58,86.97,5.46,0.0,0.0,False
 ICICIBANK,ICICI Bank Ltd.,Financial Services,ARIMA,75.84,90.15,5.68,49.17,-4.5,False
 ICICIBANK,ICICI Bank Ltd.,Financial Services,XGBoost,66.92,91.56,5.22,69.17,7.8,False
-ICICIBANK,ICICI Bank Ltd.,Financial Services,LSTM,61.13,78.0,4.67,68.33,15.77,True
-INDIGO,InterGlobe Aviation Ltd.,Services,Baseline,346.63,444.79,7.27,0.0,0.0,True
+ICICIBANK,ICICI Bank Ltd.,Financial Services,LSTM,62.61,78.74,4.76,65.0,13.74,True
+INDIGO,InterGlobe Aviation Ltd.,Services,Baseline,346.63,444.79,7.27,0.0,0.0,False
 INDIGO,InterGlobe Aviation Ltd.,Services,ARIMA,373.25,486.05,7.81,48.33,-7.68,False
 INDIGO,InterGlobe Aviation Ltd.,Services,XGBoost,448.8,543.23,9.9,63.33,-29.48,False
-INDIGO,InterGlobe Aviation Ltd.,Services,LSTM,432.76,530.67,9.32,59.17,-24.85,False
-INFY,Infosys Ltd.,Information Technology,Baseline,80.07,97.64,7.09,0.0,0.0,True
-INFY,Infosys Ltd.,Information Technology,ARIMA,84.1,102.3,7.42,49.17,-5.03,False
+INDIGO,InterGlobe Aviation Ltd.,Services,LSTM,300.43,384.18,6.33,69.17,13.33,True
+INFY,Infosys Ltd.,Information Technology,Baseline,80.07,97.64,7.09,0.0,0.0,False
+INFY,Infosys Ltd.,Information Technology,ARIMA,84.1,102.3,7.42,49.17,-5.03,True
 INFY,Infosys Ltd.,Information Technology,XGBoost,241.13,256.99,21.44,43.33,-201.15,False
-INFY,Infosys Ltd.,Information Technology,LSTM,93.76,114.96,8.43,50.0,-17.09,False
-ITC,ITC Ltd.,Fast Moving Consumer Goods,Baseline,12.83,16.09,4.5,0.0,0.0,True
-ITC,ITC Ltd.,Fast Moving Consumer Goods,ARIMA,14.27,19.55,5.0,40.0,-11.22,False
+INFY,Infosys Ltd.,Information Technology,LSTM,133.26,153.51,11.89,41.67,-66.43,False
+ITC,ITC Ltd.,Fast Moving Consumer Goods,Baseline,12.83,16.09,4.5,0.0,0.0,False
+ITC,ITC Ltd.,Fast Moving Consumer Goods,ARIMA,14.27,19.55,5.0,40.0,-11.22,True
 ITC,ITC Ltd.,Fast Moving Consumer Goods,XGBoost,57.31,63.0,19.74,30.0,-346.66,False
-ITC,ITC Ltd.,Fast Moving Consumer Goods,LSTM,27.93,30.65,9.87,30.83,-117.72,False
-JIOFIN,Jio Financial Services Ltd.,Financial Services,Baseline,11.74,14.57,4.87,0.83,0.0,True
-JIOFIN,Jio Financial Services Ltd.,Financial Services,ARIMA,12.46,15.8,5.17,50.83,-6.16,False
+ITC,ITC Ltd.,Fast Moving Consumer Goods,LSTM,21.11,24.52,7.5,43.33,-64.55,False
+JIOFIN,Jio Financial Services Ltd.,Financial Services,Baseline,11.74,14.57,4.87,0.83,0.0,False
+JIOFIN,Jio Financial Services Ltd.,Financial Services,ARIMA,12.46,15.8,5.17,50.83,-6.16,True
 JIOFIN,Jio Financial Services Ltd.,Financial Services,XGBoost,21.22,26.84,8.93,45.83,-80.71,False
-JIOFIN,Jio Financial Services Ltd.,Financial Services,LSTM,27.07,33.82,11.41,52.5,-130.62,False
+JIOFIN,Jio Financial Services Ltd.,Financial Services,LSTM,20.08,24.89,8.46,51.67,-71.05,False
 JSWSTEEL,JSW Steel Ltd.,Metals & Mining,Baseline,56.48,70.47,4.54,0.0,0.0,False
 JSWSTEEL,JSW Steel Ltd.,Metals & Mining,ARIMA,55.0,69.19,4.45,56.67,2.62,True
 JSWSTEEL,JSW Steel Ltd.,Metals & Mining,XGBoost,152.57,160.34,11.97,37.5,-170.13,False
-JSWSTEEL,JSW Steel Ltd.,Metals & Mining,LSTM,83.34,91.16,6.55,52.5,-47.55,False
+JSWSTEEL,JSW Steel Ltd.,Metals & Mining,LSTM,75.02,80.22,5.9,49.17,-32.82,False
 KOTAKBANK,Kotak Mahindra Bank Ltd.,Financial Services,Baseline,18.51,24.1,4.81,0.0,0.0,False
 KOTAKBANK,Kotak Mahindra Bank Ltd.,Financial Services,ARIMA,17.73,24.62,4.63,64.17,4.2,False
 KOTAKBANK,Kotak Mahindra Bank Ltd.,Financial Services,XGBoost,23.84,27.91,6.18,52.5,-28.82,False
-KOTAKBANK,Kotak Mahindra Bank Ltd.,Financial Services,LSTM,17.92,21.29,4.65,53.33,3.18,True
+KOTAKBANK,Kotak Mahindra Bank Ltd.,Financial Services,LSTM,17.01,20.12,4.39,57.5,8.12,True
 LT,Larsen & Toubro Ltd.,Construction,Baseline,249.9,335.58,6.46,0.0,0.0,False
 LT,Larsen & Toubro Ltd.,Construction,ARIMA,253.94,337.96,6.61,53.33,-1.62,False
 LT,Larsen & Toubro Ltd.,Construction,XGBoost,430.83,464.98,10.74,50.83,-72.4,False
-LT,Larsen & Toubro Ltd.,Construction,LSTM,274.62,305.67,6.87,62.5,-9.89,True
-M&M,Mahindra & Mahindra Ltd.,Automobile and Auto Components,Baseline,180.8,219.67,5.68,0.0,0.0,True
+LT,Larsen & Toubro Ltd.,Construction,LSTM,266.22,296.39,6.67,60.83,-6.53,True
+M&M,Mahindra & Mahindra Ltd.,Automobile and Auto Components,Baseline,180.8,219.67,5.68,0.0,0.0,False
 M&M,Mahindra & Mahindra Ltd.,Automobile and Auto Components,ARIMA,186.11,238.14,5.9,56.67,-2.94,False
 M&M,Mahindra & Mahindra Ltd.,Automobile and Auto Components,XGBoost,239.17,287.66,7.7,59.17,-32.28,False
-M&M,Mahindra & Mahindra Ltd.,Automobile and Auto Components,LSTM,222.69,258.55,6.9,46.67,-23.17,False
-MARUTI,Maruti Suzuki India Ltd.,Automobile and Auto Components,Baseline,697.58,970.05,5.31,0.0,0.0,True
+M&M,Mahindra & Mahindra Ltd.,Automobile and Auto Components,LSTM,185.52,227.39,5.8,61.67,-2.61,True
+MARUTI,Maruti Suzuki India Ltd.,Automobile and Auto Components,Baseline,697.58,970.05,5.31,0.0,0.0,False
 MARUTI,Maruti Suzuki India Ltd.,Automobile and Auto Components,ARIMA,751.02,1074.86,5.75,60.0,-7.66,False
 MARUTI,Maruti Suzuki India Ltd.,Automobile and Auto Components,XGBoost,1629.81,1817.36,12.24,26.67,-133.64,False
-MARUTI,Maruti Suzuki India Ltd.,Automobile and Auto Components,LSTM,1294.25,1423.97,9.53,48.33,-85.53,False
+MARUTI,Maruti Suzuki India Ltd.,Automobile and Auto Components,LSTM,758.95,966.65,5.73,50.83,-8.8,True
 MAXHEALTH,Max Healthcare Institute Ltd.,Healthcare,Baseline,67.35,81.21,6.55,0.0,0.0,False
-MAXHEALTH,Max Healthcare Institute Ltd.,Healthcare,ARIMA,68.54,83.92,6.65,52.5,-1.77,False
+MAXHEALTH,Max Healthcare Institute Ltd.,Healthcare,ARIMA,68.54,83.92,6.65,52.5,-1.77,True
 MAXHEALTH,Max Healthcare Institute Ltd.,Healthcare,XGBoost,91.8,111.88,9.22,48.33,-36.31,False
-MAXHEALTH,Max Healthcare Institute Ltd.,Healthcare,LSTM,61.95,77.37,6.05,60.0,8.02,True
+MAXHEALTH,Max Healthcare Institute Ltd.,Healthcare,LSTM,70.51,87.52,6.99,47.5,-4.69,False
 NESTLEIND,Nestle India Ltd.,Fast Moving Consumer Goods,Baseline,90.28,117.33,6.41,0.0,0.0,False
 NESTLEIND,Nestle India Ltd.,Fast Moving Consumer Goods,ARIMA,89.55,114.94,6.42,56.67,0.81,True
 NESTLEIND,Nestle India Ltd.,Fast Moving Consumer Goods,XGBoost,209.44,229.14,14.51,59.17,-131.99,False
-NESTLEIND,Nestle India Ltd.,Fast Moving Consumer Goods,LSTM,137.82,147.19,9.66,55.83,-52.66,False
+NESTLEIND,Nestle India Ltd.,Fast Moving Consumer Goods,LSTM,138.94,146.88,9.76,53.33,-53.9,False
 NTPC,NTPC Ltd.,Power,Baseline,16.19,19.99,4.44,0.0,0.0,False
 NTPC,NTPC Ltd.,Power,ARIMA,16.38,20.36,4.47,57.5,-1.19,False
 NTPC,NTPC Ltd.,Power,XGBoost,18.95,25.55,5.18,63.33,-17.08,False
-NTPC,NTPC Ltd.,Power,LSTM,13.11,16.5,3.61,87.5,19.03,True
+NTPC,NTPC Ltd.,Power,LSTM,15.11,19.2,4.2,60.0,6.67,True
 ONGC,Oil & Natural Gas Corporation Ltd.,Oil Gas & Consumable Fuels,Baseline,15.34,20.86,5.99,0.0,0.0,False
 ONGC,Oil & Natural Gas Corporation Ltd.,Oil Gas & Consumable Fuels,ARIMA,16.18,22.16,6.37,47.5,-5.49,False
 ONGC,Oil & Natural Gas Corporation Ltd.,Oil Gas & Consumable Fuels,XGBoost,15.95,18.78,6.07,47.5,-3.99,True
-ONGC,Oil & Natural Gas Corporation Ltd.,Oil Gas & Consumable Fuels,LSTM,14.96,18.96,5.59,49.17,2.49,False
+ONGC,Oil & Natural Gas Corporation Ltd.,Oil Gas & Consumable Fuels,LSTM,16.38,19.24,6.37,48.33,-6.78,False
 POWERGRID,Power Grid Corporation of India Ltd.,Power,Baseline,12.59,15.7,4.35,0.83,0.0,False
-POWERGRID,Power Grid Corporation of India Ltd.,Power,ARIMA,12.46,15.6,4.3,60.0,1.07,True
+POWERGRID,Power Grid Corporation of India Ltd.,Power,ARIMA,12.46,15.6,4.3,60.0,1.07,False
 POWERGRID,Power Grid Corporation of India Ltd.,Power,XGBoost,14.26,18.92,4.95,63.33,-13.23,False
-POWERGRID,Power Grid Corporation of India Ltd.,Power,LSTM,14.34,16.75,4.97,50.83,-13.87,False
-RELIANCE,Reliance Industries Ltd.,Oil Gas & Consumable Fuels,Baseline,41.9,56.91,3.16,0.83,0.0,True
+POWERGRID,Power Grid Corporation of India Ltd.,Power,LSTM,7.67,8.89,2.63,87.5,39.05,True
+RELIANCE,Reliance Industries Ltd.,Oil Gas & Consumable Fuels,Baseline,41.9,56.91,3.16,0.83,0.0,False
 RELIANCE,Reliance Industries Ltd.,Oil Gas & Consumable Fuels,ARIMA,54.09,71.13,4.09,36.67,-29.09,False
 RELIANCE,Reliance Industries Ltd.,Oil Gas & Consumable Fuels,XGBoost,54.25,65.16,4.08,69.17,-29.47,False
-RELIANCE,Reliance Industries Ltd.,Oil Gas & Consumable Fuels,LSTM,47.51,60.63,3.59,63.33,-13.39,False
-SBILIFE,SBI Life Insurance Co. Ltd.,Financial Services,Baseline,87.0,107.44,4.81,0.0,0.0,True
-SBILIFE,SBI Life Insurance Co. Ltd.,Financial Services,ARIMA,102.27,126.75,5.68,35.83,-17.55,False
+RELIANCE,Reliance Industries Ltd.,Oil Gas & Consumable Fuels,LSTM,50.49,58.63,3.78,52.5,-20.5,True
+SBILIFE,SBI Life Insurance Co. Ltd.,Financial Services,Baseline,87.0,107.44,4.81,0.0,0.0,False
+SBILIFE,SBI Life Insurance Co. Ltd.,Financial Services,ARIMA,102.27,126.75,5.68,35.83,-17.55,True
 SBILIFE,SBI Life Insurance Co. Ltd.,Financial Services,XGBoost,136.26,154.09,7.56,40.83,-56.63,False
-SBILIFE,SBI Life Insurance Co. Ltd.,Financial Services,LSTM,180.97,203.6,9.89,66.67,-108.01,False
+SBILIFE,SBI Life Insurance Co. Ltd.,Financial Services,LSTM,130.16,154.36,7.24,57.5,-49.61,False
 SBIN,State Bank of India,Financial Services,Baseline,68.15,85.5,6.7,0.0,0.0,False
-SBIN,State Bank of India,Financial Services,ARIMA,70.54,96.23,7.0,54.17,-3.51,False
+SBIN,State Bank of India,Financial Services,ARIMA,70.54,96.23,7.0,54.17,-3.51,True
 SBIN,State Bank of India,Financial Services,XGBoost,227.18,231.16,21.92,48.33,-233.36,False
-SBIN,State Bank of India,Financial Services,LSTM,58.71,69.85,5.68,68.33,13.85,True
-SHRIRAMFIN,Shriram Finance Ltd.,Financial Services,Baseline,76.66,89.01,7.68,0.0,0.0,True
-SHRIRAMFIN,Shriram Finance Ltd.,Financial Services,ARIMA,74.22,93.22,7.61,58.33,3.19,False
+SBIN,State Bank of India,Financial Services,LSTM,82.0,100.44,7.91,51.67,-20.32,False
+SHRIRAMFIN,Shriram Finance Ltd.,Financial Services,Baseline,76.66,89.01,7.68,0.0,0.0,False
+SHRIRAMFIN,Shriram Finance Ltd.,Financial Services,ARIMA,74.22,93.22,7.61,58.33,3.19,True
 SHRIRAMFIN,Shriram Finance Ltd.,Financial Services,XGBoost,355.72,365.63,34.81,42.5,-364.03,False
-SHRIRAMFIN,Shriram Finance Ltd.,Financial Services,LSTM,170.35,194.67,16.9,42.5,-122.22,False
+SHRIRAMFIN,Shriram Finance Ltd.,Financial Services,LSTM,153.85,173.09,15.12,42.5,-100.7,False
 SUNPHARMA,Sun Pharmaceutical Industries Ltd.,Healthcare,Baseline,83.53,99.95,4.53,0.0,0.0,False
 SUNPHARMA,Sun Pharmaceutical Industries Ltd.,Healthcare,ARIMA,83.25,97.26,4.53,56.67,0.34,True
 SUNPHARMA,Sun Pharmaceutical Industries Ltd.,Healthcare,XGBoost,151.77,173.93,8.05,56.67,-81.69,False
-SUNPHARMA,Sun Pharmaceutical Industries Ltd.,Healthcare,LSTM,132.94,147.1,7.13,50.0,-59.15,False
+SUNPHARMA,Sun Pharmaceutical Industries Ltd.,Healthcare,LSTM,132.62,157.41,7.23,51.67,-58.77,False
 TATACONSUM,Tata Consumer Products Ltd.,Fast Moving Consumer Goods,Baseline,63.6,79.9,5.73,0.0,0.0,False
 TATACONSUM,Tata Consumer Products Ltd.,Fast Moving Consumer Goods,ARIMA,73.07,86.37,6.64,36.67,-14.89,False
 TATACONSUM,Tata Consumer Products Ltd.,Fast Moving Consumer Goods,XGBoost,63.98,89.87,5.62,67.5,-0.6,False
-TATACONSUM,Tata Consumer Products Ltd.,Fast Moving Consumer Goods,LSTM,55.69,72.69,4.97,56.67,12.44,True
+TATACONSUM,Tata Consumer Products Ltd.,Fast Moving Consumer Goods,LSTM,66.58,79.83,6.08,51.67,-4.69,True
 TATAMOTORS,Tata Motors Ltd.,Automobile and Auto Components,Baseline,32.21,38.73,9.54,0.0,0.0,False
 TATAMOTORS,Tata Motors Ltd.,Automobile and Auto Components,ARIMA,32.57,39.59,9.68,50.0,-1.11,False
 TATAMOTORS,Tata Motors Ltd.,Automobile and Auto Components,XGBoost,18.62,23.4,5.41,76.67,42.19,True
-TATAMOTORS,Tata Motors Ltd.,Automobile and Auto Components,LSTM,31.0,39.09,8.99,62.5,3.74,False
-TCS,Tata Consultancy Services Ltd.,Information Technology,Baseline,166.51,197.2,7.24,0.0,0.0,True
-TCS,Tata Consultancy Services Ltd.,Information Technology,ARIMA,173.15,211.24,7.54,46.67,-3.99,False
+TATAMOTORS,Tata Motors Ltd.,Automobile and Auto Components,LSTM,24.37,29.76,7.16,65.83,24.33,False
+TCS,Tata Consultancy Services Ltd.,Information Technology,Baseline,166.51,197.2,7.24,0.0,0.0,False
+TCS,Tata Consultancy Services Ltd.,Information Technology,ARIMA,173.15,211.24,7.54,46.67,-3.99,True
 TCS,Tata Consultancy Services Ltd.,Information Technology,XGBoost,949.21,960.73,41.62,40.0,-470.06,False
-TCS,Tata Consultancy Services Ltd.,Information Technology,LSTM,545.04,578.27,23.95,42.5,-227.33,False
+TCS,Tata Consultancy Services Ltd.,Information Technology,LSTM,479.47,509.06,21.09,41.67,-187.95,False
 TECHM,Tech Mahindra Ltd.,Information Technology,Baseline,83.04,104.17,5.47,0.0,0.0,False
 TECHM,Tech Mahindra Ltd.,Information Technology,ARIMA,87.88,110.38,5.77,48.33,-5.83,False
 TECHM,Tech Mahindra Ltd.,Information Technology,XGBoost,73.14,89.01,4.97,72.5,11.92,True
-TECHM,Tech Mahindra Ltd.,Information Technology,LSTM,75.34,91.72,5.02,69.17,9.27,False
+TECHM,Tech Mahindra Ltd.,Information Technology,LSTM,90.35,126.99,5.94,60.83,-8.81,False
 TITAN,Titan Company Ltd.,Consumer Durables,Baseline,309.23,336.63,6.85,0.0,0.0,False
 TITAN,Titan Company Ltd.,Consumer Durables,ARIMA,300.45,326.14,6.69,55.83,2.84,True
 TITAN,Titan Company Ltd.,Consumer Durables,XGBoost,1144.49,1217.33,24.74,30.83,-270.11,False
-TITAN,Titan Company Ltd.,Consumer Durables,LSTM,599.75,668.74,12.99,41.67,-93.95,False
+TITAN,Titan Company Ltd.,Consumer Durables,LSTM,473.65,549.2,10.18,45.0,-53.17,False
 TRENT,Trent Ltd.,Consumer Services,Baseline,436.73,594.8,13.33,0.0,0.0,False
 TRENT,Trent Ltd.,Consumer Services,ARIMA,444.65,577.33,13.16,60.0,-1.81,True
 TRENT,Trent Ltd.,Consumer Services,XGBoost,766.56,926.79,24.97,44.17,-75.52,False
-TRENT,Trent Ltd.,Consumer Services,LSTM,704.39,794.61,21.85,62.5,-61.29,False
+TRENT,Trent Ltd.,Consumer Services,LSTM,614.85,819.42,18.92,59.17,-40.78,False
 ULTRACEMCO,UltraTech Cement Ltd.,Construction Materials,Baseline,686.41,868.69,6.04,0.0,0.0,False
 ULTRACEMCO,UltraTech Cement Ltd.,Construction Materials,ARIMA,680.34,864.2,5.95,54.17,0.88,False
-ULTRACEMCO,UltraTech Cement Ltd.,Construction Materials,XGBoost,385.13,529.28,3.43,85.83,43.89,False
-ULTRACEMCO,UltraTech Cement Ltd.,Construction Materials,LSTM,364.71,501.05,3.22,90.83,46.87,True
-WIPRO,Wipro Ltd.,Information Technology,Baseline,10.99,13.61,5.98,0.0,0.0,True
-WIPRO,Wipro Ltd.,Information Technology,ARIMA,11.29,14.32,6.13,50.83,-2.74,False
+ULTRACEMCO,UltraTech Cement Ltd.,Construction Materials,XGBoost,385.13,529.28,3.43,85.83,43.89,True
+ULTRACEMCO,UltraTech Cement Ltd.,Construction Materials,LSTM,420.3,539.25,3.68,91.67,38.77,False
+WIPRO,Wipro Ltd.,Information Technology,Baseline,10.99,13.61,5.98,0.0,0.0,False
+WIPRO,Wipro Ltd.,Information Technology,ARIMA,11.29,14.32,6.13,50.83,-2.74,True
 WIPRO,Wipro Ltd.,Information Technology,XGBoost,19.29,21.42,10.62,48.33,-75.57,False
-WIPRO,Wipro Ltd.,Information Technology,LSTM,22.91,26.23,12.61,48.33,-108.49,False
+WIPRO,Wipro Ltd.,Information Technology,LSTM,25.83,29.38,14.12,45.0,-135.0,False
 ZOMATO,Eternal Ltd. (Zomato),Consumer Services,Baseline,20.99,24.89,7.56,0.0,0.0,False
 ZOMATO,Eternal Ltd. (Zomato),Consumer Services,ARIMA,23.48,27.85,8.44,40.83,-11.84,False
 ZOMATO,Eternal Ltd. (Zomato),Consumer Services,XGBoost,20.53,25.36,7.92,63.33,2.21,False
-ZOMATO,Eternal Ltd. (Zomato),Consumer Services,LSTM,12.18,14.42,4.6,85.0,41.98,True
+ZOMATO,Eternal Ltd. (Zomato),Consumer Services,LSTM,14.54,17.23,5.18,78.33,30.71,True

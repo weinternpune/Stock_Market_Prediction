@@ -1,17 +1,17 @@
 {
   "total_stocks_modeled": 50,
   "model_win_counts": {
-    "Baseline": 21,
-    "LSTM": 16,
-    "ARIMA": 7,
-    "XGBoost": 6
+    "ARIMA": 24,
+    "LSTM": 18,
+    "XGBoost": 8
   },
-  "average_expected_return_pct": 1.38,
-  "median_expected_return_pct": 0.01,
-  "stocks_predicted_positive": 25,
-  "stocks_predicted_negative": 4,
-  "overall_mean_rmse": 164.4,
-  "overall_mean_mae": 131.89,
-  "overall_mean_mape": 5.57,
-  "overall_mean_directional_acc": 38.55
+  "average_expected_return_pct": 1.41,
+  "median_expected_return_pct": 0.1,
+  "stocks_predicted_positive": 34,
+  "stocks_predicted_negative": 15,
+  "overall_mean_rmse": 169.18,
+  "overall_mean_mae": 137.01,
+  "overall_mean_mape": 5.83,
+  "overall_mean_directional_acc": 58.72,
+  "stocks_predicted_neutral": 1
 }

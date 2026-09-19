@@ -185,6 +185,8 @@ class MasterForecastingPipeline:
         
         expected_change = round(best_pred_future - latest_price, 2)
         expected_return_pct = round((expected_change / latest_price) * 100.0, 2)
+        if abs(expected_return_pct) < 0.005:
+            expected_return_pct = 0.00
         
         # Uncertainty Interval (1.645 * residual std for 90% confidence range)
         best_test_errors = y_test - test_predictions[best_model_name]
@@ -338,6 +340,7 @@ class MasterForecastingPipeline:
             "median_expected_return_pct": round(float(pred_df['Expected_Return_Pct'].median()), 2),
             "stocks_predicted_positive": int((pred_df['Expected_Return_Pct'] > 0).sum()),
             "stocks_predicted_negative": int((pred_df['Expected_Return_Pct'] < 0).sum()),
+            "stocks_predicted_neutral": int((pred_df['Expected_Return_Pct'] == 0).sum()),
             "overall_mean_rmse": round(float(pred_df['RMSE'].mean()), 2),
             "overall_mean_mae": round(float(pred_df['MAE'].mean()), 2),
             "overall_mean_mape": round(float(pred_df['MAPE'].mean()), 2),

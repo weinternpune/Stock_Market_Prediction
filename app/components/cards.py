@@ -15,8 +15,12 @@ def metric_card(title: str, value: str, delta: str = None, is_positive: bool = T
     """
     delta_part = ""
     if delta:
-        delta_class = "metric-delta-pos" if is_positive else "metric-delta-neg"
-        arrow = "▲" if is_positive else "▼"
+        if is_positive is None:
+            delta_class = "metric-delta-neu"
+            arrow = "■"
+        else:
+            delta_class = "metric-delta-pos" if is_positive else "metric-delta-neg"
+            arrow = "▲" if is_positive else "▼"
         delta_part = f'<span class="{delta_class}">{arrow} {delta}</span>'
         
     subtext_part = f'<span class="metric-subtext">{subtext}</span>' if subtext else ""
@@ -26,10 +30,15 @@ def metric_card(title: str, value: str, delta: str = None, is_positive: bool = T
     if not footer_content:
         footer_content = '<span class="metric-subtext">&nbsp;</span>'
         
+    # If the text is long or represents a range interval, apply compact styling to prevent ellipsis truncation
+    val_str = str(value)
+    is_compact = len(val_str) > 12 or "–" in val_str or " - " in val_str
+    val_class = "metric-value-compact" if is_compact else "metric-value"
+        
     html = (
         f'<div class="metric-card">'
         f'<div class="metric-title">{title}</div>'
-        f'<div class="metric-value">{value}</div>'
+        f'<div class="{val_class}">{value}</div>'
         f'<div class="metric-footer">{footer_content}</div>'
         f'</div>'
     )

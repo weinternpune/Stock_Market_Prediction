@@ -1,6 +1,6 @@
 {
   "symbol": "HDFCBANK",
-  "best_model": "LSTM",
+  "best_model": "ARIMA",
   "metrics": {
     "Baseline": {
       "mae": 49.16,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": -29.66
     },
     "LSTM": {
-      "mae": 40.55,
-      "rmse": 50.05,
-      "mape": 5.41,
-      "directional_accuracy": 60.83,
-      "baseline_improvement_pct": 17.51
+      "mae": 70.76,
+      "rmse": 86.43,
+      "mape": 9.11,
+      "directional_accuracy": 70.0,
+      "baseline_improvement_pct": -43.94
     }
   },
   "future_forecasts": {
     "Baseline": 708.25,
     "ARIMA": 706.7357658338199,
     "XGBoost": 764.8695678710938,
-    "LSTM": 762.0203857421875
+    "LSTM": 708.7050170898438
   }
 }

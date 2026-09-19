@@ -44,13 +44,11 @@ def get_stock_data():
     df['Date'] = pd.to_datetime(df['Date'])
     return df
 
-@st.cache_data
 def get_predictions_data():
     if not PREDICTIONS_CSV.exists():
         return None
     return pd.read_csv(PREDICTIONS_CSV)
 
-@st.cache_data
 def get_comparison_data():
     if not MODEL_COMPARISON_CSV.exists():
         return None
@@ -118,7 +116,7 @@ def render_page():
     with k3:
         metric_card(
             "90% Prediction Interval",
-            f"₹{stock_pred['Lower_Bound_90']:,.1f} – ₹{stock_pred['Upper_Bound_90']:,.1f}",
+            f"₹{int(round(stock_pred['Lower_Bound_90'])):,} – ₹{int(round(stock_pred['Upper_Bound_90'])):,}",
             subtext="Based on empirical test residual std"
         )
     with k4:

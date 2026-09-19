@@ -1,6 +1,6 @@
 {
   "symbol": "BAJAJ-AUTO",
-  "best_model": "Baseline",
+  "best_model": "ARIMA",
   "metrics": {
     "Baseline": {
       "mae": 743.97,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": -44.87
     },
     "LSTM": {
-      "mae": 824.98,
-      "rmse": 1023.65,
-      "mape": 7.58,
-      "directional_accuracy": 47.5,
-      "baseline_improvement_pct": -10.89
+      "mae": 807.21,
+      "rmse": 961.85,
+      "mape": 7.73,
+      "directional_accuracy": 60.0,
+      "baseline_improvement_pct": -8.5
     }
   },
   "future_forecasts": {
     "Baseline": 11678.0,
     "ARIMA": 11683.545823507682,
     "XGBoost": 9650.81640625,
-    "LSTM": 10353.0771484375
+    "LSTM": 10985.5927734375
   }
 }

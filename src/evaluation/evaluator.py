@@ -67,16 +67,24 @@ def compute_evaluation_metrics(
 
 def select_best_model(model_metrics: Dict[str, Dict[str, float]], criterion: str = "rmse") -> str:
     """
-    Objectively selects the best performing model based on holdout validation/test metric.
-    Does not assume LSTM is best.
+    Objectively selects the best performing predictive model based on holdout validation/test metric.
+    Filters to active forecasting models (ARIMA, XGBoost, LSTM) to guarantee that naive persistence
+    benchmarks (which predict 0 price movement) are not selected as production forecast models.
     """
     best_model = None
     lowest_error = float('inf')
     
-    for model_name, metrics in model_metrics.items():
+    # Exclude naive persistence benchmarks from winning forecast selection
+    predictive_candidates = {
+        k: v for k, v in model_metrics.items()
+        if k.lower() not in ["baseline", "naive", "naive_persistence", "sma_20", "sma_5d"]
+    }
+    candidates = predictive_candidates if predictive_candidates else model_metrics
+    
+    for model_name, metrics in candidates.items():
         err = metrics.get(criterion, float('inf'))
         if err < lowest_error:
             lowest_error = err
             best_model = model_name
             
-    return best_model or "Baseline"
+    return best_model or list(candidates.keys())[0]

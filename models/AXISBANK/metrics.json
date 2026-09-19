@@ -1,6 +1,6 @@
 {
   "symbol": "AXISBANK",
-  "best_model": "Baseline",
+  "best_model": "ARIMA",
   "metrics": {
     "Baseline": {
       "mae": 79.76,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": -101.24
     },
     "LSTM": {
-      "mae": 90.52,
-      "rmse": 108.2,
-      "mape": 6.92,
-      "directional_accuracy": 53.33,
-      "baseline_improvement_pct": -13.5
+      "mae": 101.91,
+      "rmse": 123.02,
+      "mape": 7.78,
+      "directional_accuracy": 51.67,
+      "baseline_improvement_pct": -27.77
     }
   },
   "future_forecasts": {
     "Baseline": 1246.0,
     "ARIMA": 1246.3856010436225,
     "XGBoost": 1113.5970458984375,
-    "LSTM": 1241.5316162109375
+    "LSTM": 1280.4400634765625
   }
 }

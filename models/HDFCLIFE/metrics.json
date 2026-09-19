@@ -1,6 +1,6 @@
 {
   "symbol": "HDFCLIFE",
-  "best_model": "Baseline",
+  "best_model": "ARIMA",
   "metrics": {
     "Baseline": {
       "mae": 31.35,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": -21.33
     },
     "LSTM": {
-      "mae": 36.72,
-      "rmse": 47.02,
-      "mape": 6.36,
-      "directional_accuracy": 40.83,
-      "baseline_improvement_pct": -17.14
+      "mae": 45.14,
+      "rmse": 56.45,
+      "mape": 7.9,
+      "directional_accuracy": 29.17,
+      "baseline_improvement_pct": -44.0
     }
   },
   "future_forecasts": {
     "Baseline": 530.0,
     "ARIMA": 530.0719521649345,
     "XGBoost": 548.9349975585938,
-    "LSTM": 548.14599609375
+    "LSTM": 558.91064453125
   }
 }

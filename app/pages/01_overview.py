@@ -54,33 +54,37 @@ def render_page():
     with c3:
         metric_card("Latest Date", str(df['Latest_Date'].max()), subtext="Market Close")
     with c4:
-        metric_card("Horizon", "21 Trading Days", subtext="~1 Month Ahead")
+        metric_card("Horizon", "21 Days", subtext="Trading Sessions (~1 Mo)")
     with c5:
-        best_overall = max(summary.get("model_win_counts", {"XGBoost": 1}).items(), key=lambda x: x[1])[0]
+        best_overall = max(summary.get("model_win_counts", {"ARIMA": 1}).items(), key=lambda x: x[1])[0]
         metric_card("Top Model", best_overall, subtext="By Lowest Test RMSE")
         
     st.markdown('<div class="section-header">Market Outlook Summary</div>', unsafe_allow_html=True)
     
-    # KPI Row 2: Prediction Summary
-    m1, m2, m3, m4 = st.columns(4)
+    # KPI Row 2: Prediction Summary (Accounting for all 50 constituent stocks with Positive, Negative, and Neutral)
+    m1, m2, m3, m4, m5 = st.columns(5)
     avg_ret = df['Expected_Return_Pct'].mean()
     med_ret = df['Expected_Return_Pct'].median()
     n_pos = (df['Expected_Return_Pct'] > 0).sum()
     n_neg = (df['Expected_Return_Pct'] < 0).sum()
+    n_neu = (df['Expected_Return_Pct'] == 0).sum()
     
     with m1:
-        metric_card("Predicted Up", f"{n_pos} / {len(df)}", delta=f"{(n_pos/len(df))*100:.1f}%", is_positive=True)
+        metric_card("Predicted Up (+ve)", f"{n_pos} / {len(df)}", delta=f"{(n_pos/len(df))*100:.1f}%", is_positive=True)
     with m2:
-        metric_card("Predicted Down", f"{n_neg} / {len(df)}", delta=f"{(n_neg/len(df))*100:.1f}%", is_positive=False)
+        metric_card("Predicted Down (-ve)", f"{n_neg} / {len(df)}", delta=f"{(n_neg/len(df))*100:.1f}%", is_positive=False)
     with m3:
-        metric_card("Mean Forecast Return", f"{avg_ret:+.2f}%", is_positive=(avg_ret >= 0))
+        metric_card("Predicted Neutral", f"{n_neu} / {len(df)}", delta=f"{(n_neu/len(df))*100:.1f}%", is_positive=None, subtext="Flat (0.00% Return)")
     with m4:
+        metric_card("Mean Forecast Return", f"{avg_ret:+.2f}%", is_positive=(avg_ret >= 0))
+    with m5:
         metric_card("Median Forecast Return", f"{med_ret:+.2f}%", is_positive=(med_ret >= 0))
         
     # Automated Neutral Summary
     st.info(
-        f"📊 **Automated Market Synthesis**: Out of {len(df)} evaluated NIFTY 50 stocks, **{n_pos} stocks** have predicted prices "
-        f"above their latest closing price over the 21-trading-day horizon, while **{n_neg} stocks** are projected lower. "
+        f"📊 **Automated Market Synthesis**: Out of {len(df)} evaluated NIFTY 50 stocks, **{n_pos} stocks** have predicted positive returns "
+        f"(bullish, > 0.00%), **{n_neg} stocks** are projected lower (bearish, < 0.00%), and **{n_neu} stock{'s' if n_neu != 1 else ''}** "
+        f"are projected neutral / flat (0.00% return). Exactly 100% of the constituent universe is accounted for. "
         f"The median expected return is **{med_ret:+.2f}%**. These projections represent model central tendencies subject to historical error bounds."
     )
     

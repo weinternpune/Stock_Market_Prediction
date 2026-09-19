@@ -1,6 +1,6 @@
 {
   "symbol": "DRREDDY",
-  "best_model": "XGBoost",
+  "best_model": "LSTM",
   "metrics": {
     "Baseline": {
       "mae": 62.79,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": 8.24
     },
     "LSTM": {
-      "mae": 56.42,
-      "rmse": 70.89,
-      "mape": 4.59,
-      "directional_accuracy": 68.33,
-      "baseline_improvement_pct": 10.15
+      "mae": 50.53,
+      "rmse": 62.29,
+      "mape": 4.06,
+      "directional_accuracy": 65.83,
+      "baseline_improvement_pct": 19.53
     }
   },
   "future_forecasts": {
     "Baseline": 1165.5,
     "ARIMA": 1166.5333865709322,
     "XGBoost": 1266.16064453125,
-    "LSTM": 1265.857177734375
+    "LSTM": 1223.6431884765625
   }
 }

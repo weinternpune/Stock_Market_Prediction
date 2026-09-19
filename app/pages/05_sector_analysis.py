@@ -30,7 +30,6 @@ except ModuleNotFoundError:
     from components.cards import metric_card
     from components.charts import CHART_THEME
 
-@st.cache_data
 def get_predictions():
     if not PREDICTIONS_CSV.exists():
         return None
@@ -52,7 +51,7 @@ def render_page():
         Company_Count=('Symbol', 'count'),
         Avg_Expected_Return=('Expected_Return_Pct', 'mean'),
         Median_Expected_Return=('Expected_Return_Pct', 'median'),
-        Positive_Count=('Expected_Return_Pct', lambda x: (x > 0).sum()),
+        Positive_Count=('Expected_Return_Pct', lambda x: (x >= 0).sum()),
         Best_Stock=('Symbol', lambda s: df.loc[s.index].sort_values('Expected_Return_Pct', ascending=False)['Symbol'].iloc[0]),
         Best_Stock_Return=('Expected_Return_Pct', 'max'),
         Worst_Stock=('Symbol', lambda s: df.loc[s.index].sort_values('Expected_Return_Pct', ascending=True)['Symbol'].iloc[0]),

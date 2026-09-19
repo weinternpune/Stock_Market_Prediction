@@ -1,6 +1,6 @@
 {
   "symbol": "INDIGO",
-  "best_model": "Baseline",
+  "best_model": "LSTM",
   "metrics": {
     "Baseline": {
       "mae": 346.63,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": -29.48
     },
     "LSTM": {
-      "mae": 432.76,
-      "rmse": 530.67,
-      "mape": 9.32,
-      "directional_accuracy": 59.17,
-      "baseline_improvement_pct": -24.85
+      "mae": 300.43,
+      "rmse": 384.18,
+      "mape": 6.33,
+      "directional_accuracy": 69.17,
+      "baseline_improvement_pct": 13.33
     }
   },
   "future_forecasts": {
     "Baseline": 4973.0,
     "ARIMA": 4971.369446553361,
     "XGBoost": 5395.03662109375,
-    "LSTM": 5018.85693359375
+    "LSTM": 4752.966796875
   }
 }

@@ -1,6 +1,6 @@
 {
   "symbol": "WIPRO",
-  "best_model": "Baseline",
+  "best_model": "ARIMA",
   "metrics": {
     "Baseline": {
       "mae": 10.99,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": -75.57
     },
     "LSTM": {
-      "mae": 22.91,
-      "rmse": 26.23,
-      "mape": 12.61,
-      "directional_accuracy": 48.33,
-      "baseline_improvement_pct": -108.49
+      "mae": 25.83,
+      "rmse": 29.38,
+      "mape": 14.12,
+      "directional_accuracy": 45.0,
+      "baseline_improvement_pct": -135.0
     }
   },
   "future_forecasts": {
     "Baseline": 167.4,
     "ARIMA": 165.8261831613706,
     "XGBoost": 197.47694396972656,
-    "LSTM": 197.13165283203125
+    "LSTM": 184.7308807373047
   }
 }

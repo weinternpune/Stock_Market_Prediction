@@ -1,6 +1,6 @@
 {
   "symbol": "SBILIFE",
-  "best_model": "Baseline",
+  "best_model": "ARIMA",
   "metrics": {
     "Baseline": {
       "mae": 87.0,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": -56.63
     },
     "LSTM": {
-      "mae": 180.97,
-      "rmse": 203.6,
-      "mape": 9.89,
-      "directional_accuracy": 66.67,
-      "baseline_improvement_pct": -108.01
+      "mae": 130.16,
+      "rmse": 154.36,
+      "mape": 7.24,
+      "directional_accuracy": 57.5,
+      "baseline_improvement_pct": -49.61
     }
   },
   "future_forecasts": {
     "Baseline": 1684.7,
     "ARIMA": 1687.0368923822912,
     "XGBoost": 1632.6865234375,
-    "LSTM": 1781.960693359375
+    "LSTM": 1885.468505859375
   }
 }

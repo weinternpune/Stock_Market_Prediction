@@ -68,6 +68,16 @@ def apply_custom_styles():
         overflow: hidden;
         text-overflow: ellipsis;
     }
+    .metric-value-compact {
+        font-size: 1.15rem;
+        font-weight: 800;
+        color: #f8fafc;
+        line-height: 1.25;
+        margin: 2px 0;
+        white-space: normal;
+        word-break: break-word;
+        overflow: visible;
+    }
     .metric-footer {
         display: flex;
         align-items: center;
@@ -86,6 +96,13 @@ def apply_custom_styles():
     .metric-delta-neg {
         font-weight: 700;
         color: #f43f5e;
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+    }
+    .metric-delta-neu {
+        font-weight: 700;
+        color: #94a3b8;
         display: inline-flex;
         align-items: center;
         gap: 3px;

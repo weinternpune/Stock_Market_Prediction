@@ -24,7 +24,6 @@ try:
 except ModuleNotFoundError:
     from components.styling import apply_custom_styles
 
-@st.cache_data
 def get_ranking_data():
     if not STOCK_RANKING_CSV.exists():
         return None
@@ -52,19 +51,21 @@ def render_page():
         all_models = ["All Models"] + sorted(df['Best_Model'].unique().tolist())
         selected_model = st.selectbox("Best Model:", all_models)
     with f3:
-        ret_filter = st.selectbox("Return Trajectory:", ["All", "Positive (> 0%)", "Negative (< 0%)"])
+        ret_filter = st.selectbox("Return Trajectory:", ["All (50 Stocks)", "Positive / Bullish (+ve)", "Negative / Bearish (-ve)", "Neutral / Flat (0.00%)"])
     with f4:
-        top_n = st.selectbox("Display Limit:", ["All 50", "Top 10 Gainers", "Top 20 Gainers", "Bottom 10 Losers"])
+        top_n = st.selectbox("Display Limit:", ["All", "Top 10 Gainers", "Top 20 Gainers", "Bottom 10 Losers"])
         
     filtered_df = df.copy()
     if selected_ind != "All Industries":
         filtered_df = filtered_df[filtered_df['Industry'] == selected_ind]
     if selected_model != "All Models":
         filtered_df = filtered_df[filtered_df['Best_Model'] == selected_model]
-    if ret_filter == "Positive (> 0%)":
+    if ret_filter == "Positive / Bullish (+ve)":
         filtered_df = filtered_df[filtered_df['Expected_Return_Pct'] > 0]
-    elif ret_filter == "Negative (< 0%)":
+    elif ret_filter == "Negative / Bearish (-ve)":
         filtered_df = filtered_df[filtered_df['Expected_Return_Pct'] < 0]
+    elif ret_filter == "Neutral / Flat (0.00%)":
+        filtered_df = filtered_df[filtered_df['Expected_Return_Pct'] == 0]
         
     if top_n == "Top 10 Gainers":
         filtered_df = filtered_df.head(10)
@@ -73,7 +74,8 @@ def render_page():
     elif top_n == "Bottom 10 Losers":
         filtered_df = filtered_df.tail(10)
         
-    st.markdown(f"**Displaying {len(filtered_df)} of {len(df)} stocks**")
+    pct_display = (len(filtered_df) / len(df)) * 100.0
+    st.markdown(f"**Displaying {len(filtered_df)} of {len(df)} stocks ({pct_display:.0f}% of NIFTY 50 Universe)**")
     
     # Format display columns
     display_df = filtered_df[[

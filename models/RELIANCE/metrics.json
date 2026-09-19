@@ -1,6 +1,6 @@
 {
   "symbol": "RELIANCE",
-  "best_model": "Baseline",
+  "best_model": "LSTM",
   "metrics": {
     "Baseline": {
       "mae": 41.9,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": -29.47
     },
     "LSTM": {
-      "mae": 47.51,
-      "rmse": 60.63,
-      "mape": 3.59,
-      "directional_accuracy": 63.33,
-      "baseline_improvement_pct": -13.39
+      "mae": 50.49,
+      "rmse": 58.63,
+      "mape": 3.78,
+      "directional_accuracy": 52.5,
+      "baseline_improvement_pct": -20.5
     }
   },
   "future_forecasts": {
     "Baseline": 1257.5,
     "ARIMA": 1268.8190835913156,
     "XGBoost": 1233.73193359375,
-    "LSTM": 1321.533935546875
+    "LSTM": 1243.214111328125
   }
 }

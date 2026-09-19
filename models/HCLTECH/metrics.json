@@ -1,6 +1,6 @@
 {
   "symbol": "HCLTECH",
-  "best_model": "Baseline",
+  "best_model": "ARIMA",
   "metrics": {
     "Baseline": {
       "mae": 110.11,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": -67.5
     },
     "LSTM": {
-      "mae": 165.68,
-      "rmse": 198.98,
-      "mape": 13.54,
-      "directional_accuracy": 27.5,
-      "baseline_improvement_pct": -50.47
+      "mae": 223.04,
+      "rmse": 260.02,
+      "mape": 18.6,
+      "directional_accuracy": 42.5,
+      "baseline_improvement_pct": -102.56
     }
   },
   "future_forecasts": {
     "Baseline": 1206.1,
     "ARIMA": 1202.80560627591,
     "XGBoost": 1292.3787841796875,
-    "LSTM": 1279.4061279296875
+    "LSTM": 1384.004638671875
   }
 }

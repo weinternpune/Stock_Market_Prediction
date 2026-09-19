@@ -1,6 +1,6 @@
 {
   "symbol": "CIPLA",
-  "best_model": "Baseline",
+  "best_model": "LSTM",
   "metrics": {
     "Baseline": {
       "mae": 72.45,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": -19.92
     },
     "LSTM": {
-      "mae": 67.93,
-      "rmse": 90.08,
-      "mape": 5.13,
-      "directional_accuracy": 60.83,
-      "baseline_improvement_pct": 6.24
+      "mae": 67.92,
+      "rmse": 88.51,
+      "mape": 5.06,
+      "directional_accuracy": 58.33,
+      "baseline_improvement_pct": 6.26
     }
   },
   "future_forecasts": {
     "Baseline": 1366.0,
     "ARIMA": 1365.2806500260033,
     "XGBoost": 1515.7420654296875,
-    "LSTM": 1420.9412841796875
+    "LSTM": 1358.5125732421875
   }
 }

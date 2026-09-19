@@ -1,6 +1,6 @@
 {
   "symbol": "ADANIENT",
-  "best_model": "LSTM",
+  "best_model": "XGBoost",
   "metrics": {
     "Baseline": {
       "mae": 272.71,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": 1.25
     },
     "LSTM": {
-      "mae": 184.82,
-      "rmse": 244.6,
-      "mape": 7.46,
-      "directional_accuracy": 77.5,
-      "baseline_improvement_pct": 32.23
+      "mae": 273.52,
+      "rmse": 316.39,
+      "mape": 10.25,
+      "directional_accuracy": 62.5,
+      "baseline_improvement_pct": -0.3
     }
   },
   "future_forecasts": {
     "Baseline": 3060.0,
     "ARIMA": 3063.0460171713366,
     "XGBoost": 3073.888427734375,
-    "LSTM": 3159.61669921875
+    "LSTM": 3099.302490234375
   }
 }

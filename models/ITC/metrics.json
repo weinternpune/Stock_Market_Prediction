@@ -1,6 +1,6 @@
 {
   "symbol": "ITC",
-  "best_model": "Baseline",
+  "best_model": "ARIMA",
   "metrics": {
     "Baseline": {
       "mae": 12.83,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": -346.66
     },
     "LSTM": {
-      "mae": 27.93,
-      "rmse": 30.65,
-      "mape": 9.87,
-      "directional_accuracy": 30.83,
-      "baseline_improvement_pct": -117.72
+      "mae": 21.11,
+      "rmse": 24.52,
+      "mape": 7.5,
+      "directional_accuracy": 43.33,
+      "baseline_improvement_pct": -64.55
     }
   },
   "future_forecasts": {
     "Baseline": 259.85,
     "ARIMA": 258.73637127283445,
     "XGBoost": 297.8542785644531,
-    "LSTM": 290.895263671875
+    "LSTM": 285.8704528808594
   }
 }

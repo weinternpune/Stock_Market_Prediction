@@ -1,6 +1,6 @@
 {
   "symbol": "TCS",
-  "best_model": "Baseline",
+  "best_model": "ARIMA",
   "metrics": {
     "Baseline": {
       "mae": 166.51,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": -470.06
     },
     "LSTM": {
-      "mae": 545.04,
-      "rmse": 578.27,
-      "mape": 23.95,
-      "directional_accuracy": 42.5,
-      "baseline_improvement_pct": -227.33
+      "mae": 479.47,
+      "rmse": 509.06,
+      "mape": 21.09,
+      "directional_accuracy": 41.67,
+      "baseline_improvement_pct": -187.95
     }
   },
   "future_forecasts": {
     "Baseline": 2200.8,
     "ARIMA": 2203.3583884699938,
     "XGBoost": 3277.644287109375,
-    "LSTM": 2877.578369140625
+    "LSTM": 2615.740234375
   }
 }

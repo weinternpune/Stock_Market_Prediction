@@ -1,6 +1,6 @@
 {
   "symbol": "MARUTI",
-  "best_model": "Baseline",
+  "best_model": "LSTM",
   "metrics": {
     "Baseline": {
       "mae": 697.58,
@@ -24,17 +24,17 @@
       "baseline_improvement_pct": -133.64
     },
     "LSTM": {
-      "mae": 1294.25,
-      "rmse": 1423.97,
-      "mape": 9.53,
-      "directional_accuracy": 48.33,
-      "baseline_improvement_pct": -85.53
+      "mae": 758.95,
+      "rmse": 966.65,
+      "mape": 5.73,
+      "directional_accuracy": 50.83,
+      "baseline_improvement_pct": -8.8
     }
   },
   "future_forecasts": {
     "Baseline": 12400.0,
     "ARIMA": 12395.59498396288,
     "XGBoost": 12048.66015625,
-    "LSTM": 11957.115234375
+    "LSTM": 12568.2919921875
   }
 }
