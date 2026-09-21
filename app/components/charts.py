@@ -119,22 +119,22 @@ def plot_price_and_indicators(stock_df: pd.DataFrame, symbol: str) -> go.Figure:
     return fig
 
 def plot_backtest_actual_vs_predicted(backtest_df: pd.DataFrame, symbol: str, model_name: str) -> go.Figure:
-    """Plots actual vs predicted future prices over the holdout test period."""
+    """Plots actual vs forecasted future prices over the rolling holdout test period."""
     sub = backtest_df[(backtest_df['Symbol'] == symbol) & (backtest_df['Model'] == model_name)].sort_values('Date')
     
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=sub['Date'], y=sub['Actual_Future_Close'],
-        mode='lines+markers', name="Actual Future Close (+21D)",
+        mode='lines+markers', name="Actual Future Close",
         line=dict(color='#f8fafc', width=2.5)
     ))
     fig.add_trace(go.Scatter(
         x=sub['Date'], y=sub['Predicted_Future_Close'],
-        mode='lines+markers', name=f"Predicted ({model_name})",
+        mode='lines+markers', name=f"Forecasted Future Close ({model_name})",
         line=dict(color='#38bdf8', width=2.0, dash='dash')
     ))
     
-    apply_clean_layout(fig, height=420, title=f"Holdout Backtest: Actual vs. Predicted 21-Day Forward Close — {symbol} ({model_name})")
+    apply_clean_layout(fig, height=430, title=f"Actual vs. Forecasted 21-Trading-Day Forward Close — {symbol} ({model_name})")
     fig.update_layout(
         xaxis_title="Origin Date",
         yaxis_title="Price (₹)",
@@ -143,7 +143,7 @@ def plot_backtest_actual_vs_predicted(backtest_df: pd.DataFrame, symbol: str, mo
     return fig
 
 def plot_residual_distribution(backtest_df: pd.DataFrame, symbol: str, model_name: str) -> go.Figure:
-    """Plots error distribution for test predictions."""
+    """Plots residual distribution (Actual - Forecasted) for test predictions."""
     sub = backtest_df[(backtest_df['Symbol'] == symbol) & (backtest_df['Model'] == model_name)]
     errors = sub['Error'].dropna()
     
@@ -151,12 +151,12 @@ def plot_residual_distribution(backtest_df: pd.DataFrame, symbol: str, model_nam
     fig.add_trace(go.Histogram(
         x=errors, nbinsx=25,
         marker_color='#6366f1', opacity=0.8,
-        name="Residual Error"
+        name="Residual (₹)"
     ))
     fig.add_vline(x=0, line_dash="solid", line_color="#f43f5e", line_width=1.5)
     
-    apply_clean_layout(fig, height=300, title=f"Prediction Error Distribution (Residuals: Actual - Predicted) — {symbol}")
-    fig.update_layout(xaxis_title="Error (₹)", yaxis_title="Frequency")
+    apply_clean_layout(fig, height=320, title=f"Forecast Residual Distribution (Residual = Actual − Forecast) — {symbol}")
+    fig.update_layout(xaxis_title="Residual (Actual − Forecast) (₹)", yaxis_title="Frequency")
     return fig
 
 def plot_correlation_heatmap(corr_matrix: pd.DataFrame, title: str = "NIFTY 50 Daily Returns Correlation") -> go.Figure:
@@ -190,6 +190,6 @@ def plot_model_win_counts(win_counts: dict) -> go.Figure:
         text=counts, textposition='outside',
         marker=dict(color=bar_colors, opacity=0.9)
     ))
-    apply_clean_layout(fig, height=350, title="Best-Performing Model Win Count (Lowest Holdout RMSE)")
-    fig.update_layout(xaxis_title="Architecture", yaxis_title="Stocks Won")
+    apply_clean_layout(fig, height=350, title="Model Selection by Holdout RMSE")
+    fig.update_layout(xaxis_title="Architecture", yaxis_title="Stocks with Lowest Holdout RMSE")
     return fig

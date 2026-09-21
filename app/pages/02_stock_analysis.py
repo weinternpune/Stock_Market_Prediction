@@ -58,7 +58,7 @@ def render_page():
     apply_custom_styles()
     
     st.title("📈 Individual Stock Analysis & Forecasting")
-    st.markdown("##### Comprehensive technical profile, momentum indicators, and 21-day model projections.")
+    st.markdown("##### Comprehensive technical profile, momentum indicators, and 21-trading-day model forecasts.")
     
     pred_df = get_predictions_data()
     full_df = get_stock_data()
@@ -77,6 +77,12 @@ def render_page():
     stock_pred = pred_df[pred_df['Symbol'] == selected_symbol].iloc[0]
     stock_hist = full_df[full_df['Symbol'] == selected_symbol].sort_values('Date')
     
+    # Format date as '11 Sep 2026'
+    try:
+        dt_val = pd.to_datetime(stock_pred['Latest_Date']).strftime('%d %b %Y')
+    except Exception:
+        dt_val = str(stock_pred['Latest_Date'])
+        
     # Company Header Banner (Theme-adaptive styling)
     st.markdown(f"""
     <div style="background: rgba(30, 41, 59, 0.6); padding: 18px 22px; border-radius: 12px; border: 1px solid rgba(148, 163, 184, 0.18); margin-bottom: 20px;">
@@ -89,41 +95,49 @@ def render_page():
                 </div>
             </div>
             <div style="text-align: right;">
-                <div style="font-size: 0.78rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Latest Observed Close ({stock_pred['Latest_Date']})</div>
+                <div style="font-size: 0.78rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.05em;">Data As Of: {dt_val}</div>
                 <div style="font-size: 1.85rem; font-weight: 800; color: #f8fafc; line-height: 1.2;">₹{stock_pred['Current_Price']:,.2f}</div>
+                <div style="font-size: 0.75rem; color: #64748b;">Latest Observed Close</div>
             </div>
         </div>
     </div>
     """, unsafe_allow_html=True)
     
     # Prediction Section KPI Cards
-    st.markdown('<div class="section-header">21-Trading-Day Forecast Summary</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">21-Trading-Day Forecast</div>', unsafe_allow_html=True)
     k1, k2, k3, k4 = st.columns(4)
     
-    is_pos = stock_pred['Expected_Return_Pct'] >= 0
-    delta_str = f"{stock_pred['Expected_Return_Pct']:+.2f}% (₹{stock_pred['Expected_Change']:+,.2f})"
+    is_pos = stock_pred['Expected_Return_Pct'] > 0
+    is_neu = stock_pred['Expected_Return_Pct'] == 0
+    delta_flag = None if is_neu else is_pos
     
     with k1:
-        metric_card("Latest Market Close", f"₹{stock_pred['Current_Price']:,.2f}", subtext=f"As of {stock_pred['Latest_Date']}")
+        metric_card(
+            "Forecasted Close",
+            f"₹{stock_pred['Predicted_21D_Price']:,.2f}",
+            delta=f"{stock_pred['Expected_Return_Pct']:+.2f}%",
+            is_positive=delta_flag,
+            subtext=f"Selected Model: {stock_pred['Best_Model']}"
+        )
     with k2:
         metric_card(
-            "Projected Close (+21D)",
-            f"₹{stock_pred['Predicted_21D_Price']:,.2f}",
-            delta=delta_str,
-            is_positive=is_pos,
-            subtext=f"Selected Model: {stock_pred['Best_Model']}"
+            "Forecasted Return",
+            f"{stock_pred['Expected_Return_Pct']:+.2f}%",
+            delta=f"₹{stock_pred['Expected_Change']:+,.2f}",
+            is_positive=delta_flag,
+            subtext="21-Trading-Day Horizon"
         )
     with k3:
         metric_card(
-            "90% Prediction Interval",
+            "Estimated 90% Forecast Range",
             f"₹{int(round(stock_pred['Lower_Bound_90'])):,} – ₹{int(round(stock_pred['Upper_Bound_90'])):,}",
-            subtext="Based on empirical test residual std"
+            subtext="Empirical Holdout Residual Bounds"
         )
     with k4:
         metric_card(
-            "Model Accuracy (RMSE)",
+            "Holdout RMSE",
             f"₹{stock_pred['RMSE']:,.2f}",
-            subtext=f"Test MAE: ₹{stock_pred['MAE']:,.2f} (MAPE: {stock_pred['MAPE']:.2f}%)"
+            subtext=f"Holdout MAE: ₹{stock_pred['MAE']:,.2f} (MAPE: {stock_pred['MAPE']:.2f}%)"
         )
         
     # Technical Chart
@@ -132,7 +146,7 @@ def render_page():
     st.plotly_chart(fig_tech, use_container_width=True)
     
     # 4-Model Comparison Table for this stock
-    st.markdown('<div class="section-header">Model Performance & Prediction Breakdown</div>', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">Model Performance & Forecast Comparison</div>', unsafe_allow_html=True)
     
     stock_models = comp_df[comp_df['Symbol'] == selected_symbol].copy()
     if not stock_models.empty:
@@ -143,17 +157,71 @@ def render_page():
             art = load_json(stock_artifact_path)
             future_dict = art.get("future_forecasts", {})
             
-        stock_models['Predicted_21D_Price'] = stock_models['Model'].map(lambda m: f"₹{future_dict.get(m, stock_pred['Current_Price']):,.2f}")
-        stock_models['Exp_Return_Pct'] = stock_models['Model'].map(
-            lambda m: f"{((future_dict.get(m, stock_pred['Current_Price']) - stock_pred['Current_Price']) / stock_pred['Current_Price']) * 100:+.2f}%"
+        model_order = {"Baseline": 0, "ARIMA": 1, "XGBoost": 2, "LSTM": 3}
+        stock_models['sort_idx'] = stock_models['Model'].map(lambda m: model_order.get(m, 99))
+        stock_models = stock_models.sort_values('sort_idx').drop(columns=['sort_idx'])
+        
+        curr_p = stock_pred['Current_Price']
+        
+        stock_models['Forecasted Price (+21 Trading Days)'] = stock_models['Model'].map(
+            lambda m: f"₹{future_dict.get(m, curr_p):,.2f}"
         )
         
-        display_cols = ['Model', 'Predicted_21D_Price', 'Exp_Return_Pct', 'RMSE', 'MAE', 'MAPE', 'Directional_Accuracy', 'Is_Best_Model']
+        def _calc_ret(m):
+            f_price = future_dict.get(m, curr_p)
+            ret = ((f_price - curr_p) / curr_p) * 100.0
+            return f"{ret:+.2f}%"
+        stock_models['Forecasted Return (%)'] = stock_models['Model'].map(_calc_ret)
+        
+        stock_models['Holdout RMSE (₹)'] = stock_models['RMSE'].map(lambda x: f"₹{x:,.2f}")
+        stock_models['Holdout MAE (₹)'] = stock_models['MAE'].map(lambda x: f"₹{x:,.2f}")
+        stock_models['Holdout MAPE (%)'] = stock_models['MAPE'].map(lambda x: f"{x:.2f}%")
+        
+        # Baseline directional accuracy is N/A because baseline assumes zero price change
+        stock_models['Directional Accuracy (%)'] = stock_models.apply(
+            lambda row: "N/A" if row['Model'] == "Baseline" else f"{row['Directional_Accuracy']:.2f}%",
+            axis=1
+        )
+        
+        stock_models['Selected Model'] = stock_models['Model'].map(
+            lambda m: "⭐ Selected" if m == stock_pred['Best_Model'] else "-"
+        )
+        
+        display_cols = [
+            'Model',
+            'Forecasted Price (+21 Trading Days)',
+            'Forecasted Return (%)',
+            'Holdout RMSE (₹)',
+            'Holdout MAE (₹)',
+            'Holdout MAPE (%)',
+            'Directional Accuracy (%)',
+            'Selected Model'
+        ]
+        
         st.dataframe(
-            stock_models[display_cols].style.highlight_max(subset=['Is_Best_Model'], color='#dcfce7'),
+            stock_models[display_cols],
             use_container_width=True,
             hide_index=True
         )
+        
+        # Model Selection Rule & Analytical Context
+        st.markdown(f"""
+        <div style="background: rgba(30, 41, 59, 0.55); border: 1px solid rgba(148, 163, 184, 0.18); border-radius: 12px; padding: 18px 22px; margin-top: 10px; margin-bottom: 24px;">
+            <div style="font-size: 0.95rem; font-weight: 700; color: #f1f5f9; margin-bottom: 8px;">
+                📌 Model Selection Rule: Lowest Holdout RMSE
+            </div>
+            <p style="margin: 0 0 10px 0; color: #cbd5e1; font-size: 0.88rem; line-height: 1.5;">
+                The production forecasting model for <strong>{stock_pred['Company']}</strong> is objectively selected by comparing 
+                out-of-sample holdout test Root Mean Squared Error (RMSE). <strong>{stock_pred['Best_Model']}</strong> achieved the lowest 
+                holdout error of <strong>₹{stock_pred['RMSE']:,.2f}</strong> among competing active models.
+            </p>
+            <div style="font-size: 0.84rem; color: #94a3b8; border-top: 1px solid rgba(148, 163, 184, 0.15); padding-top: 10px; line-height: 1.5;">
+                💡 <strong>Conceptual Analytical Distinction:</strong><br>
+                • <strong>Technical Indicators</strong> (OHLC Candlesticks, SMAs, Bollinger Bands, Volume, MACD, RSI) describe <em>historical market behavior</em>.<br>
+                • <strong>Machine-Learning & Statistical Forecasting</strong> (Baseline, ARIMA, XGBoost, LSTM) describe an <em>independent forecasting experiment</em> evaluating multi-horizon future price estimates. Technical indicators provide historical market context, while the forecasting models independently generate and evaluate future-price estimates.
+            </div>
+        </div>
+        """, unsafe_allow_html=True)
     else:
         st.info("Model comparison details loading...")
 

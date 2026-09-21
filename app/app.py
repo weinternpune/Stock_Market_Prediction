@@ -37,7 +37,7 @@ pages = {
         st.Page(str(PAGES_DIR / "02_stock_analysis.py"), title="Stock Analysis", icon="📈"),
         st.Page(str(PAGES_DIR / "03_stock_ranking.py"), title="Stock Ranking", icon="🏆"),
         st.Page(str(PAGES_DIR / "04_model_performance.py"), title="Model Scorecard", icon="🤖"),
-        st.Page(str(PAGES_DIR / "05_sector_analysis.py"), title="Sector Analytics", icon="🏭"),
+        st.Page(str(PAGES_DIR / "05_sector_analysis.py"), title="Industry Analytics", icon="🏭"),
         st.Page(str(PAGES_DIR / "06_correlation_analysis.py"), title="Correlation Matrix", icon="🔗"),
         st.Page(str(PAGES_DIR / "07_backtesting.py"), title="Backtesting", icon="📊"),
         st.Page(str(PAGES_DIR / "08_future_predictions.py"), title="Future Forecasts", icon="🔮"),

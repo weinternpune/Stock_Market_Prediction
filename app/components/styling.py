@@ -31,9 +31,9 @@ def apply_custom_styles():
         border-radius: 12px;
         padding: 16px 18px;
         margin-bottom: 12px;
-        height: 135px;
-        min-height: 135px;
-        max-height: 135px;
+        height: 140px;
+        min-height: 140px;
+        max-height: 140px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -48,15 +48,18 @@ def apply_custom_styles():
         transform: translateY(-2px);
     }
     .metric-title {
-        font-size: 0.76rem;
+        font-size: 0.72rem;
         font-weight: 700;
         color: #94a3b8;
         text-transform: uppercase;
-        letter-spacing: 0.06em;
+        letter-spacing: 0.04em;
         margin: 0;
-        white-space: nowrap;
+        white-space: normal;
+        line-height: 1.25;
+        min-height: 28px;
+        display: flex;
+        align-items: flex-start;
         overflow: hidden;
-        text-overflow: ellipsis;
     }
     .metric-value {
         font-size: 1.65rem;
