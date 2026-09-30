@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nifty 500 Stock Market Prediction — Executive Presentation Deck</title>
+    <style>
+        :root {
+            --primary: #1E3A8A;
+            --secondary: #3B82F6;
+            --accent: #F59E0B;
+            --bg: #F8FAFC;
+            --card-bg: #FFFFFF;
+            --text-dark: #0F172A;
+            --text-muted: #475569;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: var(--bg); color: var(--text-dark); display: flex; flex-direction: column; min-height: 100vh; align-items: center; justify-content: center; padding: 20px; }
+        .deck-container { width: 100%; max-width: 960px; background: var(--card-bg); border-radius: 16px; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); overflow: hidden; display: flex; flex-direction: column; min-height: 580px; }
+        .slide-header { background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 100%); color: white; padding: 24px 32px; display: flex; justify-content: space-between; align-items: center; }
+        .slide-header h2 { font-size: 1.5rem; font-weight: 600; }
+        .slide-header .badge { background: rgba(255, 255, 255, 0.2); padding: 4px 12px; border-radius: 20px; font-size: 0.85rem; }
+        .slide-body { padding: 36px 40px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+        .slide-title { font-size: 1.8rem; font-weight: 700; color: var(--primary); margin-bottom: 16px; }
+        .slide-subtitle { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 24px; line-height: 1.5; }
+        .content-box { background: #F1F5F9; border-left: 5px solid var(--secondary); padding: 20px; border-radius: 6px; font-size: 1.05rem; line-height: 1.7; color: #1E293B; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px; }
+        .grid-card { background: white; border: 1px solid #E2E8F0; padding: 16px; border-radius: 8px; }
+        .grid-card h4 { color: var(--primary); margin-bottom: 8px; font-size: 1.05rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.95rem; }
+        th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #E2E8F0; }
+        th { background-color: #F8FAFC; color: var(--primary); font-weight: 600; }
+        .highlight { background-color: #DCFCE7; font-weight: bold; }
+        .footer-nav { background: #F8FAFC; border-top: 1px solid #E2E8F0; padding: 16px 32px; display: flex; justify-content: space-between; align-items: center; }
+        .btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+        .btn:hover { background: var(--secondary); }
+        .btn:disabled { background: #CBD5E1; cursor: not-allowed; }
+        .progress-bar { height: 4px; background: #E2E8F0; width: 100%; }
+        .progress-fill { height: 100%; background: var(--secondary); transition: width 0.3s ease; }
+    </style>
+</head>
+<body>
+
+<div class="deck-container">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="slide-header">
+        <h2 id="headerTopic">Nifty 500 Stock Market Prediction</h2>
+        <span class="badge" id="slideIndicator">Slide 1 of 15</span>
+    </div>
+    
+    <div class="slide-body" id="slideContent">
+        <!-- Injected via JavaScript -->
+    </div>
+    
+    <div class="footer-nav">
+        <button class="btn" id="prevBtn" onclick="prevSlide()">← Previous</button>
+        <span style="font-size: 0.9rem; color: #64748B;">Data Analytics Intern Project · PRD v1.1</span>
+        <button class="btn" id="nextBtn" onclick="nextSlide()">Next →</button>
+    </div>
+</div>
+
+<script>
+const slides = [
+    {
+        topic: "Overview",
+        title: "Nifty 500 Stock Market Prediction Pipeline",
+        subtitle: "A 5-Year Quantitative Analytics & Multi-Family Machine Learning Study",
+        content: `
+            <div class="content-box">
+                <p><strong>Author:</strong> Data Analytics Intern | <strong>PRD Status:</strong> Implemented (v1.1)</p>
+                <p><strong>Data Horizon:</strong> September 1, 2021 to August 31, 2026 (1,240 Trading Sessions)</p>
+                <p><strong>Primary Index:</strong> NSE Nifty 500 Index | <strong>Secondary Reference:</strong> BSE 500 Index</p>
+                <p><strong>Core Deliverables:</strong> End-to-End Automated Pipeline, 8-Page Streamlit App, and Findings Report.</p>
+            </div>
+        `
+    },
+    {
+        topic: "Problem Definition",
+        title: "The Challenge of Financial Time-Series Forecasting",
+        subtitle: "Why predicting broad equity index levels is notoriously difficult",
+        content: `
+            <div class="grid-2">
+                <div class="grid-card">
+                    <h4>Stochastic Market Noise</h4>
+                    <p>Financial asset returns possess very low signal-to-noise ratios, with microstructural shocks dominating day-to-day level prices.</p>
+                </div>
+                <div class="grid-card">
+                    <h4>Non-Stationarity & Regime Breaks</h4>
+                    <p>Asset prices exhibit evolving trends, macroeconomic disruptions, and shifting monetary policies that invalidate static assumptions.</p>
+                </div>
+            </div>
+            <div class="content-box" style="margin-top: 15px;">
+                <strong>Objective:</strong> Rigorously test whether statistical, machine-learning, or deep-learning architectures can systematically beat simple naive benchmarks.
+            </div>
+        `
+    },
+    {
+        topic: "Project Objective",
+        title: "Formal Objective & Target Definition",
+        subtitle: "Establishing an empirical, leakage-free modeling framework",
+        content: `
+            <div class="content-box">
+                <p><strong>Primary Target:</strong> Predict next trading day's closing price: <code>P(t+1)</code> using features strictly available up to day <code>t</code>.</p>
+                <p><strong>Forecast Horizon:</strong> 1-step-ahead for historical backtesting; recursive T+1 to T+30 for live forward forecasting.</p>
+                <p><strong>Evaluation Metrics:</strong> Root Mean Squared Error (RMSE), Mean Absolute Error (MAE), and Mean Absolute Percentage Error (MAPE).</p>
+            </div>
+        `
+    },
+    {
+        topic: "Data Sourcing",
+        title: "Authoritative Data Architecture",
+        subtitle: "NSE Nifty 500 Primary Index & BSE 500 Secondary Reference",
+        content: `
+            <div class="grid-2">
+                <div class="grid-card">
+                    <h4>Primary Dataset: NSE Nifty 500</h4>
+                    <p>• 1,240 daily trading records (Sep 2021 – Aug 2026)<br>• Official NSE archive: Date, Open, High, Low, Close<br>• Zero synthetic holiday entries; 0.00% missing values.</p>
+                </div>
+                <div class="grid-card">
+                    <h4>Secondary Dataset: BSE 500 Proxy</h4>
+                    <p>• 1,240 identical trading sessions<br>• Price correlation: <strong>0.99989</strong> | Return correlation: <strong>0.99930</strong><br>• Used strictly for cross-market validation without merging.</p>
+                </div>
+            </div>
+        `
+    },
+    {
+        topic: "Data Cleaning",
+        title: "Trading Calendar Integrity & Outlier Audit",
+        subtitle: "Handling missing observations and investigating statistical return shocks",
+        content: `
+            <div class="content-box">
+                <p><strong>Post-Cleaning Data Loss:</strong> <strong>0.00%</strong> (PRD requirement: &lt; 2%).</p>
+                <p><strong>Volume & Turnover Cleaning:</strong> Replaced non-numeric placeholder strings with numeric floats and handled isolated non-trading sessions.</p>
+                <p><strong>Macro Outlier Audit (|Z| &gt; 3.5):</strong> Extreme market moves (2022 Ukraine invasion -5.04%, 2024 Election Day -6.76%) were cross-verified against official exchange logs and preserved to prevent downside risk censorship bias.</p>
+            </div>
+        `
+    },
+    {
+        topic: "Exploratory Data Analysis",
+        title: "Stylized Facts of Financial Market Returns",
+        subtitle: "Quantitative characteristics of the 5-year Nifty 500 price series",
+        content: `
+            <div class="grid-2">
+                <div class="grid-card">
+                    <h4>Non-Normality & Heavy Tails</h4>
+                    <p>• Skewness: -0.678 (Downside risk bias)<br>• Excess Kurtosis: 4.585 (Fat tails)<br>• Jarque-Bera p &lt; 10⁻²⁵⁰: Strict non-normality.</p>
+                </div>
+                <div class="grid-card">
+                    <h4>Volatility Clustering & Seasonality</h4>
+                    <p>• Mean 20-day annualized vol: 13.40% (4.3%–32.1%)<br>• Clusters of high and low volatility regimes<br>• Day-of-week ANOVA p = 0.312 (No calendar edge).</p>
+                </div>
+            </div>
+        `
+    },
+    {
+        topic: "Feature Engineering",
+        title: "Quantitative Technical Feature Set",
+        subtitle: "15+ Engineered Indicators with Zero Lookahead Bias",
+        content: `
+            <div class="content-box">
+                <p><strong>Trend Moving Averages:</strong> SMA (10, 20, 50, 200) and EMA (12, 26) with distance-to-mean features.</p>
+                <p><strong>Momentum Indicators:</strong> 14-day Wilder RSI, MACD line, 9-day signal line, and MACD histogram.</p>
+                <p><strong>Volatility Dynamics:</strong> Bollinger Bands (20-day, ±2σ), Bandwidth, %B, and 10/20-day rolling annualized volatility.</p>
+                <p><strong>Lags & Ratios:</strong> Return lags (t-1 to t-5), Price lags, and intraday High/Low ratios.</p>
+                <p><strong>Warm-Up Handling:</strong> First 200 trading days dropped for SMA-200 stabilization (1,040 clean modeling rows).</p>
+            </div>
+        `
+    },
+    {
+        topic: "Model Architecture",
+        title: "Multi-Family Model Benchmarking Setup",
+        subtitle: "Rigorous time-based validation without random shuffling",
+        content: `
+            <div class="grid-2">
+                <div class="grid-card">
+                    <h4>Baselines & Statistical</h4>
+                    <p>• <strong>Naive Persistence:</strong> P(t+1) = P(t)<br>• <strong>5-Day SMA:</strong> Short-term rolling mean<br>• <strong>ARIMA(1,1,1):</strong> Walk-forward rolling extend.</p>
+                </div>
+                <div class="grid-card">
+                    <h4>Machine Learning & Deep Learning</h4>
+                    <p>• <strong>Random Forest:</strong> 150 trees, max depth 8<br>• <strong>XGBoost:</strong> 150 estimators, lr 0.03, 5-fold CV<br>• <strong>PyTorch LSTM:</strong> 2 layers, 64 hidden units, 20-day lookback.</p>
+                </div>
+            </div>
+        `
+    },
+    {
+        topic: "Evaluation Scorecard",
+        title: "Master Out-of-Sample Performance Scorecard",
+        subtitle: "Evaluated on 208 held-out trading sessions (Oct 28, 2025 – Aug 28, 2026)",
+        content: `
+            <table>
+                <thead>
+                    <tr><th>Model Architecture</th><th>RMSE (Pts)</th><th>MAE (Pts)</th><th>MAPE (%)</th><th>Directional Hit Rate</th><th>vs. Naive RMSE</th></tr>
+                </thead>
+                <tbody>
+                    <tr class="highlight"><td>Naive Persistence (Benchmark)</td><td>209.33</td><td>151.88</td><td>0.669%</td><td>N/A</td><td>+0.00% (Best)</td></tr>
+                    <tr><td>Random Forest Regressor</td><td>229.66</td><td>167.47</td><td>0.735%</td><td>49.52%</td><td>-9.71%</td></tr>
+                    <tr><td>Moving Average (5-Day SMA)</td><td>288.87</td><td>218.16</td><td>0.957%</td><td>51.92%</td><td>-37.99%</td></tr>
+                    <tr><td>ARIMA(1, 1, 1) Walk-Forward</td><td>291.08</td><td>216.41</td><td>0.950%</td><td>51.92%</td><td>-39.05%</td></tr>
+                    <tr><td>XGBoost Regressor</td><td>299.91</td><td>239.62</td><td>1.044%</td><td>51.92%</td><td>-43.27%</td></tr>
+                    <tr><td>PyTorch LSTM Network</td><td>560.27</td><td>453.11</td><td>1.974%</td><td>52.88%</td><td>-167.64%</td></tr>
+                </tbody>
+            </table>
+        `
+    },
+    {
+        topic: "Backtesting",
+        title: "Actual vs. Predicted Backtesting Dynamics",
+        subtitle: "How models track market movements across regimes",
+        content: `
+            <div class="content-box">
+                <p><strong>Tracking Consistency:</strong> Random Forest and ARIMA track broad multi-week index trajectories with high correlation.</p>
+                <p><strong>Turning Point Lag:</strong> Classical and deep learning models inherently lag sharp inflection points by 1–2 sessions.</p>
+                <p><strong>Persistence Efficiency:</strong> On sideways days, models predicting directional movement incur variance penalties, allowing persistence to maintain the lowest level RMSE.</p>
+            </div>
+        `
+    },
+    {
+        topic: "Model Selection",
+        title: "Final Model Selection & Rationale",
+        subtitle: "Balancing theoretical bounds and feature-driven utility",
+        content: `
+            <div class="grid-2">
+                <div class="grid-card">
+                    <h4>Level Price Benchmark: Naive Persistence</h4>
+                    <p>Under quadratic error loss, today's price is the minimum-variance estimator. It remains the authoritative benchmark for index levels.</p>
+                </div>
+                <div class="grid-card">
+                    <h4>Feature-Driven Model: Random Forest</h4>
+                    <p>Random Forest achieved an RMSE of <strong>229.66 points</strong> (within 9.7% of persistence) with stable 5-fold cross-validation performance.</p>
+                </div>
+            </div>
+        `
+    },
+    {
+        topic: "Application",
+        title: "Interactive Streamlit Dashboard",
+        subtitle: "Production-ready 8-page analytics web application",
+        content: `
+            <div class="content-box">
+                <p>• <strong>Historical Explorer:</strong> Interactive candlesticks with custom date filters.<br>
+                   • <strong>Quantitative EDA:</strong> Distribution plots and volatility clustering.<br>
+                   • <strong>Feature Explorer:</strong> Technical indicators & feature importance charts.<br>
+                   • <strong>Model Scorecard:</strong> Interactive benchmark tables and error charts.<br>
+                   • <strong>Future Forecaster:</strong> Recursive rollouts from T+1 to T+30 with 95% confidence bands.<br>
+                   • <strong>Presentation Deck:</strong> Integrated slide viewer for executive reviews.</p>
+            </div>
+        `
+    },
+    {
+        topic: "Scientific Findings",
+        title: "Key Quantitative & Theoretical Insights",
+        subtitle: "Empirical validation of the Martingale property of asset prices",
+        content: `
+            <div class="content-box">
+                <p><strong>1. The Martingale Property:</strong> In liquid, broad-market indices, prices behave as near-martingales: <code>E[P(t+1)|F_t] = P(t)</code>. Beating persistence on level-price RMSE is mathematically improbable without lookahead leakage.</p>
+                <p><strong>2. Deep Learning Realities:</strong> While LSTM captures directional momentum (52.88%), sliding window drift degrades raw price-level accuracy (RMSE 560.27).</p>
+                <p><strong>3. Modeling Lesson:</strong> Quantitative finance workflows should target stationary log-returns rather than non-stationary raw price levels.</p>
+            </div>
+        `
+    },
+    {
+        topic: "Limitations",
+        title: "Real-World Limitations & Constraints",
+        subtitle: "Documented transparently per PRD Section 12",
+        content: `
+            <div class="grid-2">
+                <div class="grid-card">
+                    <h4>Data & Execution Constraints</h4>
+                    <p>• Daily granularity misses intraday liquidity shocks.<br>• No automated trade execution or transaction costs modeled.<br>• Absence of real-time news/geopolitical sentiment feeds.</p>
+                </div>
+                <div class="grid-card">
+                    <h4>Statistical Constraints</h4>
+                    <p>• Extreme regime shocks (e.g. elections) remain non-forecastable.<br>• Non-stationarity creates error drift over extended forward horizons.</p>
+                </div>
+            </div>
+        `
+    },
+    {
+        topic: "Conclusion",
+        title: "Conclusion & Strategic Roadmap",
+        subtitle: "Summary of achievements and future quantitative enhancements",
+        content: `
+            <div class="content-box">
+                <p><strong>Deliverable Completion:</strong> 100% of functional requirements (FR1–FR9) and the 60-step roadmap have been implemented and verified.</p>
+                <p><strong>Recommended Future Extensions:</strong><br>
+                   1. Transition target variable from price levels to stationary log-returns.<br>
+                   2. Incorporate alternative data (FII/DII institutional flows, RBI rate expectations).<br>
+                   3. Extend pipeline to constituent sector indices (Nifty Bank, Nifty IT).</p>
+            </div>
+        `
+    }
+];
+
+let currentSlide = 0;
+
+function renderSlide(index) {
+    const slide = slides[index];
+    document.getElementById("headerTopic").innerText = slide.topic;
+    document.getElementById("slideIndicator").innerText = `Slide ${index + 1} of ${slides.length}`;
+    
+    document.getElementById("slideContent").innerHTML = `
+        <h1 class="slide-title">${slide.title}</h1>
+        <p class="slide-subtitle">${slide.subtitle}</p>
+        ${slide.content}
+    `;
+    
+    document.getElementById("prevBtn").disabled = index === 0;
+    document.getElementById("nextBtn").disabled = index === slides.length - 1;
+    
+    const progress = ((index + 1) / slides.length) * 100;
+    document.getElementById("progressFill").style.width = `${progress}%`;
+}
+
+function nextSlide() {
+    if (currentSlide < slides.length - 1) {
+        currentSlide++;
+        renderSlide(currentSlide);
+    }
+}
+
+function prevSlide() {
+    if (currentSlide > 0) {
+        currentSlide--;
+        renderSlide(currentSlide);
+    }
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+    if (e.key === 'ArrowLeft') prevSlide();
+});
+
+renderSlide(0);
+</script>
+</body>
+</html>

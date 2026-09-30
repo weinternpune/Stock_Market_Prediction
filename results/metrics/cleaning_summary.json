@@ -1,0 +1,159 @@
+{
+  "initial_rows": 62746,
+  "cleaned_rows": 61506,
+  "dropped_exact_duplicates": 1240,
+  "unique_symbols": [
+    "ADANIENT",
+    "ADANIPORTS",
+    "APOLLOHOSP",
+    "ASIANPAINT",
+    "AXISBANK",
+    "BAJAJ-AUTO",
+    "BAJAJFINSV",
+    "BAJFINANCE",
+    "BEL",
+    "BHARTIARTL",
+    "BPCL",
+    "CIPLA",
+    "COALINDIA",
+    "DRREDDY",
+    "EICHERMOT",
+    "GRASIM",
+    "HCLTECH",
+    "HDFCBANK",
+    "HDFCLIFE",
+    "HINDALCO",
+    "HINDUNILVR",
+    "ICICIBANK",
+    "INDIGO",
+    "INFY",
+    "ITC",
+    "JIOFIN",
+    "JSWSTEEL",
+    "KOTAKBANK",
+    "LT",
+    "M&M",
+    "MARUTI",
+    "MAXHEALTH",
+    "NESTLEIND",
+    "NTPC",
+    "ONGC",
+    "POWERGRID",
+    "RELIANCE",
+    "SBILIFE",
+    "SBIN",
+    "SHRIRAMFIN",
+    "SUNPHARMA",
+    "TATACONSUM",
+    "TATAMOTORS",
+    "TCS",
+    "TECHM",
+    "TITAN",
+    "TRENT",
+    "ULTRACEMCO",
+    "WIPRO",
+    "ZOMATO"
+  ],
+  "unique_symbol_count": 50,
+  "min_date": "2021-09-15",
+  "max_date": "2026-09-11",
+  "total_trading_days": 1240,
+  "corporate_actions_detected": [
+    {
+      "symbol": "BAJAJFINSV",
+      "date": "2022-09-13",
+      "price_before": 17138.05,
+      "price_after": 1784.75,
+      "estimated_split_ratio": 10.0,
+      "type": "Stock Split / Bonus Issue"
+    },
+    {
+      "symbol": "BAJFINANCE",
+      "date": "2025-06-16",
+      "price_before": 9331.0,
+      "price_after": 938.0,
+      "estimated_split_ratio": 10.0,
+      "type": "Stock Split / Bonus Issue"
+    },
+    {
+      "symbol": "BEL",
+      "date": "2022-09-15",
+      "price_before": 335.9,
+      "price_after": 111.1,
+      "estimated_split_ratio": 3.0,
+      "type": "Stock Split / Bonus Issue"
+    },
+    {
+      "symbol": "DRREDDY",
+      "date": "2024-10-28",
+      "price_before": 6514.7,
+      "price_after": 1311.5,
+      "estimated_split_ratio": 5.0,
+      "type": "Stock Split / Bonus Issue"
+    },
+    {
+      "symbol": "HDFCBANK",
+      "date": "2025-08-26",
+      "price_before": 1964.1,
+      "price_after": 973.4,
+      "estimated_split_ratio": 2.0,
+      "type": "Stock Split / Bonus Issue"
+    },
+    {
+      "symbol": "KOTAKBANK",
+      "date": "2026-01-14",
+      "price_before": 2132.6,
+      "price_after": 421.0,
+      "estimated_split_ratio": 5.0,
+      "type": "Stock Split / Bonus Issue"
+    },
+    {
+      "symbol": "NESTLEIND",
+      "date": "2024-01-05",
+      "price_before": 27116.4,
+      "price_after": 2666.4,
+      "estimated_split_ratio": 10.0,
+      "type": "Stock Split / Bonus Issue"
+    },
+    {
+      "symbol": "NESTLEIND",
+      "date": "2025-08-08",
+      "price_before": 2234.6,
+      "price_after": 1096.5,
+      "estimated_split_ratio": 2.0,
+      "type": "Stock Split / Bonus Issue"
+    },
+    {
+      "symbol": "RELIANCE",
+      "date": "2024-10-28",
+      "price_before": 2655.7,
+      "price_after": 1334.35,
+      "estimated_split_ratio": 2.0,
+      "type": "Stock Split / Bonus Issue"
+    },
+    {
+      "symbol": "SHRIRAMFIN",
+      "date": "2025-01-10",
+      "price_before": 2809.85,
+      "price_after": 532.0,
+      "estimated_split_ratio": 5.0,
+      "type": "Stock Split / Bonus Issue"
+    },
+    {
+      "symbol": "TATAMOTORS",
+      "date": "2025-10-14",
+      "price_before": 660.75,
+      "price_after": 395.45,
+      "estimated_split_ratio": 2.0,
+      "type": "Stock Split / Bonus Issue"
+    },
+    {
+      "symbol": "WIPRO",
+      "date": "2024-12-03",
+      "price_before": 584.55,
+      "price_after": 291.65,
+      "estimated_split_ratio": 2.0,
+      "type": "Stock Split / Bonus Issue"
+    }
+  ]
+}

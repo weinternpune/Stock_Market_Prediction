@@ -1,0 +1,40 @@
+{
+  "symbol": "ADANIPORTS",
+  "best_model": "ARIMA",
+  "metrics": {
+    "Baseline": {
+      "mae": 124.76,
+      "rmse": 160.12,
+      "mape": 7.53,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 127.6,
+      "rmse": 160.18,
+      "mape": 7.73,
+      "directional_accuracy": 53.33,
+      "baseline_improvement_pct": -2.28
+    },
+    "XGBoost": {
+      "mae": 397.77,
+      "rmse": 420.63,
+      "mape": 22.84,
+      "directional_accuracy": 40.0,
+      "baseline_improvement_pct": -218.83
+    },
+    "LSTM": {
+      "mae": 231.34,
+      "rmse": 252.38,
+      "mape": 13.34,
+      "directional_accuracy": 50.0,
+      "baseline_improvement_pct": -85.42
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 1764.6,
+    "ARIMA": 1763.2241939468743,
+    "XGBoost": 1314.9317626953125,
+    "LSTM": 1536.20458984375
+  }
+}

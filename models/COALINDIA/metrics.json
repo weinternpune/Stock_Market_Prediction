@@ -1,0 +1,40 @@
+{
+  "symbol": "COALINDIA",
+  "best_model": "LSTM",
+  "metrics": {
+    "Baseline": {
+      "mae": 18.01,
+      "rmse": 20.84,
+      "mape": 4.12,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 18.53,
+      "rmse": 21.96,
+      "mape": 4.24,
+      "directional_accuracy": 49.17,
+      "baseline_improvement_pct": -2.89
+    },
+    "XGBoost": {
+      "mae": 27.22,
+      "rmse": 33.39,
+      "mape": 6.33,
+      "directional_accuracy": 42.5,
+      "baseline_improvement_pct": -51.15
+    },
+    "LSTM": {
+      "mae": 14.15,
+      "rmse": 17.16,
+      "mape": 3.25,
+      "directional_accuracy": 80.0,
+      "baseline_improvement_pct": 21.44
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 426.4,
+    "ARIMA": 426.34087538025244,
+    "XGBoost": 407.2662048339844,
+    "LSTM": 394.1014404296875
+  }
+}

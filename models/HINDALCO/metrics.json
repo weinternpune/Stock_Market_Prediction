@@ -1,0 +1,40 @@
+{
+  "symbol": "HINDALCO",
+  "best_model": "LSTM",
+  "metrics": {
+    "Baseline": {
+      "mae": 76.34,
+      "rmse": 91.49,
+      "mape": 7.52,
+      "directional_accuracy": 0.0,
+      "baseline_improvement_pct": 0.0
+    },
+    "ARIMA": {
+      "mae": 75.91,
+      "rmse": 91.03,
+      "mape": 7.54,
+      "directional_accuracy": 57.5,
+      "baseline_improvement_pct": 0.56
+    },
+    "XGBoost": {
+      "mae": 318.66,
+      "rmse": 325.62,
+      "mape": 31.23,
+      "directional_accuracy": 42.5,
+      "baseline_improvement_pct": -317.42
+    },
+    "LSTM": {
+      "mae": 66.77,
+      "rmse": 82.92,
+      "mape": 6.41,
+      "directional_accuracy": 62.5,
+      "baseline_improvement_pct": 12.53
+    }
+  },
+  "future_forecasts": {
+    "Baseline": 981.5,
+    "ARIMA": 980.6346296221768,
+    "XGBoost": 696.0361938476562,
+    "LSTM": 976.4685668945312
+  }
+}
