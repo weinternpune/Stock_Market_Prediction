@@ -32,8 +32,19 @@ class MarketQuote:
     day_high: float
     day_low: float
     market_status: str
+    exchange: str = "NSE"
     is_demo: bool = False
     data_source: str = "LIVE"
+
+    @property
+    def last_price(self) -> float:
+        """Alias for current_price."""
+        return self.current_price
+
+    @property
+    def change_percent(self) -> float:
+        """Alias for change_pct."""
+        return self.change_pct
 
     def __post_init__(self):
         # Enforce timezone awareness in Asia/Kolkata
@@ -61,14 +72,18 @@ class MarketQuote:
         # Explicit user-facing key mapping as required by specification
         d["Symbol"] = self.symbol
         d["Company"] = self.company
+        d["Exchange"] = self.exchange
+        d["exchange"] = self.exchange
         d["Timestamp"] = self.timestamp.isoformat()
         d["Open"] = self.open
         d["High"] = self.high
         d["Low"] = self.low
         d["Current Price"] = self.current_price
+        d["last_price"] = self.current_price
         d["Previous Close"] = self.previous_close
         d["Change"] = self.change
         d["Change %"] = self.change_pct
+        d["change_percent"] = self.change_pct
         d["Volume"] = self.volume
         d["Day High"] = self.day_high
         d["Day Low"] = self.day_low
@@ -96,14 +111,23 @@ class MarketQuote:
             open=float(data.get("open") if data.get("open") is not None else data.get("Open", 0.0)),
             high=float(data.get("high") if data.get("high") is not None else data.get("High", 0.0)),
             low=float(data.get("low") if data.get("low") is not None else data.get("Low", 0.0)),
-            current_price=float(data.get("current_price") if data.get("current_price") is not None else data.get("Current Price", 0.0)),
+            current_price=float(
+                data.get("current_price")
+                if data.get("current_price") is not None
+                else data.get("Current Price", data.get("last_price", 0.0))
+            ),
             previous_close=float(data.get("previous_close") if data.get("previous_close") is not None else data.get("Previous Close", 0.0)),
             change=float(data.get("change") if data.get("change") is not None else data.get("Change", 0.0)),
-            change_pct=float(data.get("change_pct") if data.get("change_pct") is not None else data.get("Change %", 0.0)),
+            change_pct=float(
+                data.get("change_pct")
+                if data.get("change_pct") is not None
+                else data.get("Change %", data.get("change_percent", 0.0))
+            ),
             volume=int(data.get("volume") if data.get("volume") is not None else data.get("Volume", 0)),
             day_high=float(data.get("day_high") if data.get("day_high") is not None else data.get("Day High", 0.0)),
             day_low=float(data.get("day_low") if data.get("day_low") is not None else data.get("Day Low", 0.0)),
             market_status=str(data.get("market_status") or data.get("Market Status", "UNKNOWN")),
+            exchange=str(data.get("exchange") or data.get("Exchange", "NSE")),
             is_demo=bool(data.get("is_demo", False)),
             data_source=str(data.get("data_source", "LIVE"))
         )

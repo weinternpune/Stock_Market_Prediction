@@ -19,7 +19,7 @@ from zoneinfo import ZoneInfo
 import requests
 
 from src.live.real_provider import (
-    RealMarketDataProvider,
+    KiteConnectMarketDataProvider as RealMarketDataProvider,
     RealMarketDataConfigurationError,
     RealMarketDataConnectionError
 )

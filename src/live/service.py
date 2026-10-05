@@ -11,7 +11,12 @@ import pandas as pd
 
 from src.live.base import BaseLiveMarketDataProvider
 from src.live.demo_provider import DemoMarketDataProvider
-from src.live.real_provider import RealMarketDataProvider, RealMarketDataConfigurationError
+from src.live.real_provider import (
+    RealMarketDataProvider,
+    GrowwMarketDataProvider,
+    KiteConnectMarketDataProvider,
+    RealMarketDataConfigurationError
+)
 from src.live.validator import LiveQuoteValidator
 from src.live.storage import LiveQuoteStorage
 from src.live.models import MarketQuote
@@ -53,11 +58,17 @@ class LiveMarketDataService:
         """Instantiates provider according to MARKET_DATA_PROVIDER environment configuration."""
         provider_type = MARKET_DATA_PROVIDER.lower()
 
-        if provider_type == "real":
+        if provider_type in ("groww", "real"):
             try:
-                return RealMarketDataProvider()
+                return GrowwMarketDataProvider()
             except RealMarketDataConfigurationError as e:
-                logger.error(f"Cannot initialize RealMarketDataProvider: {e}")
+                logger.error(f"Cannot initialize GrowwMarketDataProvider: {e}")
+                raise
+        elif provider_type == "kite":
+            try:
+                return KiteConnectMarketDataProvider()
+            except RealMarketDataConfigurationError as e:
+                logger.error(f"Cannot initialize KiteConnectMarketDataProvider: {e}")
                 raise
         else:
             # Default to Demo/Mock Provider

@@ -49,13 +49,27 @@ def _load_env_file(root_path: Path) -> None:
 _load_env_file(PROJECT_ROOT)
 
 # Provider selection from environment
-# Options: 'demo' (default), 'real'
-MARKET_DATA_PROVIDER: str = os.getenv("MARKET_DATA_PROVIDER", "demo").strip().lower()
+# Options: 'groww', 'real' (alias for groww), 'kite', 'demo' (default if no credentials)
+_default_provider = "demo"
+if os.getenv("GROWW_API_KEY"):
+    _default_provider = "groww"
+elif os.getenv("MARKET_DATA_API_KEY"):
+    _default_provider = "real"
 
-# Real broker API credentials (Zerodha Kite Connect v3)
-MARKET_DATA_API_KEY: str = os.getenv("MARKET_DATA_API_KEY", "").strip()
-MARKET_DATA_API_SECRET: str = os.getenv("MARKET_DATA_API_SECRET", "").strip()
-MARKET_DATA_ACCESS_TOKEN: str = os.getenv("MARKET_DATA_ACCESS_TOKEN", "").strip()
+MARKET_DATA_PROVIDER: str = os.getenv("MARKET_DATA_PROVIDER", _default_provider).strip().lower()
+
+# Groww Trade API Credentials
+GROWW_API_KEY: str = os.getenv("GROWW_API_KEY", os.getenv("MARKET_DATA_API_KEY", "")).strip()
+GROWW_API_SECRET: str = os.getenv("GROWW_API_SECRET", os.getenv("MARKET_DATA_API_SECRET", "")).strip()
+GROWW_ACCESS_TOKEN: str = os.getenv("GROWW_ACCESS_TOKEN", os.getenv("MARKET_DATA_ACCESS_TOKEN", "")).strip()
+GROWW_BASE_URL: str = os.getenv("GROWW_BASE_URL", "https://api.groww.in").strip()
+if not GROWW_BASE_URL:
+    GROWW_BASE_URL = "https://api.groww.in"
+
+# Zerodha Kite Connect v3 API credentials (alternative provider)
+MARKET_DATA_API_KEY: str = os.getenv("MARKET_DATA_API_KEY", GROWW_API_KEY).strip()
+MARKET_DATA_API_SECRET: str = os.getenv("MARKET_DATA_API_SECRET", GROWW_API_SECRET).strip()
+MARKET_DATA_ACCESS_TOKEN: str = os.getenv("MARKET_DATA_ACCESS_TOKEN", GROWW_ACCESS_TOKEN).strip()
 MARKET_DATA_BASE_URL: str = os.getenv("MARKET_DATA_BASE_URL", "https://api.kite.trade").strip()
 if not MARKET_DATA_BASE_URL:
     MARKET_DATA_BASE_URL = "https://api.kite.trade"
